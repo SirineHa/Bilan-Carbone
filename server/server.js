@@ -1,42 +1,59 @@
-const express = require('express');
-const mysql = require('mysql');
-const cors = require('cors');
-const cookieParser = require('cookie-parser');
+const express = require("express");
+const cors = require("cors");
 
 const app = express();
+
+var corsOptions = {
+  origin: "http://localhost:8081"
+};
+
+app.use(cors(corsOptions));
+
+// parse requests of content-type - application/json
 app.use(express.json());
-app.use(cors(
-    {
-        origin: ["http://localhost:3000"],
-        methods: ["POST, GET"],
-        credentials: true
-    }
-))
+
+// parse requests of content-type - application/x-www-form-urlencoded
+app.use(express.urlencoded({ extended: true }));
+
+const db = require("./models");
+db.sequelize.sync();
+
+const Role = db.role;
 
 
-const db = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "bilan_carbone"
-})
+function initial() {
+  Role.create({
+    id: 1,
+    name: "user"
+  });
+ 
+  Role.create({
+    id: 2,
+    name: "moderator"
+  });
+ 
+  Role.create({
+    id: 3,
+    name: "admin"
+  });
+}
 
-app.post('/login', (req, res) => {
-    const sql = "SELECT * FROM login WHERE username = ? AND password = ?";
+db.sequelize.sync({force: true}).then(() => {
+  console.log('Drop and Resync Db');
+  initial();
+});
 
-    db.query(sql, [req.body.email, req.body.password], (err, data) => {
-        if(err) return res.json({Message: "Server Side Error"});
-        if(data.length > 0){
-            const name = data[0].name;
-            const token = jwt.sign({name}, "our-jsonwebtoken-secret-key", {expiresIn: '1d'});
-            res.cookie('token', token);
-            return res.json({Status: "Success"})
-        }else{
-            return res.json({Message: "NO Records existed"});
-        }
-    })
-})
+// simple route
+app.get("/", (req, res) => {
+  res.json({ message: "Welcome to bezkoder application." });
+});
 
-app.listen(8081, () => {
-    console.log("Listening...");
-})
+// routes
+require('./routes/auth.routes')(app);
+require('./routes/user.routes')(app);
+
+// set port, listen for requests
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}.`);
+});

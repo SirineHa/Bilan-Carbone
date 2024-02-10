@@ -1,17 +1,11 @@
-import React from 'react'
-import Login from './Login'
-import {BrowserRouter, Routes, Route} from 'react-router-dom'
-import Home from './Home'
+import React, { useState } from 'react';
+import Test from './components/Test';
+import Choix from './components/Choix';
+import Header from './components/Header';
+import { Accueil2 } from './views/Accueil2';
 
-function App() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<Home />}></Route>
-        <Route path='/login' element={<Login />}></Route>
-      </Routes>
-    </BrowserRouter>
-  )
-}
+const App = () => (
+  <Accueil2></Accueil2>
+);
 
-export default App
+export default App;
