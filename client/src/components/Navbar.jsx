@@ -55,7 +55,7 @@ export default function Navbar(props) {
                     : "text-gray-800 hover:text-gray-600") +
                   " px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
                 }
-                to=""
+                to="/"
               >
                 <i
                   className={
@@ -76,7 +76,7 @@ export default function Navbar(props) {
                     : "text-gray-800 hover:text-gray-600") +
                   " px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
                 }
-                to=""
+                to="/statistiques"
               >
                 <i
                   className={
@@ -97,7 +97,7 @@ export default function Navbar(props) {
                     : "text-gray-800 hover:text-gray-600") +
                   " px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
                 }
-                to=""
+                to="/jeux"
               >
                 <i
                   className={
@@ -118,7 +118,7 @@ export default function Navbar(props) {
                     : "text-gray-800 hover:text-gray-600") +
                   " px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
                 }
-                to=""
+                to="/add-avis"
               >
                 <i
                   className={
