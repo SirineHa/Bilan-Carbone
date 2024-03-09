@@ -1,8 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Navbar(props) {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
+  const navigate = useNavigate();
+  const handleLogin = async () => {
+    navigate('/login');
+  }
   return (
     <nav
       className={
@@ -141,6 +145,7 @@ export default function Navbar(props) {
                     : "bg-pink-500 text-white active:bg-pink-600") +
                   " text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3"
                 }
+                onClick={handleLogin}
                 type="button"
                 style={{ transition: "all .15s ease" }}
               >

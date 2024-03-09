@@ -5,12 +5,14 @@ import "./App.css";
 
 import { Accueil4 } from "./views/Accueil4";
 import { NewAccueil } from "./views/NewAccueil";
+import { Login } from "./components/Login/Login";
 
 const App = () => {
   return (
     <Routes>
       <Route path="/" element={<Accueil4 />} />
       <Route path="/new" element={<NewAccueil />} />
+      <Route path="/login" element={<Login />} />
     </Routes>
   );
 };
