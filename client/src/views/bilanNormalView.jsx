@@ -6,14 +6,14 @@ export default function BilanNormalView() {
     let welcomePageContent = {
         title: "Bilan carbone 5 minutes",
         description: "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page",
-        image: "https://s3-eu-west-1.amazonaws.com/tpd/logos/541bf82900006400057a6b29/0x0.png"
+        image: "https://cdn.futura-sciences.com/sources/images/qr/Celine/Empreinte%20carbone%20%20cienpiesnf%20-%20Fotolia.jpg"
     };
 
     let questionsList = [
         {
             id: "transport",
             type: "radio",
-            title: "Pour vous rendre sur votre lieu de travail ou Université / école, vous prenez ?",
+            title: "Pour vous rendre sur votre lieu de travail ou Université / école, vous prenez ? /1",
             description: "",
             image: "https://blog.educpros.fr/jean-charles-cailliez/files/2014/03/qcm.jpg",
             option: [
