@@ -285,3 +285,9 @@
 .logo-image:hover {
   transform: rotate(360deg) scale(1.2); /* Add rotation and zoom effect on hover */
 }
+
+.error-message {
+  color: red;
+  text-align: center; /* Centre le texte */
+  margin: 5px 0; /* Ajoute un espace au-dessus et en dessous du message */
+}

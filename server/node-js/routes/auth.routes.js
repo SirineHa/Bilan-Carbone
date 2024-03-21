@@ -1,21 +1,38 @@
-const { verifySignUp } = require("../middleware");
-const controller = require("../controllers/auth.controller");
+const express = require('express')
+const app = express()
+const bcrypt = require('bcrypt')
+
+const users = []
 
 module.exports = function(app) {
-  app.use(function(req, res, next) {
-    res.header(
-      "Access-Control-Allow-Headers",
-      "x-access-token, Origin, Content-Type, Accept"
-    );
-    next();
-  });
+    app.get('/users', (req, res) => {
+    res.json(users)
+    })
 
-  app.post(
-    "/api/auth/signup",
-    [
-      verifySignUp.checkDuplicateEmail],
-    controller.signup
-  );
+    app.post('/users', async (req, res) => {
+    try {
+        const hashedPassword = await bcrypt.hash(req.body.password, 10)
+        const user = { email: req.body.email, password: hashedPassword }
+        users.push(user)
+        res.status(201).send()
+    } catch {
+        res.status(500).send()
+    }
+    })
 
-  app.post("/api/auth/signin", controller.signin);
-};
+    app.post('/users/login', async (req, res) => {
+    const user = users.find(user => user.email === req.body.email)
+    if (user == null) {
+        return res.status(400).send('Cannot find user')
+    }
+    try {
+        if(await bcrypt.compare(req.body.password, user.password)) {
+        res.send('Success')
+        } else {
+        res.send('Not Allowed')
+        }
+    } catch {
+        res.status(500).send()
+    }
+    })
+}

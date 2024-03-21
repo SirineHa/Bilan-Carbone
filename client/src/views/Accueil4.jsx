@@ -1,8 +1,15 @@
 import React from "react";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
+import { useNavigate } from 'react-router-dom';
 
 export const Accueil4 = () => {
+  const navigate = useNavigate();
+
+  const handleBilanNormal = async () => {
+    navigate('/bilan/normal');
+  }
+  
   return (
     <>
     <Navbar />
@@ -44,7 +51,7 @@ export const Accueil4 = () => {
                     </div>
                   </div>
 
-                  <div className="w-full pt-6 md:w-4/12 px-4 text-center">
+                  <div className="w-full pt-6 md:w-4/12 px-4 text-center" onClick={handleBilanNormal}>
                     <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
                       <div className="px-4 py-5 flex-auto">
                         <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-blue-400">
