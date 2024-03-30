@@ -1,11 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors'); // Add this line
+const dbConnect = require('./config/db/dbConnect');
 const app = express();
 const PORT = 5000;
 
 app.use(cors()); // Add this line
 app.use(bodyParser.json());
+
+dbConnect();
 
 // Dummy user data for demonstration purposes
 const users = [
