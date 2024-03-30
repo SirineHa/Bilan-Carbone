@@ -1,23 +1,27 @@
 const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
-  name: {
+  username: {
     type: String,
     required: true
   },
   email: {
-    type: String,
-    required: true
-  },
-  password: {
-    type: String,
-    required: true
+    type: String
   },
   date: {
     type: Date,
     default: Date.now
   }
 });
+
+//creation user
+UserSchema.statics.createUser = async function(userData) {
+  try{
+    return await this.create(userData);
+  }catch(error){
+    throw new Error(error);
+  }
+}
 
 const User = mongoose.model('User', UserSchema);
 
