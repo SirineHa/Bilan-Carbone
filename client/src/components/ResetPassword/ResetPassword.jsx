@@ -6,7 +6,7 @@ export const ResetPassword = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false); // Initialiser à false
 
   const handleResetPassword = async () => {
     setIsLoading(true);
@@ -17,7 +17,7 @@ export const ResetPassword = () => {
       }
   
       // Envoyez une demande à votre serveur pour commencer le processus de réinitialisation du mot de passe
-      const response = await fetch('http://localhost:5000/reset-password', {
+      const response = await fetch('http://localhost:5000/forgot-password', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -26,10 +26,10 @@ export const ResetPassword = () => {
       });
   
       const result = await response.json();
-      if (result.success) {
+      if (result.message === 'Si votre compte existe, un email a été envoyé.') {
         setMessage('Veuillez vérifier votre boîte de réception pour les instructions de réinitialisation du mot de passe.');
       } else {
-        setMessage('Une erreur s\'est produite. Veuillez réessayer.');
+        setMessage('Une erreur s\'est produite. Veuillez--- réessayer.');
       }
     } catch (error) {
       setMessage(error.message);
@@ -48,7 +48,9 @@ export const ResetPassword = () => {
         value={email} 
         onChange={(e) => setEmail(e.target.value)} 
       />
-      <button onClick={handleResetPassword}>Réinitialiser le mot de passe</button>
+      <button onClick={handleResetPassword} disabled={isLoading}> {/* Désactiver le bouton pendant le chargement */}
+        {isLoading ? 'Chargement...' : 'Réinitialiser le mot de passe'} {/* Changer le texte du bouton pendant le chargement */}
+      </button>
       <p>{message}</p>
     </div>
   );

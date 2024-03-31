@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const session = require('express-session');
-const passport = require('./config/passport');
+const localPassport = require('./config/passport');
 
 const app = express();
 const PORT = process.env.PORT || 5000; // Utilisation d'une variable d'environnement pour le port
@@ -29,8 +29,8 @@ app.use(session({
 }));
 
 
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(localPassport.initialize());
+app.use(localPassport.session());
 
 // Importation des routes
 const routes = require('./routes');

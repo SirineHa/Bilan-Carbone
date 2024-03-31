@@ -12,13 +12,13 @@ import invisible from "../../img/invisible-1.svg";
 
 export const Login = () => {
   const navigate = useNavigate();  
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState(''); // Changement de 'username' à 'email'
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-
+  
   const handleLoginClick = async (event) => {
     event.preventDefault(); // Pour éviter le rechargement de la page
-    console.log(`Attempting to log in with username: ${username} and password: ${password}`); // Log the username and password
+    console.log(`Tentative de connexion avec l'email : ${email} et le mot de passe : ${password}`);
     try {
       const response = await fetch('http://localhost:5000/login', {
         method: 'POST',
@@ -26,21 +26,20 @@ export const Login = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ email, password }), // Utiliser 'email' au lieu de 'username'
       });
   
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error('La réponse du réseau n\'était pas correcte');
       }
   
       const result = await response.json();
-      console.log('Response from API:', result); // Log the response from the API
+      console.log('Réponse de l\'API :', result);
       if (result.success) {
-        console.log('Login successful. Navigating to dashboard.'); // Log before navigating to the dashboard
-        // Pas besoin de stocker le token JWT, navigue directement au dashboard
+        console.log('Connexion réussie. Redirection vers le tableau de bord.');
         navigate('/dashboard-admin');
       } else {
-        console.log('Login failed. Invalid credentials.');
+        console.log('Échec de la connexion. Identifiants invalides.');
         setErrorMessage('Le mot de passe ou l\'e-mail est incorrect');
       }
     } catch (error) {
@@ -48,6 +47,7 @@ export const Login = () => {
       setErrorMessage('Une erreur est survenue lors de la connexion. Veuillez réessayer.');
     }
   };
+  
 
 
   const handleInputChange = () => {
@@ -124,8 +124,8 @@ export const Login = () => {
                         className="email-input"
                         type="email" 
                         placeholder="Entrez votre mail"
-                        value={username} onChange={(e) => {
-                          setUsername(e.target.value);
+                        value={email} onChange={(e) => {
+                          setEmail(e.target.value);
                           handleInputChange(); 
                         }}
                       />
