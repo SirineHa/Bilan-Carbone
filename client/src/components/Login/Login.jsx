@@ -10,31 +10,45 @@ import message from "../../img/message-1.svg";
 import padlock from "../../img/padlock-1.svg";
 import invisible from "../../img/invisible-1.svg";
 
-
 export const Login = () => {
   const navigate = useNavigate();  
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const handleLoginClick = async () => {
-    // Simple fetch to the Node.js server
-    const response = await fetch('http://localhost:5000/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ username, password }),
-    });
-
-    const result = await response.json();
-    if (result.success) {
-      navigate('/dashboard-admin');
-    } else {
-      console.log('Login failed. Invalid credentials.');
-      setErrorMessage('Le mot de passe ou l\'e-mail est incorrect');
+  const handleLoginClick = async (event) => {
+    event.preventDefault(); // Pour éviter le rechargement de la page
+    console.log(`Attempting to log in with username: ${username} and password: ${password}`); // Log the username and password
+    try {
+      const response = await fetch('http://localhost:5000/login', {
+        method: 'POST',
+        credentials: 'include', // Important pour inclure les cookies de session dans la requête
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      const result = await response.json();
+      console.log('Response from API:', result); // Log the response from the API
+      if (result.success) {
+        console.log('Login successful. Navigating to dashboard.'); // Log before navigating to the dashboard
+        // Pas besoin de stocker le token JWT, navigue directement au dashboard
+        navigate('/dashboard-admin');
+      } else {
+        console.log('Login failed. Invalid credentials.');
+        setErrorMessage('Le mot de passe ou l\'e-mail est incorrect');
+      }
+    } catch (error) {
+      console.error(error);
+      setErrorMessage('Une erreur est survenue lors de la connexion. Veuillez réessayer.');
     }
   };
+
 
   const handleInputChange = () => {
     setErrorMessage(''); // réinitialise le message d'erreur

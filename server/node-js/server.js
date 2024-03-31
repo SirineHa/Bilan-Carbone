@@ -1,67 +1,44 @@
-require('dotenv').config(); // Ajoutez cette ligne en haut de votre fichier
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const nodemailer = require('nodemailer');
-const sgTransport = require('nodemailer-sendgrid-transport'); // Ajoutez cette ligne
-const app = express();
-const PORT = 5000;
+const mongoose = require('mongoose');
+const session = require('express-session');
+const passport = require('./config/passport');
 
-app.use(cors());
+const app = express();
+const PORT = process.env.PORT || 5000; // Utilisation d'une variable d'environnement pour le port
+const dbUri = process.env.MONGODB_URI;
+
+app.use(cors({
+  origin: ["http://localhost:3000"], // Assurez-vous de configurer les bons domaines ici
+  credentials: true, // Permet les credentials cross-origin
+}));
 app.use(bodyParser.json());
 
-// Dummy user data for demonstration purposes
-const users = [
-  { id: 1, username: 'bary.abdoulaye@gmail.com', password: 'password1' },
-];
-
-app.post('/login', (req, res) => {
-  const { username, password } = req.body;
-
-  // Find user by username and password (Note: This is just for demo, not secure)
-  const user = users.find(u => u.username === username && u.password === password);
-
-  if (user) {
-    res.json({ success: true, message: 'Login successful' });
-  } else {
-    res.status(401).json({ success: false, message: 'Invalid credentials' });
+// Configuration de session
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: process.env.NODE_ENV === "production", // Assurez-vous que secure est activé en production
+    httpOnly: true, // Empêche l'accès au cookie via JavaScript côté client
+    //sameSite: 'secure', 
   }
-});
-
-// Ajoutez cette fonction
-async function sendResetPasswordEmail(user) {
-  let transporter = nodemailer.createTransport(sgTransport({
-    auth: {
-      api_key: process.env.SENDGRID_API_KEY // Remplacez votre clé API SendGrid par cette ligne
-    },
-  }));
-
-  let info = await transporter.sendMail({
-    from: '"Bilan Carbonne" <bilancarbonneinfo2@gmail.com>', // Assurez-vous que cette adresse e-mail est vérifiée
-    to: user.username, // Assurez-vous que cet utilisateur s'est inscrit pour recevoir des e-mails
-    subject: 'Réinitialisation du mot de passe',
-    text: 'Bonjour, \nPour réinitialiser votre mot de passe, veuillez cliquer sur le lien suivant : http://localhost:3000/reset-password/' + user.id,
-});
+}));
 
 
-  console.log('Message sent: %s', info.messageId);
-}
+app.use(passport.initialize());
+app.use(passport.session());
 
-app.post('/reset-password', (req, res) => {
-  const { email } = req.body;
+// Importation des routes
+const routes = require('./routes');
+app.use(routes);
 
-  // Find user by email
-  const user = users.find(u => u.username === email);
-
-  if (user) {
-    // Send an email to the user with a link to reset the password
-    sendResetPasswordEmail(user).catch(console.error);
-
-    res.json({ success: true, message: 'Please check your inbox for password reset instructions.' });
-  } else {
-    res.status(404).json({ success: false, message: 'No user found with that email.' });
-  }
-});
+mongoose.connect(dbUri)
+  .then(() => console.log('MongoDB connected...'))
+  .catch(err => console.error(err));
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

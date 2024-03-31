@@ -1,4 +1,4 @@
-const session = require('express-session');
+//const session = require('express-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const Admin = require('../models/Admin');
@@ -19,10 +19,13 @@ passport.serializeUser(function(admin, done) {
   done(null, admin.id);
 });
 
-passport.deserializeUser(function(id, done) {
-  Admin.findById(id, function(err, admin) {
-    done(err, admin);
-  });
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await Admin.findById(id); // Utilisation de async/await
+    done(null, user);
+  } catch (err) {
+    done(err, null);
+  }
 });
 
 module.exports = passport;

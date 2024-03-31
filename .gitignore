@@ -1,0 +1,38 @@
+# Dépendances
+/client/node_modules/
+/server/node-js/node_modules/
+/server/flask/venv/ # Si vous utilisez un environnement virtuel pour Flask
+
+# Environnements
+/client/.env
+/client/.env.local
+/client/.env.development.local
+/client/.env.test.local
+/client/.env.production.local
+/server/node-js/.env
+/server/flask/.env # Si Flask utilise un fichier .env
+
+# Builds et logs
+/client/build/
+/server/node-js/*.log
+/server/node-js/*.pid
+/server/node-js/*.log.*
+
+# Fichiers de configuration spécifiques à un environnement de développement
+/server/node-js/config/development.json
+/server/node-js/config/test.json
+
+# Fichiers spécifiques à certains éditeurs ou systèmes d'exploitation
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.iml
+
+# Autres fichiers/dossiers générés qui ne devraient pas être versionnés
+/npm-debug.log*
+/yarn-debug.log*
+/yarn-error.log*
+/pnpm-debug.log*
