@@ -116,12 +116,12 @@ export const Login = () => {
                       /> */}
                       
                     </div>
-                    <div className={`email-container email-input`}>
+                    <div className={`email-container email-input-l`}>
                       <div className="email-label">
                         Email
                       </div>
                       <input 
-                        className="email-input"
+                        className="email-input-l"
                         type="email" 
                         placeholder="Entrez votre mail"
                         value={email} onChange={(e) => {

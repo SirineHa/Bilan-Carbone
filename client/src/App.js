@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { ResetPassword } from "./components/ResetPassword/ResetPassword";
+import { RequestReset } from './components/ResetPassword/RequestReset';
+import { PerformReset } from "./components/ResetPassword/PerformReset";
 
 import "./App.css";
 
@@ -63,7 +64,8 @@ const App = () => {
           </ProtectedRoute>
         }
       />
-      <Route path="/resetPassword" element={<ResetPassword />} />
+      <Route path="/resetPassword" element={<RequestReset />} />
+      <Route path="/reset-password/:token" element={<PerformReset />} />
       
       <Route path="/bilan/normal" element={<BilanNormalView />}/>
       <Route path="/bilan/express" element={<BilanExpressView />}/>

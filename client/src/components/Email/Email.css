@@ -17,7 +17,7 @@
   line-height: normal;
 }
 
-.email-input input[type="email"] {
+.email-input-l input[type="email"] {
   position: absolute;
   width: 80%; /* Adjust as needed */
   top: 33px; /* Keep the same distance from the top */

@@ -5,6 +5,8 @@ const crypto = require('crypto'); // Ajout pour la génération de token
 const nodemailer = require('nodemailer');
 const Admin = require('../models/Admin');
 const sgMail = require('@sendgrid/mail');
+const bcrypt = require('bcrypt');
+
 
 // Middleware pour vérifier si l'utilisateur est authentifié
 function ensureAuthenticated(req, res, next) {
