@@ -1,34 +1,47 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
-const cors = require('cors'); // Add this line
-const dbConnect = require('./config/db/dbConnect');
-const app = express();
-const PORT = 5000;
+const cors = require('cors');
+const mongoose = require('mongoose');
+/*const session = require('express-session');
+const localPassport = require('./config/passport');*/
 
-app.use(cors()); // Add this line
+const app = express();
+const PORT = process.env.PORT || 5000; // Utilisation d'une variable d'environnement pour le port si port non défini alros 5000
+const dbUri = process.env.MONGODB_URI; // Utilisation d'une variable d'environnement pour l'URI de la base de données (dans .env)
+
+app.use(cors({
+  origin: ["http://localhost:3000"], // Assurez-vous de configurer les bons domaines ici
+  credentials: true, // Permet les credentials cross-origin
+}));
 app.use(bodyParser.json());
 
-dbConnect();
-
-// Dummy user data for demonstration purposes
-const users = [
-  { id: 1, username: 'user1@gmail.com', password: 'password1' },
-  { id: 2, username: 'user2@gmail.com', password: 'password2' },
-];
-
-app.post('/login', (req, res) => {
-  const { username, password } = req.body;
-
-  // Find user by username and password (Note: This is just for demo, not secure)
-  const user = users.find(u => u.username === username && u.password === password);
-
-  if (user) {
-    res.json({ success: true, message: 'Login successful' });
-  } else {
-    res.status(401).json({ success: false, message: 'Invalid credentials' });
+// Configuration de session
+/*app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: process.env.NODE_ENV === "production", // Assurez-vous que secure est activé en production
+    httpOnly: true, // Empêche l'accès au cookie via JavaScript côté client
+    //sameSite: 'secure', 
   }
-});
+}));
 
+
+app.use(localPassport.initialize());
+app.use(localPassport.session());*/
+
+// Importation des routes
+const routes = require('./routes');
+app.use(routes);
+
+// Connexion à la base de données
+mongoose.connect(dbUri)
+  .then(() => console.log('MongoDB connected...'))
+  .catch(err => console.error(err));
+
+  // Lancement du serveur
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
