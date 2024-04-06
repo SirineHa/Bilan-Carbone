@@ -1,3 +1,16 @@
+:root {
+  --primary-color: #2A9D8F;
+  --hover-primary: #21867A;
+  --active-primary: #1C726B;
+  --error-color: #E76F51;
+  --background-color: #F4F1DE;
+  --input-background: #FEFAE0;
+  --input-border-color: #CED4DA;
+  --input-focus-border-color: #2A9D8F;
+  --text-color: #264653;
+  --button-text-color: #FFFFFF;
+}
+
 .login-container {
   background-color: #ebf3f5;
   display: flex;
@@ -58,7 +71,6 @@
   top: 80%; /* Center vertically */
   cursor: pointer;
 }
-
 
 
 .login-button-inner {
@@ -288,6 +300,5 @@
 
 .error-message {
   color: red;
-  text-align: center; /* Centre le texte */
-  margin: 5px 0; /* Ajoute un espace au-dessus et en dessous du message */
+  margin: 10px 0; /* Ajoute un espace au-dessus et en dessous du message */
 }
