@@ -35,7 +35,7 @@ const App = () => {
         <Route path="/reset-password/:token" element={<PerformReset />} />
         <Route path="/bilan/normal" element={<BilanNormalView />} />
         <Route path="/bilan/express" element={<BilanExpressView />} />
-        <Route path="*" element={<Navigate to="/" />} />
+        <Route path="etoile" element={<Navigate to="/" />} />
       </Routes>
     </AuthProvider>
   );

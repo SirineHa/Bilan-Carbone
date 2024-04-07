@@ -1,11 +1,15 @@
 import React, { useState, useEffect  } from "react";
 import { Badge } from "../components/Badge";
+import { Edit1 } from "../assets/icons/Edit1";
+import { Icon } from "../assets/icons/Icon";
+import { Icon1 } from "../assets/icons/Icon1";
+import { IoniconPPersonDefault1 } from "../assets/icons/IoniconPPersonDefault1";
 import NavbarAdmin from "../components/NavbarAdmin";
 import Footer from "../components/Footer";
 import axios from 'axios';
 
 
-export const AdminScreen = () => {
+export const AdminScreentest = () => {
 
   // pour le menu toggle 
   const [isMenuOpen, setMenuOpen] = useState(false);
@@ -56,9 +60,7 @@ export const AdminScreen = () => {
   return (
     <>
 
-    <div className="flex flex-col min-h-screen">
-      <NavbarAdmin/>
-      <main className="flex-grow">
+      <NavbarAdmin />
       <div className="flex flex-col md:flex-row">
         <nav className="flex inset-y-0 left-0 bg-gray-100 p-4 w-full md:w-64 flex flex-col">
         <button 
@@ -73,10 +75,10 @@ export const AdminScreen = () => {
           <aside className={`${isMenuOpen ? 'block' : 'hidden'} md:block mt-4 space-y-2 bg-white p-4 rounded shadow-lg overflow-auto`}>
             <ul>
               <li>
-                <a href="/data-avis" className="px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold">Gestion Avis</a>
+                <a href="/gestion-avis" className="px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold">Gestion Avis</a>
               </li>
               <li>
-                <a href="/data-stats" className="px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold">Gestion Stat</a>
+                <a href="/gestion-stat" className="px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold">Gestion Stat</a>
               </li>
               <li>
                 <a href="/statistique" className="px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold">Statistique</a>
@@ -109,30 +111,30 @@ export const AdminScreen = () => {
         </div>
         <div className="flex justify-center flex-wrap border border-gray-300 shadow-md mb-5">
           <div className="flex-grow flex-shrink flex-auto max-w-[300px]">
-            <div className="bg-cool-gray050 bg-gray-100  flex items-start p-[16px] relative self-stretch w-full flex-[0_0_auto]">
+            <div className="bg-cool-gray050 rounded-[12px_0px_0px_0px] flex items-start p-[16px] relative self-stretch w-full flex-[0_0_auto]">
               <div className="relative w-fit mt-[-1.00px] font-text-xs-font-semibold font-[number:var(--text-xs-font-semibold-font-weight)] text-cool-gray500 text-[length:var(--text-xs-font-semibold-font-size)] tracking-[var(--text-xs-font-semibold-letter-spacing)] leading-[var(--text-xs-font-semibold-line-height)] whitespace-nowrap [font-style:var(--text-xs-font-semibold-font-style)] border-b-2 border-gray-300">
                 NOM DE L’UTITLISATEUR
               </div>
             </div>
             <div className="relative self-stretch w-full h-px bg-cool-gray200" />
             <div className="flex items-center p-[16px] relative self-stretch w-full flex-[0_0_auto] bg-cool-gray050 rounded-[12px_0px_0px_12px]">
-              <div className="relative flex-1 h-[22px] mt-[-1.00px] font-bold font-text-sm-font-semibold font-[number:var(--text-sm-font-semibold-font-weight)] text-cool-gray900 text-[length:var(--text-sm-font-semibold-font-size)] tracking-[var(--text-sm-font-semibold-letter-spacing)] leading-[var(--text-sm-font-semibold-line-height)] whitespace-nowrap [font-style:var(--text-sm-font-semibold-font-style)]">
+              <div className="relative flex-1 h-[22px] mt-[-1.00px] font-text-sm-font-semibold font-[number:var(--text-sm-font-semibold-font-weight)] text-cool-gray900 text-[length:var(--text-sm-font-semibold-font-size)] tracking-[var(--text-sm-font-semibold-letter-spacing)] leading-[var(--text-sm-font-semibold-line-height)] whitespace-nowrap [font-style:var(--text-sm-font-semibold-font-style)]">
                 {stats.length > 0 && stats[0] && <p>{stats[0].name}</p>}
               </div>
             </div>
             <div className="flex items-center p-[16px] relative self-stretch w-full flex-[0_0_auto]">
-              <div className="relative flex-1 h-[22px] mt-[-1.00px] font-bold font-text-sm-font-semibold font-[number:var(--text-sm-font-semibold-font-weight)] text-cool-gray900 text-[length:var(--text-sm-font-semibold-font-size)] tracking-[var(--text-sm-font-semibold-letter-spacing)] leading-[var(--text-sm-font-semibold-line-height)] whitespace-nowrap [font-style:var(--text-sm-font-semibold-font-style)]">
+              <div className="relative flex-1 h-[22px] mt-[-1.00px] font-text-sm-font-semibold font-[number:var(--text-sm-font-semibold-font-weight)] text-cool-gray900 text-[length:var(--text-sm-font-semibold-font-size)] tracking-[var(--text-sm-font-semibold-letter-spacing)] leading-[var(--text-sm-font-semibold-line-height)] whitespace-nowrap [font-style:var(--text-sm-font-semibold-font-style)]">
                 {stats.length > 1 && stats[1] && <p>{stats[1].name}</p>}
               </div>
             </div>
             <div className="flex items-center p-[16px] relative self-stretch w-full flex-[0_0_auto] bg-cool-gray050 rounded-[12px_0px_0px_12px]">
-              <div className="relative flex-1 h-[22px] mt-[-1.00px] font-bold font-text-sm-font-semibold font-[number:var(--text-sm-font-semibold-font-weight)] text-cool-gray900 text-[length:var(--text-sm-font-semibold-font-size)] tracking-[var(--text-sm-font-semibold-letter-spacing)] leading-[var(--text-sm-font-semibold-line-height)] whitespace-nowrap [font-style:var(--text-sm-font-semibold-font-style)]">
+              <div className="relative flex-1 h-[22px] mt-[-1.00px] font-text-sm-font-semibold font-[number:var(--text-sm-font-semibold-font-weight)] text-cool-gray900 text-[length:var(--text-sm-font-semibold-font-size)] tracking-[var(--text-sm-font-semibold-letter-spacing)] leading-[var(--text-sm-font-semibold-line-height)] whitespace-nowrap [font-style:var(--text-sm-font-semibold-font-style)]">
                 {stats.length > 2 && stats[2] && <p>{stats[2].name}</p>}
               </div>
             </div>
           </div>
           <div className="flex-grow flex-shrink flex-auto max-w-[300px]">
-            <div className="flex items-start p-[16px] bg-gray-100 relative self-stretch w-full flex-[0_0_auto] bg-cool-gray050">
+            <div className="flex items-start p-[16px] relative self-stretch w-full flex-[0_0_auto] bg-cool-gray050 rounded-[12px_0px_0px_12px]">
               <div className="relative w-fit mt-[-1.00px] font-text-xs-font-semibold font-[number:var(--text-xs-font-semibold-font-weight)] text-cool-gray500 text-[length:var(--text-xs-font-semibold-font-size)] tracking-[var(--text-xs-font-semibold-letter-spacing)] leading-[var(--text-xs-font-semibold-line-height)] whitespace-nowrap [font-style:var(--text-xs-font-semibold-font-style)] border-b-2 border-gray-300">
                 MODE DE CALCULATEUR
               </div>
@@ -166,7 +168,7 @@ export const AdminScreen = () => {
 
           </div>
           <div className="flex-grow flex-shrink flex-auto max-w-[300px]">
-            <div className="flex items-start p-[16px] bg-gray-100 relative self-stretch w-full flex-[0_0_auto]">
+            <div className="flex items-start p-[16px] relative self-stretch w-full flex-[0_0_auto]">
               <div className="relative w-fit mt-[-1.00px] font-text-xs-font-semibold font-[number:var(--text-xs-font-semibold-font-weight)] text-cool-gray500 text-[length:var(--text-xs-font-semibold-font-size)] tracking-[var(--text-xs-font-semibold-letter-spacing)] leading-[var(--text-xs-font-semibold-line-height)] whitespace-nowrap [font-style:var(--text-xs-font-semibold-font-style)] border-b-2 border-gray-300">
                 SCORE [TONNE]
               </div>
@@ -189,7 +191,7 @@ export const AdminScreen = () => {
             </div>
           </div>
           <div className="flex-grow flex-shrink flex-auto max-w-[300px]">
-            <div className="flex items-start p-[16px] bg-gray-100 relative self-stretch w-full flex-[0_0_auto] bg-cool-gray050">
+            <div className="flex items-start p-[16px] relative self-stretch w-full flex-[0_0_auto] bg-cool-gray050 rounded-[12px_0px_0px_12px]">
               <div className="relative w-fit mt-[-1.00px] font-text-xs-font-semibold font-[number:var(--text-xs-font-semibold-font-weight)] text-cool-gray500 text-[length:var(--text-xs-font-semibold-font-size)] tracking-[var(--text-xs-font-semibold-letter-spacing)] leading-[var(--text-xs-font-semibold-line-height)] whitespace-nowrap [font-style:var(--text-xs-font-semibold-font-style)] border-b-2 border-gray-300">
                 DATE
               </div>
@@ -223,30 +225,30 @@ export const AdminScreen = () => {
 
         <div className="flex justify-center flex-wrap border border-gray-300 shadow-md mb-5">
           <div className="flex-grow flex-shrink flex-auto max-w-[300px]">
-            <div className="bg-cool-gray050 bg-gray-100 flex items-start p-[16px] relative self-stretch w-full flex-[0_0_auto]">
+            <div className="bg-cool-gray050 rounded-[12px_0px_0px_0px] flex items-start p-[16px] relative self-stretch w-full flex-[0_0_auto]">
               <div className="relative w-fit mt-[-1.00px] font-text-xs-font-semibold font-[number:var(--text-xs-font-semibold-font-weight)] text-cool-gray500 text-[length:var(--text-xs-font-semibold-font-size)] tracking-[var(--text-xs-font-semibold-letter-spacing)] leading-[var(--text-xs-font-semibold-line-height)] whitespace-nowrap [font-style:var(--text-xs-font-semibold-font-style)] border-b-2 border-gray-300">
                 NOM DE L’UTITLISATEUR
               </div>
             </div>
             <div className="relative self-stretch w-full h-px bg-cool-gray200" />
             <div className="flex items-center p-[16px] relative self-stretch w-full flex-[0_0_auto] bg-cool-gray050 rounded-[12px_0px_0px_12px]">
-              <div className="relative flex-1 h-[22px] mt-[-1.00px] font-bold font-text-sm-font-semibold font-[number:var(--text-sm-font-semibold-font-weight)] text-cool-gray900 text-[length:var(--text-sm-font-semibold-font-size)] tracking-[var(--text-sm-font-semibold-letter-spacing)] leading-[var(--text-sm-font-semibold-line-height)] whitespace-nowrap [font-style:var(--text-sm-font-semibold-font-style)]">
+              <div className="relative flex-1 h-[22px] mt-[-1.00px] font-text-sm-font-semibold font-[number:var(--text-sm-font-semibold-font-weight)] text-cool-gray900 text-[length:var(--text-sm-font-semibold-font-size)] tracking-[var(--text-sm-font-semibold-letter-spacing)] leading-[var(--text-sm-font-semibold-line-height)] whitespace-nowrap [font-style:var(--text-sm-font-semibold-font-style)]">
               {avis.length > 0 && avis[0] && <p>{avis[0].name}</p>}
               </div>
             </div>
             <div className="flex items-center p-[16px] relative self-stretch w-full flex-[0_0_auto]">
-              <div className="relative flex-1 h-[22px] mt-[-1.00px] font-bold font-text-sm-font-semibold font-[number:var(--text-sm-font-semibold-font-weight)] text-cool-gray900 text-[length:var(--text-sm-font-semibold-font-size)] tracking-[var(--text-sm-font-semibold-letter-spacing)] leading-[var(--text-sm-font-semibold-line-height)] whitespace-nowrap [font-style:var(--text-sm-font-semibold-font-style)]">
+              <div className="relative flex-1 h-[22px] mt-[-1.00px] font-text-sm-font-semibold font-[number:var(--text-sm-font-semibold-font-weight)] text-cool-gray900 text-[length:var(--text-sm-font-semibold-font-size)] tracking-[var(--text-sm-font-semibold-letter-spacing)] leading-[var(--text-sm-font-semibold-line-height)] whitespace-nowrap [font-style:var(--text-sm-font-semibold-font-style)]">
               {avis.length > 1 && avis[1] && <p>{avis[1].name}</p>}
               </div>
             </div>
             <div className="flex items-center p-[16px] relative self-stretch w-full flex-[0_0_auto] bg-cool-gray050 rounded-[12px_0px_0px_12px]">
-              <div className="relative flex-1 h-[22px] mt-[-1.00px] font-bold font-text-sm-font-semibold font-[number:var(--text-sm-font-semibold-font-weight)] text-cool-gray900 text-[length:var(--text-sm-font-semibold-font-size)] tracking-[var(--text-sm-font-semibold-letter-spacing)] leading-[var(--text-sm-font-semibold-line-height)] whitespace-nowrap [font-style:var(--text-sm-font-semibold-font-style)]">
+              <div className="relative flex-1 h-[22px] mt-[-1.00px] font-text-sm-font-semibold font-[number:var(--text-sm-font-semibold-font-weight)] text-cool-gray900 text-[length:var(--text-sm-font-semibold-font-size)] tracking-[var(--text-sm-font-semibold-letter-spacing)] leading-[var(--text-sm-font-semibold-line-height)] whitespace-nowrap [font-style:var(--text-sm-font-semibold-font-style)]">
               {avis.length > 2 && avis[2] && <p>{avis[2].name}</p>} 
               </div>
             </div>
           </div>
           <div className="flex-grow flex-shrink flex-auto max-w-[300px]">
-            <div className="flex items-start p-[16px] bg-gray-100 relative self-stretch w-full flex-[0_0_auto] bg-cool-gray050">
+            <div className="flex items-start p-[16px] relative self-stretch w-full flex-[0_0_auto] bg-cool-gray050 rounded-[12px_0px_0px_12px]">
               <div className="relative w-fit mt-[-1.00px] font-text-xs-font-semibold font-[number:var(--text-xs-font-semibold-font-weight)] text-cool-gray500 text-[length:var(--text-xs-font-semibold-font-size)] tracking-[var(--text-xs-font-semibold-letter-spacing)] leading-[var(--text-xs-font-semibold-line-height)] whitespace-nowrap [font-style:var(--text-xs-font-semibold-font-style)] border-b-2 border-gray-300">
               TYPE
               </div>
@@ -279,7 +281,7 @@ export const AdminScreen = () => {
             
           </div>
           <div className="flex-grow flex-shrink flex-auto max-w-[300px]">
-            <div className="flex items-start p-[16px] bg-gray-100 relative self-stretch w-full flex-[0_0_auto]">
+            <div className="flex items-start p-[16px] relative self-stretch w-full flex-[0_0_auto]">
               <div className="relative w-fit mt-[-1.00px] font-text-xs-font-semibold font-[number:var(--text-xs-font-semibold-font-weight)] text-cool-gray500 text-[length:var(--text-xs-font-semibold-font-size)] tracking-[var(--text-xs-font-semibold-letter-spacing)] leading-[var(--text-xs-font-semibold-line-height)] whitespace-nowrap [font-style:var(--text-xs-font-semibold-font-style)] border-b-2 border-gray-300">
                 MESSAGE
               </div>
@@ -302,7 +304,7 @@ export const AdminScreen = () => {
             </div>
           </div>
           <div className="flex-grow flex-shrink flex-auto max-w-[300px]">
-            <div className="flex items-start p-[16px] bg-gray-100 relative self-stretch w-full flex-[0_0_auto] bg-cool-gray050">
+            <div className="flex items-start p-[16px] relative self-stretch w-full flex-[0_0_auto] bg-cool-gray050 rounded-[12px_0px_0px_12px]">
               <div className="relative w-fit mt-[-1.00px] font-text-xs-font-semibold font-[number:var(--text-xs-font-semibold-font-weight)] text-cool-gray500 text-[length:var(--text-xs-font-semibold-font-size)] tracking-[var(--text-xs-font-semibold-letter-spacing)] leading-[var(--text-xs-font-semibold-line-height)] whitespace-nowrap [font-style:var(--text-xs-font-semibold-font-style)] border-b-2 border-gray-300">
                 DATE
               </div>
@@ -325,11 +327,11 @@ export const AdminScreen = () => {
             </div>
           </div>
         </div>
+
       </main>
     </div>
-    </main>       
+
     <Footer/>
-    </div>
   </>
   );
 };

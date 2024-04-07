@@ -10,23 +10,26 @@ import message from "../../img/message-1.svg";
 import padlock from "../../img/padlock-1.svg";
 import invisible from "../../img/invisible-1.svg";
 
+import { useAuth } from '../../context/AuthContext';
 export const Login = () => {
   const navigate = useNavigate();  
-  const [email, setEmail] = useState(''); // Changement de 'username' à 'email'
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  
+
+  const { login } = useAuth(); // Ajoutez cette ligne
+
   const handleLoginClick = async (event) => {
-    event.preventDefault(); // Pour éviter le rechargement de la page
+    event.preventDefault();
     console.log(`Tentative de connexion avec l'email : ${email} et le mot de passe : ${password}`);
     try {
       const response = await fetch('http://localhost:5000/login', {
         method: 'POST',
-        credentials: 'include', // Important pour inclure les cookies de session dans la requête
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }), // Utiliser 'email' au lieu de 'username'
+        body: JSON.stringify({ email, password }),
       });
   
       if (!response.ok) {
@@ -37,25 +40,23 @@ export const Login = () => {
       console.log('Réponse de l\'API :', result);
       if (result.success) {
         console.log('Connexion réussie. Redirection vers le tableau de bord.');
+        login(); // Ajoutez cette ligne
         navigate('/dashboard-admin');
       } else {
         console.log('Échec de la connexion. Identifiants invalides.');
         setErrorMessage('Le mot de passe ou l\'e-mail est incorrect');
       }
     } catch (error) {
-      console.error(error);
+      console.error('Erreur lors de la connexion :', error);
       setErrorMessage('Une erreur est survenue lors de la connexion. Veuillez réessayer.');
     }
   };
-  
-
 
   const handleInputChange = () => {
-    setErrorMessage(''); // réinitialise le message d'erreur
+    setErrorMessage('');
   };
   
   const handleForgotPasswordClick = () => {
-    // Redirect to the forgot password page
     navigate("/resetPassword");
   };
 

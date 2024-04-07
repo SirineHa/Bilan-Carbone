@@ -24,10 +24,9 @@ app.use(session({
   cookie: {
     secure: process.env.NODE_ENV === "production", // Assurez-vous que secure est activé en production
     httpOnly: true, // Empêche l'accès au cookie via JavaScript côté client
-    //sameSite: 'secure', 
+    sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax', // Réglez sameSite sur 'none' en production
   }
 }));
-
 
 app.use(localPassport.initialize());
 app.use(localPassport.session());
