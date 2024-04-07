@@ -1,9 +1,13 @@
 var express = require('express'); 
 var bodyParser = require('body-parser'); 
 var request = require('request-promise'); 
+const cors = require('cors');
+
  
 var app = express(); 
-  
+  // Enable CORS for all requests
+app.use(cors());
+
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: false })); 
 
@@ -41,8 +45,39 @@ app.get('/postdatatoFlask', async function (req, res) {
      
     res.send(returndata); 
 }); 
+
+app.post('/result/calculate', function(req, res) {
+  console.log(req.body);
+ res.send({
+   result: [
+     {
+       label: "Transport",
+       value: 200,
+       color: "rgb(255, 99, 132)",
+     },
+     {
+       label: "Grand deplacements",
+       value: 100,
+       color: "rgb(54, 162, 235)",
+     },
+     {
+       label: "Logement",
+       value: 500,
+       color: "red",
+     },
+   ],
+ });
+});
+
+app.post('/result/send-email', function(req, res) {
+  console.log(req.body);
+  res.send({
+   success: true,
+   mail: req.body.email
+  });
+ });
   
-app.listen(3000); 
+app.listen(4000); 
 
 
 /*const express = require('express')

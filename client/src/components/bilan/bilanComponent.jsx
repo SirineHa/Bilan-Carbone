@@ -12,6 +12,7 @@ export default function BilanComponent(props) {
     };
     const questionsList = props.questionsList || [];
     const onResponseChange = props.onResponseChange;
+    const onTerminateClicked= props.onTerminateClicked;
 
     const [currentQuestionIsValid, setCurrentQuestionIsValid] = useState(false);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(null);
@@ -32,8 +33,11 @@ export default function BilanComponent(props) {
                 setCurrentQuestionIndex(currentQuestionIndex + 1);
             } else {
                 console.log("Terminer",)
-                if (onResponseChange) {
-                    onResponseChange(response);
+                // if (onResponseChange) {
+                //     onResponseChange(response);
+                // }
+                if (onTerminateClicked) {
+                    onTerminateClicked(response);
                 }
             }
         }
@@ -91,7 +95,7 @@ export default function BilanComponent(props) {
                                     ) : (
                                         <>
                       <span>
-                        Question {currentQuestionIndex + 1}/{" "}
+                        Etape {currentQuestionIndex + 1}/{" "}
                           {questionsList.length}
                       </span>
                                             <QuestionComponent key={questionsList[currentQuestionIndex].id}
