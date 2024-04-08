@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import { useNavigate } from 'react-router-dom';
 import StepperComponent from "./stepperComponent";
 import QuestionComponent from "./questionComponent";
 import WelcomeBilanComponent from "./welcomeBilanComponent";
@@ -13,7 +12,7 @@ export default function BilanComponent(props) {
     };
     const questionsList = props.questionsList || [];
     const onResponseChange = props.onResponseChange;
-    const navigate = useNavigate();
+    const onTerminateClicked= props.onTerminateClicked;
 
     const [currentQuestionIsValid, setCurrentQuestionIsValid] = useState(false);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(null);
@@ -34,8 +33,11 @@ export default function BilanComponent(props) {
                 setCurrentQuestionIndex(currentQuestionIndex + 1);
             } else {
                 console.log("Terminer",)
-                if (onResponseChange) {
-                    onResponseChange(response);
+                // if (onResponseChange) {
+                //     onResponseChange(response);
+                // }
+                if (onTerminateClicked) {
+                    onTerminateClicked(response);
                 }
             }
         }
@@ -56,13 +58,7 @@ export default function BilanComponent(props) {
         if (onResponseChange) {
             onResponseChange(value);
         }
-        
     }
-    function handleTerminer () {
-        // Ajoutez le code que vous souhaitez exécuter lorsque l'événement "Terminer" est déclenché
-        // Par exemple, vous pouvez afficher un message, envoyer des données au serveur, etc.
-        navigate('/dashboard-satistique');
-    };
 
     return (
         <div className="flex flex-col bg-slate-100">
@@ -99,7 +95,7 @@ export default function BilanComponent(props) {
                                     ) : (
                                         <>
                       <span>
-                        Question {currentQuestionIndex + 1}/{" "}
+                        Etape {currentQuestionIndex + 1}/{" "}
                           {questionsList.length}
                       </span>
                                             <QuestionComponent key={questionsList[currentQuestionIndex].id}
@@ -120,7 +116,7 @@ export default function BilanComponent(props) {
                                                 }
                                                 <button
                                                     className="items-center self-center m-auto p-4 max-w-full font-medium text-center text-white whitespace-nowrap bg-emerald-500 border border-emerald-500 hover:bg-emerald-600 border-solid leading-[109%] rounded-[30px] w-auto"
-                                                    onClick={currentQuestionIndex + 1 === questionsList.length ? handleTerminer : nextQuestion}
+                                                    onClick={nextQuestion}
                                                 >
                                                     {
                                                         currentQuestionIndex + 1 === questionsList.length ?

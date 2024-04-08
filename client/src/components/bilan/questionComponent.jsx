@@ -72,8 +72,9 @@ export default class QuestionComponent extends React.Component {
                                                       value={this.state.questionResponse}
                                                       onOptionChange={this.handleOptionChange}/>}
 
-                            {this.state.question.type === "text" &&
+                            {["text", "number", "date"].includes(this.state.question.type)  &&
                                 <InputComponent question={this.state.question}
+                                                inputType={this.state.question.type}
                                                 value={this.state.questionResponse}
                                                 onValueChange={this.handleOptionChange}/>}
                         </form>

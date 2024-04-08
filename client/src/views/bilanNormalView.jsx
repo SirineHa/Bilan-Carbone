@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 import BilanComponent from "../components/bilan/bilanComponent";
+import BilanResultComponent from "../components/bilan/bilanResultComponent";
 
 export default function BilanNormalView() {
-    let userName = "wissal";
     let welcomePageContent = {
         title: "Bilan carbone 5 minutes",
         description: "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page",
@@ -13,7 +13,7 @@ export default function BilanNormalView() {
         {
             id: "transport",
             type: "radio",
-            title: "Pour vous rendre sur votre lieu de travail ou Université / école, vous prenez ? /1",
+            title: "Pour vous rendre sur votre lieu de travail ou Université / école, vous prenez ?",
             description: "",
             image: "https://blog.educpros.fr/jean-charles-cailliez/files/2014/03/qcm.jpg",
             option: [
@@ -24,7 +24,7 @@ export default function BilanNormalView() {
                         {
                             id: "transport_commun_aller_retour",
                             title: "Combien de km Aller-Retour avec le transport en commun? ",
-                            type: "text",
+                            type: "number",
                             description: "",
                         },
                     ]
@@ -50,7 +50,7 @@ export default function BilanNormalView() {
                                         {
                                             id: "voiture_covoiturage_personne",
                                             title: "Avec combien de personnes en général ?",
-                                            type: "text",
+                                            type: "number",
                                             description: "",
                                         }
                                     ]
@@ -64,7 +64,7 @@ export default function BilanNormalView() {
                         {
                             id: "voiture_km",
                             title: "Combien de km Aller-Retour avec la voiture ? ",
-                            type: "text",
+                            type: "number",
                             description: "",
                         },
                     ]
@@ -85,7 +85,7 @@ export default function BilanNormalView() {
                         {
                             id: "transport_weekend_commun_aller_retour",
                             title: "Combien de km Aller-Retour avec le transport en commun? ",
-                            type: "text",
+                            type: "number",
                             description: "",
                         },
                     ]
@@ -111,7 +111,7 @@ export default function BilanNormalView() {
                                         {
                                             id: "voiture_weekend_covoiturage_personne",
                                             title: "Avec combien de personnes en général ?",
-                                            type: "text",
+                                            type: "number",
                                             description: "",
                                         }
                                     ]
@@ -125,7 +125,7 @@ export default function BilanNormalView() {
                         {
                             id: "voiture_weekend_km",
                             title: "Combien de km Aller-Retour avec la voiture ? ",
-                            type: "text",
+                            type: "number",
                             description: "",
                         },
                     ]
@@ -146,8 +146,83 @@ export default function BilanNormalView() {
                         {
                             id: "grand_deplacement_avion_km",
                             title: "Combien de km parcourez-vous en moyenne par an (aller / retour) en avion? ",
-                            type: "text"
+                            type: "number"
                         }
+                    ]
+                },
+                {
+                    title: "Non",
+                    value: "non"
+                }
+            ]
+        },
+        
+        {
+            id: "grand_deplacement_train ",
+            title: "Pour les grand déplacement prenez-vous le train ",
+            type: "radio",
+            description: "",
+            image: "https://www.emploi-collectivites.fr/images/Image%20%20IFTP%20Indemnit%C3%A9%20frais%20transport%20des%20personnes.jpg",
+            option: [
+                {
+                    title: "Oui",
+                    value: "oui",
+                    subQuestion: [
+                        {
+                            id: "grand_deplacement_train_km",
+                            title: "Combien de km parcourez-vous en moyenne par an (aller / retour) en train? ",
+                            type: "number"
+                        }
+                    ]
+                },
+                {
+                    title: "Non",
+                    value: "non"
+                }
+            ]
+        },
+        
+        {
+            id: "grand_deplacement_voiture",
+            title: "Pour les grand déplacement prenez-vous la voiture ",
+            type: "radio",
+            description: "",
+            image: "https://www.locationvoituremaurice.com/images/blog/quel-vehicule-choisir.png",
+            option: [
+                {
+                    title: "Oui",
+                    value: "oui",
+                    subQuestion: [
+                        {
+                            id: "voiture_grand_deplacement_coivoiturage",
+                            title: "Faites-vous du Co-Voiturage ?",
+                            type: "radio",
+                            description: "",
+                            option: [
+                                {
+                                    title: "Oui",
+                                    value: "oui",
+                                    subQuestion: [
+                                        {
+                                            id: "voiture_grand_deplacement_covoiturage_personne",
+                                            title: "Avec combien de personnes en général ?",
+                                            type: "number",
+                                            description: "",
+                                        }
+                                    ]
+                                },
+                                {
+                                    title: "Non",
+                                    value: "non"
+                                }
+                            ]
+                        },
+                        {
+                            id: "voiture_grand_deplacement_km",
+                            title: "Combien de km parcourez-vous en moyenne par an (uniquement pour les vacances) (Aller-Retour) ? ",
+                            type: "number",
+                            description: "",
+                        },
                     ]
                 },
                 {
@@ -157,26 +232,40 @@ export default function BilanNormalView() {
             ]
         }
     ];
-    
+
+    const [userName, setUserName] = useState('');
     const [response, setResponse] = useState({});
+    const [showResult, setShowResult] = useState(false);
 
     function handleResponseChange(value) {
-        console.log('handle bilon', value);
         setResponse({...response, ...value});
     }
 
+    function handleTerminateChange(value) {
+        setShowResult(true);
+    }
+
     return (
-        <div>
-            <BilanComponent
-                userName={userName}
-                questionsList={questionsList}
-                welcomeContent={welcomePageContent}
-                onResponseChange={handleResponseChange}
-            />
-            <hr/>
-            {JSON.stringify(response, null, 2)}
-        </div>
+      <div>
+        {showResult === false && (
+          <BilanComponent
+            userName={userName}
+            questionsList={questionsList}
+            welcomeContent={welcomePageContent}
+            onResponseChange={handleResponseChange}
+            onTerminateClicked={handleTerminateChange}
+          />
+        )}
 
+        {showResult && (
+          <BilanResultComponent
+            userName={userName}
+            questionResponse={response}
+          />
+        )}
 
+        <hr />
+        {JSON.stringify(response, null, 2)}
+      </div>
     );
 }

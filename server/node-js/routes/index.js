@@ -1,9 +1,12 @@
 const express = require('express');
-const router= express.Router();
+const router = express.Router();
 
-router.get('/', (req,res)=>{
-    res.render("Welcome")
-})
+const avisRoutes = require('./avis');
+const statRoutes = require('./stats');
+const authRoutes = require('./auth');
 
+router.use('/avis', avisRoutes);
+router.use('/stats', statRoutes);
+router.use('/', authRoutes);
 
-module.exports =router;
+module.exports = router;
