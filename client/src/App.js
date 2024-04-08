@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { AuthProvider, useAuth } from "./context/AuthContext"; 
+import { AuthProvider, useAuth } from "./context/AuthContext";
 
 import { RequestReset } from './components/ResetPassword/RequestReset';
 import { PerformReset } from "./components/ResetPassword/PerformReset";
@@ -30,12 +30,19 @@ const App = () => {
         <Route path="/" element={<Accueil4 />} />
         <Route path="/new" element={<NewAccueil />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/dashboard-admin" element={<ProtectedRoute><AdminScreen /></ProtectedRoute>} />
+        <Route
+          path="/dashboard-admin"
+          element={
+            <ProtectedRoute>
+              <AdminScreen />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/resetPassword" element={<RequestReset />} />
         <Route path="/reset-password/:token" element={<PerformReset />} />
         <Route path="/bilan/normal" element={<BilanNormalView />} />
         <Route path="/bilan/express" element={<BilanExpressView />} />
-        <Route path="etoile" element={<Navigate to="/" />} />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </AuthProvider>
   );

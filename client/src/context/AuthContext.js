@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext();
 
@@ -21,13 +21,13 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkAuthentication = async () => {
       try {
-        const response = await fetch('http://localhost:5000/dashboard-admin', {
-          method: 'GET',
-          credentials: 'include',
+        const response = await fetch("http://localhost:5000/dashboard-admin", {
+          method: "GET",
+          credentials: "include",
         });
         setIsAuthenticated(response.ok);
       } catch (error) {
-        console.error('Authentication check failed:', error);
+        console.error("Authentication check failed:", error);
       } finally {
         setIsLoading(false);
       }

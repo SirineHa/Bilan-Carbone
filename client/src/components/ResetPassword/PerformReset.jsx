@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import './PerformReset.css';
+import React, { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import "./PerformReset.css";
 
 export const PerformReset = () => {
   const { token } = useParams();
   const navigate = useNavigate();
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [message, setMessage] = useState('');
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [message, setMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   // Validations séparées pour chaque critère
   const isValidLength = password.length >= 8;
@@ -17,7 +19,13 @@ export const PerformReset = () => {
   const hasSpecialChar = /[@$!%*?&]/.test(password);
 
   const validatePassword = () => {
-    if (!isValidLength || !hasUpperCase || !hasLowerCase || !hasNumber || !hasSpecialChar) {
+    if (
+      !isValidLength ||
+      !hasUpperCase ||
+      !hasLowerCase ||
+      !hasNumber ||
+      !hasSpecialChar
+    ) {
       setMessage("Le mot de passe ne respecte pas tous les critères requis.");
       return false;
     }
@@ -35,54 +43,84 @@ export const PerformReset = () => {
       return;
     }
 
+    setIsSubmitting(true);
+
     try {
-      const response = await fetch(`http://localhost:5000/reset-password/${token}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ password }),
-      });
+      const response = await fetch(
+        `http://localhost:5000/reset-password/${token}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ password }),
+        }
+      );
 
       const result = await response.json();
       setMessage(result.message);
 
       if (result.success) {
         setTimeout(() => {
-          navigate('/login');
+          navigate("/login");
         }, 3000);
       }
     } catch (error) {
-      setMessage('Une erreur s\'est produite. Veuillez réessayer.');
+      setMessage("Une erreur s'est produite. Veuillez réessayer.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
     <div className="reset-password-container">
       <h1>Réinitialiser le mot de passe</h1>
-      <input 
-        className="reset-input"
-        type="password" 
-        placeholder="Entrez votre nouveau mot de passe"
-        value={password} 
-        onChange={(e) => setPassword(e.target.value)} 
-      />
-      {/* Affichage des critères de validation du mot de passe */}
-      <ul>
-        <li style={{ color: isValidLength ? 'green' : 'red' }}>Au moins 8 caractères</li>
-        <li style={{ color: hasUpperCase ? 'green' : 'red' }}>Une lettre majuscule</li>
-        <li style={{ color: hasLowerCase ? 'green' : 'red' }}>Une lettre minuscule</li>
-        <li style={{ color: hasNumber ? 'green' : 'red' }}>Un chiffre</li>
-        <li style={{ color: hasSpecialChar ? 'green' : 'red' }}>Un caractère spécial (@$!%*?&)</li>
+      <div className="password-input-container">
+        <input
+          className="reset-input"
+          type={showPassword ? "text" : "password"}
+          placeholder="Entrez votre nouveau mot de passe"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button
+          onClick={() => setShowPassword(!showPassword)}
+          className="show-password-button"
+        >
+          {showPassword ? "Masquer" : "Afficher"}
+        </button>
+      </div>
+      <ul className="password-criteria">
+        {[
+          { test: isValidLength, text: "Au moins 8 caractères" },
+          { test: hasUpperCase, text: "Une lettre majuscule" },
+          { test: hasLowerCase, text: "Une lettre minuscule" },
+          { test: hasNumber, text: "Un chiffre" },
+          { test: hasSpecialChar, text: "Un caractère spécial (@$!%*?&)" },
+        ].map(({ test, text }, index) => (
+          <li key={index} style={{ color: test ? "green" : "red" }}>
+            {test ? "✅" : "❌"} {text}
+          </li>
+        ))}
       </ul>
-      <input 
-        className="reset-input"
-        type="password" 
-        placeholder="Confirmez votre nouveau mot de passe"
-        value={confirmPassword} 
-        onChange={(e) => setConfirmPassword(e.target.value)} 
-      />
-      <button className="reset-button" onClick={handleResetPassword}>Réinitialiser le mot de passe</button>
+      <div className="confirm-password-input-container">
+        <input
+          className="reset-input"
+          type="password"
+          placeholder="Confirmez votre nouveau mot de passe"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+        />
+      </div>
+      <button
+        className="reset-button"
+        onClick={handleResetPassword}
+        disabled={isSubmitting}
+      >
+        {isSubmitting
+          ? "⏳Réinitialisation..."
+          : "Réinitialiser le mot de passe"}
+      </button>
       <p>{message}</p>
     </div>
   );
