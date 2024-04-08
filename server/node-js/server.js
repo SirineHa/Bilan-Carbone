@@ -47,6 +47,7 @@ app.get('/postdatatoFlask', async function (req, res) {
 }); 
 
 app.post('/result/calculate', function(req, res) {
+  //pour envoiyee les donnes au flask et calculer ainsi renvoie les resultat au format {result:[]} 
   console.log(req.body);
  res.send({
    result: [
@@ -56,7 +57,7 @@ app.post('/result/calculate', function(req, res) {
        color: "rgb(255, 99, 132)",
      },
      {
-       label: "Grand deplacements",
+       label: "Alimentation",
        value: 100,
        color: "rgb(54, 162, 235)",
      },
@@ -65,6 +66,12 @@ app.post('/result/calculate', function(req, res) {
        value: 500,
        color: "red",
      },
+     {
+      label: "divers",
+      value: 300,
+      color: "green",
+    },
+
    ],
  });
 });

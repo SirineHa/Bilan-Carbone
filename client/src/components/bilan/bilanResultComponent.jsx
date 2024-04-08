@@ -9,9 +9,13 @@ export default function BilanResultComponent(props) {
   const userName = props.userName || "";
   const questionResponse = props.questionResponse || {};
 
+  const emailRegex = /\S+@\S+\.\S+/;
+
   const [reponse, setReponse] = useState(null);
   const [donneesChart, setDonneesChart] = useState(null);
   const [email, setEmail] = useState(null);
+  const [emailSent, setEmailSent] = useState(false);
+  const [mailIsValid, setMailIsValid] = useState(false);
 
   const options = {
     plugins: {
@@ -62,7 +66,34 @@ export default function BilanResultComponent(props) {
   }, [questionResponse]); 
 
   function handleMailChange(changeEvent) {
+    setEmailSent(false);
     setEmail(changeEvent.target.value);
+    setMailIsValid(null);
+  }
+
+  async function sendEmail() {
+    console.log('send emial',email );
+     // Check if the email matches the regex
+     if (emailRegex.test(email)) {
+      setMailIsValid(true);
+      const reponse = await fetch("http://localhost:4000/result/send-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({email: email}),
+      });
+      if (!reponse.ok) {
+        throw new Error("La requête au backend a échoué (envoie de mail)");
+      }
+      const resultatEmail = await reponse.json();
+      setEmailSent(resultatEmail.success);
+      document.getElementById('email-adr').value = '';
+      console.log("resultat envoie email", resultatEmail);
+    } else {
+      setMailIsValid(false);
+    }
+  
   }
 
 
@@ -96,23 +127,22 @@ export default function BilanResultComponent(props) {
                     <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
                   </div>
                   <div className="space-y-2 w-1/2 mx-auto">
-                  {reponse?.result?.map((result, index) => {
-                        return (
-                          <div
-                            className="flex items-center"
-                            key={"result-" + index}
-                          >
-                            <span
-                              className="block w-3 h-3 rounded-full mr-2"
-                              style={{ backgroundColor: result.color }}
-                            ></span>
-                            <span className="text-sm text-gray-600">
-                              {result.label} - {result.value} TCO2e/an
-                            </span>
-                          </div>
-                        );
-                      })}
-                   
+                    {reponse?.result?.map((result, index) => {
+                      return (
+                        <div
+                          className="flex items-center"
+                          key={"result-" + index}
+                        >
+                          <span
+                            className="block w-3 h-3 rounded-full mr-2"
+                            style={{ backgroundColor: result.color }}
+                          ></span>
+                          <span className="text-sm text-gray-600">
+                            {result.label} - {result.value} TCO2e/an
+                          </span>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
 
@@ -138,10 +168,27 @@ export default function BilanResultComponent(props) {
                       placeholder="Votre addresse E-mail"
                       onChange={handleMailChange}
                     />
-                    <button className="px-6 py-2 rounded bg-blue-500 text-white font-semibold">
+                    <button
+                      onClick={sendEmail}
+                      className="px-6 py-2 rounded bg-blue-500 text-white font-semibold"
+                    >
                       Envoyer résultat par E-mail
                     </button>
                   </div>
+                  {mailIsValid === false && (
+                    <div className="my-2 text-center text-red-700">
+                     Votre adresse email <b>{email}</b>.<br /> est invalide, 
+                     <br/>
+                     Merci de verifier votre adresse.
+                    </div>
+                  )}
+                  {emailSent !== false && (
+                    <div className="my-2 text-center text-green-700">
+                      Le résultat a été transmis par e-mail avec succès sur
+                      l'adresse <b>{email}</b>.<br /> Merci de vérifier votre
+                      e-mail!
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
