@@ -13,7 +13,7 @@ export const AvisScreen = () => {
     setMenuOpen(!isMenuOpen);
   };
 
-
+  
   // pour recuperer les avis
   const [avis, setAvis] = useState([]);
 
@@ -32,7 +32,23 @@ export const AvisScreen = () => {
     }, []);
 
 
+  // ------------------pour la pagination------------------------------
+  const [currentPage, setCurrentPage] = useState(1);
+  const [avisPerPage] = useState(10);
+  // Calculer le nombre total de pages
+  const totalPages = Math.ceil(avis.length / avisPerPage);
 
+  // Créer un tableau pour les numéros de page
+  const pageNumbers = [];
+  for (let i = 1; i <= totalPages; i++) {
+    pageNumbers.push(i);
+  }
+  // Calculer le premier et le dernier avis pour la page actuelle
+  const indexOfLastAvis = currentPage * avisPerPage;
+  const indexOfFirstAvis = indexOfLastAvis - avisPerPage;
+  const currentAvis = avis.slice(indexOfFirstAvis, indexOfLastAvis);
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  //-------------------------------------------------------------------
 
   /*const handleDelete = async (id) => {
     try {
@@ -82,7 +98,7 @@ export const AvisScreen = () => {
                 <a href="/data-avis" className="px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold">Gestion Avis</a>
               </li>
               <li>
-                <a href="/data-stats" className="px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold">Gestion Stat</a>
+                <a href="/data-stats" className="px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold">Gestion Stats</a>
               </li>
               <li>
                 <a href="/statistique" className="px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold">Statistique</a>
@@ -114,7 +130,7 @@ export const AvisScreen = () => {
             </div>
             
             <div className="relative self-stretch w-full h-px bg-cool-gray200" />
-            {avis.map((avis, index) => (
+            {currentAvis.map((avis, index) => (
               <div className="flex items-start p-[16px] relative self-stretch w-full flex-[0_0_auto] bg-cool-gray050 rounded-[12px_0px_0px_12px]">
                 <div className="relative flex-1 h-[22px] mt-[-1.00px] font-bold font-text-sm-font-semibold font-[number:var(--text-sm-font-semibold-font-weight)] text-cool-gray900 text-[length:var(--text-sm-font-semibold-font-size)] tracking-[var(--text-sm-font-semibold-letter-spacing)] leading-[var(--text-sm-font-semibold-line-height)] whitespace-nowrap [font-style:var(--text-sm-font-semibold-font-style)]">
                   {avis.name}
@@ -133,7 +149,7 @@ export const AvisScreen = () => {
             
             <div className="relative self-stretch w-full h-px bg-cool-gray200" />
 
-            {avis.map((avis, index) => (
+            {currentAvis.map((avis, index) => (
               <div key={index} className="flex items-start p-[16px] relative self-stretch w-full flex-[0_0_auto] bg-cool-gray050 rounded-[12px_0px_0px_12px]">
               <div className={`relative flex-1 h-[22px] mt-[-1.00px] font-text-sm-font-semibold font-[number:var(--text-sm-font-semibold-font-weight)] text-cool-gray900 text-[length:var(--text-sm-font-semibold-font-size)] tracking-[var(--text-sm-font-semibold-letter-spacing)] leading-[var(--text-sm-font-semibold-line-height)] whitespace-nowrap [font-style:var(--text-sm-font-semibold-font-style)] ${
                 avis.type === 'Jeu' ? 'text-green-500' :
@@ -154,7 +170,7 @@ export const AvisScreen = () => {
               </div>
             </div>
             <div className="relative self-stretch w-full h-px bg-cool-gray200" />
-              {avis.map((avis, index) => (
+              {currentAvis.map((avis, index) => (
                 <div className="bg-cool-gray050 flex items-start p-[16px] relative self-stretch w-full flex-[0_0_auto]">
                   <div className="relative w-[370px] h-[22px] mt-[-1.00px] mr-[-29.00px] [font-family:'Inter',Helvetica] font-light text-cool-gray900 text-[14px] tracking-[0] leading-[21px] whitespace-nowrap">
                     <p>{avis.comment.substring(0, 30)}</p>
@@ -170,7 +186,7 @@ export const AvisScreen = () => {
               </div>
             </div>
             <div className="relative self-stretch w-full h-px bg-cool-gray200" />
-            {avis.map((avis, index) => (
+            {currentAvis.map((avis, index) => (
               <div className="bg-cool-gray050 flex items-start p-[16px] relative self-stretch w-full flex-[0_0_auto]">
                 <div className="relative flex-1 h-[22px] mt-[-1.00px] font-text-sm-font-normal font-[number:var(--text-sm-font-normal-font-weight)] text-cool-gray500 text-[length:var(--text-sm-font-normal-font-size)] tracking-[var(--text-sm-font-normal-letter-spacing)] leading-[var(--text-sm-font-normal-line-height)] whitespace-nowrap [font-style:var(--text-sm-font-normal-font-style)]">
                   {new Date(avis.date).toLocaleDateString()}
@@ -185,7 +201,7 @@ export const AvisScreen = () => {
             </div>
           </div>
             <div className="relative self-stretch w-full h-px bg-cool-gray200" />
-              {avis.map((avis, index) => (
+              {currentAvis.map((avis, index) => (
                 <div className="bg-cool-gray050 flex items-start p-[16px] relative self-stretch w-full flex-[0_0_auto]">
                   <a href="#" className="relative flex-1 h-[22px] mt-[-1.00px] font-text-sm-font-normal text-xs uppercase font-bold text-cool-gray500 text-[length:var(--text-sm-font-normal-font-size)] tracking-[var(--text-sm-font-normal-letter-spacing)] leading-[var(--text-sm-font-normal-line-height)] whitespace-nowrap [font-style:var(--text-sm-font-normal-font-style)]"
                     onClick={() => handleDelete(avis._id)}>
@@ -197,6 +213,31 @@ export const AvisScreen = () => {
           </div>
       </main>
     </div>
+    
+     {/* ------------------pagination--------------------- */}
+    <div className="flex justify-center">
+      {currentPage !== 1 && (
+        <a href="#" onClick={() => paginate(currentPage - 1)} className="mr-2 bg-green-500 rounded px-2 py-1 text-white">
+          Précédent
+        </a>
+      )}
+      {pageNumbers.map(number => (
+        <a
+          key={number}
+          href="#"
+          onClick={() => paginate(number)}
+          className={`mx-2 ${currentPage === number ? 'underline text-black font-bold' : 'text-green-600'}`}
+        >
+          {number}
+        </a>
+      ))}
+      {currentPage !== totalPages && (
+        <a href="#" onClick={() => paginate(currentPage + 1)} className="ml-2 bg-green-500 rounded px-2 py-1 text-white">
+          Suivant
+        </a>
+      )}
+    </div>
+              
     </main>       
     <Footer/>
     </div>
