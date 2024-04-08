@@ -34,7 +34,7 @@ export const StatsScreen = () => {
 
 
 
-  const handleDelete = async (id) => {
+  /*const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:5000/stats/DeleteStats/${id}`);
       // Recharger les statistiques après la suppression
@@ -42,12 +42,25 @@ export const StatsScreen = () => {
     } catch (err) {
       console.error(err);
     }
-  };
+  };*/
+
+  const handleDelete = async (id) => {
+    const statsToDelete = stats.find(a => a._id === id);
+    const confirmation = window.confirm(`Voulez-vous vraiment supprimer l'avis suivant ?\nNom d'utilisateur: ${statsToDelete.name}\nMode: ${statsToDelete.mode}\nMessage: ${statsToDelete.score}\nDate: ${statsToDelete.date}`);
+    
+    if (confirmation) {
+      try {
+        await axios.delete(`http://localhost:5000/stats/DeleteStats/${id}`);
+        fetchStats();
+      } catch (err) {
+        console.error(err);
+      }
+    }};
 
   return (
     <>
 
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen overflow-auto overflow-x-hidden">
       <NavbarAdmin/>
       <main className="flex-grow">
       <div className="flex flex-col md:flex-row">
@@ -172,8 +185,9 @@ export const StatsScreen = () => {
             <div className="relative self-stretch w-full h-px bg-cool-gray200" />
               {stats.map((stats, index) => (
                 <div className="bg-cool-gray050 flex items-start p-[16px] relative self-stretch w-full flex-[0_0_auto]">
-                  <a href="#" className="relative flex-1 h-[22px] mt-[-1.00px] font-text-sm-font-normal font-[number:var(--text-sm-font-normal-font-weight)] text-cool-gray500 text-[length:var(--text-sm-font-normal-font-size)] tracking-[var(--text-sm-font-normal-letter-spacing)] leading-[var(--text-sm-font-normal-line-height)] whitespace-nowrap [font-style:var(--text-sm-font-normal-font-style)]"
-                    onClick={() => handleDelete(stats._id)}>Supprimer
+                  <a href="#" className="relative flex-1 h-[22px] mt-[-1.00px] font-text-sm-font-normal text-xs uppercase font-bold text-cool-gray500 text-[length:var(--text-sm-font-normal-font-size)] tracking-[var(--text-sm-font-normal-letter-spacing)] leading-[var(--text-sm-font-normal-line-height)] whitespace-nowrap [font-style:var(--text-sm-font-normal-font-style)]"
+                    onClick={() => handleDelete(stats._id)}>
+                    <span className="bg-red-500 text-white rounded px-2 py-1">Supprimer</span>
                   </a>
                 </div>
               ))}  
