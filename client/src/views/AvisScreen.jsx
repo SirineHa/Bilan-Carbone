@@ -75,6 +75,13 @@ export const AvisScreen = () => {
     }
   };
 
+ // Afficher le message complet de l'avis
+  const handleDisplayFullComment = (id) => {
+    const avisToDisplay = avis.find(a => a._id === id);
+    alert(`${avisToDisplay.comment}`);
+  };
+
+
   return (
     <>
 
@@ -100,9 +107,9 @@ export const AvisScreen = () => {
               <li>
                 <a href="/data-stats" className="px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold">Gestion Stats</a>
               </li>
-              <li>
+              {/* <li>
                 <a href="/statistique" className="px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold">Statistique</a>
-              </li>
+              </li> */}
               <li>
               <a href="/dashboard-admin" className="px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold bg-red-500 text-white rounded mt-10">Dashboard Admin</a>
               </li>
@@ -173,7 +180,13 @@ export const AvisScreen = () => {
               {currentAvis.map((avis, index) => (
                 <div className="bg-cool-gray050 flex items-start p-[16px] relative self-stretch w-full flex-[0_0_auto]">
                   <div className="relative w-[370px] h-[22px] mt-[-1.00px] mr-[-29.00px] [font-family:'Inter',Helvetica] font-light text-cool-gray900 text-[14px] tracking-[0] leading-[21px] whitespace-nowrap">
-                    <p>{avis.comment.substring(0, 30)}</p>
+                    {avis.comment.substring(0, 30)}
+                    {avis.comment.length > 30 && (
+                      <a href="#" className="relative flex-1 h-[22px] mt-[-1.00px] font-text-sm-font-normal text-xs uppercase font-bold text-cool-gray500 text-[length:var(--text-sm-font-normal-font-size)] tracking-[var(--text-sm-font-normal-letter-spacing)] leading-[var(--text-sm-font-normal-line-height)] whitespace-nowrap [font-style:var(--text-sm-font-normal-font-style)]"
+                        onClick={() => handleDisplayFullComment(avis._id)}>
+                        <span className="bg-green-500 text-white rounded px-2 py-1">...</span>
+                      </a>
+                    )}
                   </div>
                 </div>
               ))}

@@ -99,9 +99,9 @@ export const StatsScreen = () => {
               <li>
                 <a href="/data-stats" className="px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold">Gestion Stat</a>
               </li>
-              <li>
+              {/* <li>
                 <a href="/statistique" className="px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold">Statistique</a>
-              </li>
+              </li> */}
               <li>
               <a href="/dashboard-admin" className="px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold bg-red-500 text-white rounded mt-10">Dashboard Admin</a>
               </li>

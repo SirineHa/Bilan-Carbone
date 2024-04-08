@@ -78,9 +78,9 @@ export const AdminScreen = () => {
               <li>
                 <a href="/data-stats" className="px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold">Gestion Stats</a>
               </li>
-              <li>
+              {/* <li>
                 <a href="/statistique" className="px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold">Statistique</a>
-              </li>
+              </li> */}
             </ul>
           </aside>
         </nav>

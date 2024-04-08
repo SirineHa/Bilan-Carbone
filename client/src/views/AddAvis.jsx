@@ -34,6 +34,12 @@ export const AddAvis = () => {
     }
   };
 
+  const handleNameClick = () => {
+    if (name === `# ${nameNumber}`) {
+      setName('');
+    }
+  };
+
   // Rediriger l'utilisateur vers la page d'accueil après 1 secondes
   useEffect(() => {
     if (formSubmitted) {
@@ -63,7 +69,9 @@ export const AddAvis = () => {
                 id="name"
                 type="text"
                 value={name}
-                onChange={(e) => setName(e.target.value)}
+                placeholder={name === '' ? `# ${nameNumber}` : ''}
+                onClick={handleNameClick}
+                onChange={e => setName(e.target.value)}
               />
             </div>
             <div className="relative">
