@@ -2,19 +2,25 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Email } from "../../components/Email/Email";
 import "./Login.css";
+import { KeyboardComponent } from "../KeyboardComponent/KeyboardComponent";
 
 import man from "../../img/man-working.png";
 import logo from "../../img/logo.png";
 import ellipse from "../../img/ellipse-1.svg";
 import message from "../../img/message-1.svg";
 import padlock from "../../img/padlock-1.svg";
+import homeIcon from "../../img/home-icon.svg";
 
 import { useAuth } from "../../context/AuthContext";
+
 export const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [keyboardOpen, setKeyboardOpen] = useState(false);
+  const [inputName, setInputName] = useState("");
+  const [layoutName, setLayoutName] = useState("default");
 
   const { login } = useAuth(); // Ajoutez cette ligne
 
@@ -55,12 +61,24 @@ export const Login = () => {
     }
   };
 
-  const handleInputChange = () => {
-    setErrorMessage("");
-  };
-
   const handleForgotPasswordClick = () => {
     navigate("/resetPassword");
+  };
+
+  const handleHomeClick = () => {
+    navigate("/");
+  };
+
+  const [inputActive, setInputActive] = useState('');
+
+  const handleInputFocus = (inputName) => {
+    setInputActive(inputName);
+    setKeyboardOpen(true);
+  };
+
+  const handleInputChange = (value) => {
+    if (inputActive === "email") setEmail(value);
+    else if (inputActive === "password") setPassword(value);
   };
 
   return (
@@ -68,11 +86,6 @@ export const Login = () => {
       <div className="login-background">
         <div className="login-content">
           <div className="login-inner-content">
-            {/* <Footer
-              className="footer"
-              copyrightClassName="copyright"
-              hasSocialLinks={false}
-            /> */}
             <div className="login-form-container">
               <div className="login-form">
                 <div className="login-form-inner">
@@ -80,6 +93,9 @@ export const Login = () => {
                     <div className="login-button-inner">
                       <div className="login-button-text">Login</div>
                     </div>
+                  </button>
+                  <button onClick={handleHomeClick} className="home-button">
+                    <img src={homeIcon} alt="Home" /> Retour à l'accueil
                   </button>
                   <div className="error-message">{errorMessage}</div>
                   <div
@@ -100,11 +116,7 @@ export const Login = () => {
                           type="password"
                           placeholder="Entrer votre Mot de passe"
                           value={password}
-                          onChange={(e) => {
-                            setPassword(e.target.value);
-                            handleInputChange(); // Ajoutez ceci
-                          }}
-                          //Entrer votre Mot de passe
+                          onFocus={() => handleInputFocus("password")}
                         />
                         <img
                           className="password-icon"
@@ -120,17 +132,20 @@ export const Login = () => {
                         type="email"
                         placeholder="Entrez votre mail"
                         value={email}
-                        onChange={(e) => {
-                          setEmail(e.target.value);
-                          handleInputChange();
-                        }}
+                        onFocus={() => handleInputFocus("email")}
                       />
                       <div className="email-line" />
                       <img className="email-icon" alt="Message" src={message} />
                     </div>
                   </div>
+                  {keyboardOpen && (
+        <KeyboardComponent
+          inputActive={inputActive}
+          onInput={handleInputChange}
+          onClose={() => setKeyboardOpen(false)}
+        />
+      )}
                 </div>
-
                 <div className="admin-login">
                   <div className="admin-login-text">Connexion Admin</div>
                 </div>

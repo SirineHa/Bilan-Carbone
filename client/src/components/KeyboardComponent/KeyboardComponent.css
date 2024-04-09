@@ -1,0 +1,17 @@
+.keyboard-container {
+    position: fixed;
+    bottom: 0;
+    left: 0; /* Ajout pour aligner correctement le clavier à gauche */
+    width: 100%; /* Ajusté à 100% pour couvrir toute la largeur */
+    z-index: 10000; /* Assure que le clavier reste au-dessus des autres éléments */
+}
+
+.handle {
+    display: flex;
+    justify-content: center;
+    background-color: #f0f0f0; /* Couleur de fond pour la poignée */
+    padding: 10px; /* Ajustement du padding pour un look plus net */
+    cursor: move; /* Indique que cette zone spécifique est déplaçable */
+}
+
+/* Assurez-vous que cette partie CSS est incluse dans votre projet de manière à ce qu'elle soit appliquée globalement ou directement dans les styles de composants si vous utilisez des styles CSS-in-JS. */

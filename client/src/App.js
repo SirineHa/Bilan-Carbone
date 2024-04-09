@@ -10,6 +10,8 @@ import { NewAccueil } from "./views/NewAccueil";
 import BilanExpressView from "./views/bilanExpressView";
 import BilanNormalView from "./views/bilanNormalView";
 import { AdminScreen } from "./views/AdminScreen";
+import {StatsScreen} from "./views/StatsScreen";
+import {AvisScreen} from "./views/AvisScreen";
 
 import "./App.css";
 
@@ -38,6 +40,25 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+
+        <Route
+          path="/data-stats"
+          element={
+            <ProtectedRoute>
+              <StatsScreen />
+            </ProtectedRoute>
+          }
+        />
+
+          <Route
+          path="/data-avis"
+          element={
+            <ProtectedRoute>
+              <AvisScreen />
+            </ProtectedRoute>
+          }
+        />
+
         <Route path="/resetPassword" element={<RequestReset />} />
         <Route path="/reset-password/:token" element={<PerformReset />} />
         <Route path="/bilan/normal" element={<BilanNormalView />} />

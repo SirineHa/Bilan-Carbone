@@ -110,7 +110,7 @@
   position: absolute;
   width: 30%; /* Adjust as needed */
   height: auto; /* Let the height adjust based on the content */
-  top: 50%; /* Center vertically */
+  top: 55%; /* Center vertically */
   left: 50%; /* Center horizontally */
   transform: translate(10%, 195%); /* Necessary to truly center the element */
   cursor: pointer; /* Changes the cursor to a hand when hovering over the text */
@@ -122,11 +122,12 @@
   font-family: 'Poppins', Helvetica;
   font-weight: 300;
   color: #4c4c4c;
-  font-size: 12px;
+  font-size: 13px;
   letter-spacing: 0;
   line-height: normal;
   transition: color 0.3s ease; /* Smooth transition for color changes */
   text-align: center; /* Center the text */
+  margin-top: 10px; /* Add space above the text */
 }
 
 .forgot-password:hover .forgot-password-text {
@@ -301,4 +302,26 @@
 .error-message {
   color: red;
   margin: 10px 0; /* Ajoute un espace au-dessus et en dessous du message */
+}
+
+.home-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px; /* Ajustez selon vos besoins */
+  padding: 5px 10px;
+  background-color: #f0f0f0; /* Couleur de fond du bouton */
+  border-radius: 5px; /* Bord arrondi pour le bouton */
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Transition pour effet de survol */
+}
+
+.home-button:hover {
+  background-color: #e0e0e0; /* Changement de couleur au survol */
+}
+
+.home-button img {
+  width: 24px; /* Taille de l'icône */
+  margin-right: 5px; /* Espace entre l'icône et le texte */
 }
