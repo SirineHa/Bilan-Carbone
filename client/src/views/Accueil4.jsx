@@ -1,18 +1,22 @@
 import React from "react";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import { useNavigate } from 'react-router-dom';
+import NavbarAdmin from "../components/NavbarAdmin";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate} from 'react-router-dom';
 
 export const Accueil4 = () => {
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
 
   const handleBilanNormal = async () => {
     navigate('/bilan/normal');
   }
-  
+
+
   return (
     <>
-    <Navbar />
+    {isAuthenticated ? <NavbarAdmin /> : <Navbar />}
     <main>
       <div className="relative pt-16 pb-32 flex content-center items-center justify-center"
           style={{

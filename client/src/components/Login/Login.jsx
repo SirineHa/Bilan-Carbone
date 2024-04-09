@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Email } from "../../components/Email/Email";
 import "./Login.css";
-
+import { Link } from 'react-router-dom';
 import man from "../../img/man-working.png";
 import logo from "../../img/logo.png";
 import ellipse from "../../img/ellipse-1.svg";
@@ -139,7 +139,9 @@ export const Login = () => {
             <img className="ellipse-image" alt="Ellipse" src={ellipse} />
             <img className="working-man-image" alt="Man working" src={man} />
           </div>
-          <img className="logo-image" alt="Logo" src={logo} />
+          <Link to="/">
+            <img className="logo-image" alt="Logo" src={logo} />
+          </Link>
         </div>
       </div>
     </div>

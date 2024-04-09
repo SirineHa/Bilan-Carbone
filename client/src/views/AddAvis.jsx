@@ -2,13 +2,16 @@ import React, { useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from '../components/Navbar';
+import NavbarAdmin from "../components/NavbarAdmin";
 import Footer from '../components/Footer';
+import { useAuth } from "../context/AuthContext";
 
 export const AddAvis = () => {
   const [name, setName] = useState('');
   const [type, setType] = useState('');
   const [comment, setComment] = useState('');
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   // Récupérer le numéro de nom de localStorage, ou utiliser 1 par défaut
@@ -52,7 +55,7 @@ export const AddAvis = () => {
   return (
     <>
     <div className="flex flex-col min-h-screen">
-      <Navbar/>
+    {isAuthenticated ? <NavbarAdmin /> : <Navbar />}
       <main className="flex-grow">
       {formSubmitted ? (
         <div className="flex flex-col items-center justify-center mt-20 mb-20">

@@ -5,6 +5,8 @@ import { AuthProvider, useAuth } from "./context/AuthContext";
 import { RequestReset } from './components/ResetPassword/RequestReset';
 import { PerformReset } from "./components/ResetPassword/PerformReset";
 import { Login } from "./components/Login/Login";
+import Statistiques from "./components/Statis"; 
+
 import { Accueil4 } from "./views/Accueil4";
 import { NewAccueil } from "./views/NewAccueil";
 import BilanExpressView from "./views/bilanExpressView";
@@ -65,6 +67,8 @@ const App = () => {
         <Route path="/bilan/normal" element={<BilanNormalView />} />
         <Route path="/bilan/express" element={<BilanExpressView />} />
         <Route path="*" element={<Navigate to="/" />} />
+
+        <Route path="/statistiques" element={<Statistiques/>} />
       </Routes>
     </AuthProvider>
   );
