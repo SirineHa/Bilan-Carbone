@@ -17,19 +17,42 @@ export const AvisScreen = () => {
   // pour recuperer les avis
   const [avis, setAvis] = useState([]);
 
+  // 'asc' pour croissant, 'desc' pour décroissant
+  const [sortOrder, setSortOrder] = useState('desc'); 
 
-    const fetchAvis = async () => {
-      try {
-        const response = await axios.get('http://localhost:5000/avis/GetAvis');
-        setAvis(response.data);
-      } catch (error) {
-        console.error(error);
+  // 'all' pour tous les types
+  const [filterType, setFilterType] = useState('all'); 
+
+  const fetchAvis = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/avis/GetAvis');
+      let data = response.data;
+
+      if (sortOrder === 'desc') {
+        data.sort((a, b) => new Date(b.date) - new Date(a.date));
+      } else {
+        data.sort((a, b) => new Date(a.date) - new Date(b.date));
       }
-    };
 
-    useEffect(() => {
-      fetchAvis();
-    }, []);
+      if (filterType === 'Calculateur') {
+        data = data.filter(avis => avis.type === 'Calculateur');
+      }
+      if (filterType === 'Jeu') {
+        data = data.filter(avis => avis.type === 'Jeu');
+      }
+      if (filterType === 'Autres') {
+        data = data.filter(avis => avis.type === 'Autres');
+      }
+
+      setAvis(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAvis();
+  }, [sortOrder, filterType]);
 
 
   // ------------------pour la pagination------------------------------
@@ -124,6 +147,32 @@ export const AvisScreen = () => {
         <div className="flex items-start w-full ml-5">
           <div className="w-full [font-family:'Outfit',Helvetica] font-bold text-graygray-700 text-2xl tracking-[0] leading-[25.2px] whitespace-nowrap">
             GESTION DES AVIS
+          </div>
+        </div>
+
+        {/* ------------------filtrage--------------------- */}
+        <div className="mr-10 mb-5">
+          <div className="flex justify-end items-center space-x-2">
+            <span className="font-bold">Filtrage :</span>
+            <select 
+              value={sortOrder} 
+              onChange={(e) => setSortOrder(e.target.value)}
+              className="border rounded p-2 shadow"
+            >
+              <option value="desc">Date: Ordre décroissant</option>
+              <option value="asc">Date: Ordre croissant</option>
+            </select>
+            <span className="font-bold">Type :</span>
+            <select 
+              value={filterType} 
+              onChange={(e) => setFilterType(e.target.value)}
+              className="border rounded p-2 shadow"
+            >
+              <option value="all">Tous les types</option>
+              <option value="Calculateur" className="text-red-500">Calculateur</option>
+              <option value="Jeu" className="text-green-500">Jeu</option>
+              <option value="Autres" className="text-blue-500">Autres</option>
+            </select>
           </div>
         </div>
 
