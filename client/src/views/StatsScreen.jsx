@@ -13,23 +13,69 @@ export const StatsScreen = () => {
     setMenuOpen(!isMenuOpen);
   };
 
-
   // pour recuperer les statistiques
   const [stats, setStats] = useState([]);
 
+  // 'asc' pour croissant, 'desc' pour décroissant
+  const [sortOrder, setSortOrder] = useState('desc'); 
 
-    const fetchStats = async () => {
-      try {
-        const response = await axios.get('http://localhost:5000/stats/GetStats');
-        setStats(response.data);
-      } catch (error) {
-        console.error(error);
+  // 'all' pour tous les modes
+  const [filterMode, setFilterMode] = useState('all'); 
+
+  // 'all' pour tous les specialites
+  const [filterSpe, setFilterSpe] = useState('all'); 
+
+  const fetchStats = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/stats/GetStats');
+      let data = response.data;
+
+      if (sortOrder === 'desc') {
+        data.sort((a, b) => new Date(b.date) - new Date(a.date));
+      } else {
+        data.sort((a, b) => new Date(a.date) - new Date(b.date));
       }
-    };
 
-    useEffect(() => {
-      fetchStats();
-    }, []);
+      // Filtrer les statistiques par mode
+      if (filterMode === 'Express') {
+        data = data.filter(stats => stats.mode === 'Express');
+      }
+      if (filterMode === 'Normal') {
+        data = data.filter(stats => stats.mode === 'Normal');
+      }
+      if (filterMode === 'Complet') {
+        data = data.filter(stats => stats.mode === 'Complet');
+      }
+
+      // Filtrer les statistiques par specialite
+      if (filterSpe === 'Info') {
+        data = data.filter(stats => stats.spe === 'Info');
+      }
+      if (filterSpe === 'Ener') {
+        data = data.filter(stats => stats.spe === 'Ener');
+      }
+      if (filterSpe === 'Macs') {
+        data = data.filter(stats => stats.spe === 'Macs');
+      }
+      if (filterSpe === 'Telec') {
+        data = data.filter(stats => stats.spe === 'Telec');
+      }
+      if (filterSpe === 'Instru') {
+        data = data.filter(stats => stats.spe === 'Instru');
+      }
+      if (filterSpe === 'Autres') {
+        data = data.filter(stats => stats.spe === 'Autres');
+      }
+
+      setStats(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchStats();
+  }, [sortOrder, filterMode, filterSpe]);
 
     // ------------------pour la pagination------------------------------
   const [currentPage, setCurrentPage] = useState(1);
@@ -47,6 +93,10 @@ export const StatsScreen = () => {
   const indexOfFirstStats = indexOfLastStats - statsPerPage;
   const currentStats = stats.slice(indexOfFirstStats, indexOfLastStats);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filterMode, filterSpe]);
   //-------------------------------------------------------------------
     //-------------------------------------------------------------------
 
@@ -61,9 +111,11 @@ export const StatsScreen = () => {
     }
   };*/
 
+  
+
   const handleDelete = async (id) => {
     const statsToDelete = stats.find(a => a._id === id);
-    const confirmation = window.confirm(`Voulez-vous vraiment supprimer l'stats suivant ?\nNom d'utilisateur: ${statsToDelete.name}\nMode: ${statsToDelete.mode}\nMessage: ${statsToDelete.score}\nDate: ${statsToDelete.date}`);
+    const confirmation = window.confirm(`Voulez-vous vraiment supprimer l'stats suivant ?\n\nNom d'utilisateur: ${statsToDelete.name}\nMode: ${statsToDelete.mode}\nMessage: ${statsToDelete.score}\nSpécialité: ${statsToDelete.spe}\nDate: ${statsToDelete.date}`);
     
     if (confirmation) {
       try {
@@ -119,6 +171,52 @@ export const StatsScreen = () => {
           </div>
         </div>
 
+        {/* ------------------filtrage--------------------- */}
+        <div className="mr-10 mb-5">
+          <div className="flex justify-end items-center space-x-2">
+
+            {/* // Filtrer par ordre de date */}
+            <span className="font-bold">Filtrage :</span>
+            <select 
+              value={sortOrder} 
+              onChange={(e) => setSortOrder(e.target.value)}
+              className="border rounded p-2 shadow"
+            >
+              <option value="desc">Date: Ordre décroissant</option>
+              <option value="asc">Date: Ordre croissant</option>
+            </select>
+
+            {/* // Filtrer par mode */}
+            <span className="font-bold">Mode :</span>
+            <select 
+              value={filterMode} 
+              onChange={(e) => setFilterMode(e.target.value)}
+              className="border rounded p-2 shadow"
+            >
+              <option value="all">Tous les Modes</option>
+              <option value="Express" className="text-green-500">Express</option>
+              <option value="Normal" className="text-red-500">Normal</option>
+              <option value="Complet" className="text-blue-500">Complet</option>
+            </select>
+
+            {/* // Filtrer par specialite */}
+            <span className="font-bold">Spé :</span>
+            <select 
+              value={filterSpe} 
+              onChange={(e) => setFilterSpe(e.target.value)}
+              className="border rounded p-2 shadow"
+            >
+              <option value="all">Tous les Spé</option>
+              <option value="Info">Info</option>
+              <option value="Ener">Ener</option>
+              <option value="Macs">Macs</option>
+              <option value="Telec">Telec</option>
+              <option value="Instru">Instru</option>
+              <option value="Autres">Autres</option>
+            </select>
+          </div>
+        </div>
+
         <div className="flex justify-center flex-wrap border border-gray-300 shadow-md mb-5">
         
           <div className="flex-grow flex-shrink flex-auto max-w-[300px]">
@@ -147,7 +245,6 @@ export const StatsScreen = () => {
             </div>
             
             <div className="relative self-stretch w-full h-px bg-cool-gray200" />
-
             {currentStats.map((stats, index) => (
               <div key={index} className="flex items-start p-[16px] relative self-stretch w-full flex-[0_0_auto] bg-cool-gray050 rounded-[12px_0px_0px_12px]">
               <div className={`relative flex-1 h-[22px] mt-[-1.00px] font-text-sm-font-semibold font-[number:var(--text-sm-font-semibold-font-weight)] text-cool-gray900 text-[length:var(--text-sm-font-semibold-font-size)] tracking-[var(--text-sm-font-semibold-letter-spacing)] leading-[var(--text-sm-font-semibold-line-height)] whitespace-nowrap [font-style:var(--text-sm-font-semibold-font-style)] ${
@@ -163,21 +260,38 @@ export const StatsScreen = () => {
             
           </div>
           <div className="flex-grow flex-shrink flex-auto max-w-[300px]">
-            <div className="flex items-start p-[16px] bg-gray-100 relative self-stretch w-full flex-[0_0_auto]">
+            <div className="flex items-start p-[16px] bg-gray-100 relative self-stretch w-full flex-[0_0_auto] bg-cool-gray050">
               <div className="relative w-fit mt-[-1.00px] font-text-xs-font-semibold font-[number:var(--text-xs-font-semibold-font-weight)] text-cool-gray500 text-[length:var(--text-xs-font-semibold-font-size)] tracking-[var(--text-xs-font-semibold-letter-spacing)] leading-[var(--text-xs-font-semibold-line-height)] whitespace-nowrap [font-style:var(--text-xs-font-semibold-font-style)] border-b-2 border-gray-300">
                 SCORE [TONNES]
               </div>
             </div>
             <div className="relative self-stretch w-full h-px bg-cool-gray200" />
               {currentStats.map((stats, index) => (
-                <div className="bg-cool-gray050 flex items-start p-[16px] relative self-stretch w-full flex-[0_0_auto]">
-                  <div className="relative w-[370px] h-[22px] mt-[-1.00px] mr-[-29.00px] [font-family:'Inter',Helvetica] font-light text-cool-gray900 text-[14px] tracking-[0] leading-[21px] whitespace-nowrap">
-                    {stats.score}
+              <div className="flex items-start p-[16px] relative self-stretch w-full flex-[0_0_auto] bg-cool-gray050 rounded-[12px_0px_0px_12px]">
+                <div className="relative flex-1 h-[22px] mt-[-1.00px] font-text-sm-font-semibold font-[number:var(--text-sm-font-semibold-font-weight)] text-cool-gray900 text-[length:var(--text-sm-font-semibold-font-size)] tracking-[var(--text-sm-font-semibold-letter-spacing)] leading-[var(--text-sm-font-semibold-line-height)] whitespace-nowrap [font-style:var(--text-sm-font-semibold-font-style)]">
+                  {stats.score}
+                  </div>
+                </div>
+              ))}     
+          </div>
+
+          <div className="flex-grow flex-shrink flex-auto max-w-[300px]">
+            <div className="flex items-start p-[16px] bg-gray-100 relative self-stretch w-full flex-[0_0_auto] bg-cool-gray050">
+              <div className="relative w-fit mt-[-1.00px] font-text-xs-font-semibold font-[number:var(--text-xs-font-semibold-font-weight)] text-cool-gray500 text-[length:var(--text-xs-font-semibold-font-size)] tracking-[var(--text-xs-font-semibold-letter-spacing)] leading-[var(--text-xs-font-semibold-line-height)] whitespace-nowrap [font-style:var(--text-xs-font-semibold-font-style)] border-b-2 border-gray-300">
+                SPECIALITE
+              </div>
+            </div>
+            <div className="relative self-stretch w-full h-px bg-cool-gray200" />
+              {currentStats.map((stats, index) => (
+                <div className="flex items-start p-[16px] relative self-stretch w-full flex-[0_0_auto] bg-cool-gray050 rounded-[12px_0px_0px_12px]">
+                  <div className="relative flex-1 h-[22px] mt-[-1.00px] font-text-sm-font-semibold font-[number:var(--text-sm-font-semibold-font-weight)] text-cool-gray900 text-[length:var(--text-sm-font-semibold-font-size)] tracking-[var(--text-sm-font-semibold-letter-spacing)] leading-[var(--text-sm-font-semibold-line-height)] whitespace-nowrap [font-style:var(--text-sm-font-semibold-font-style)]">
+                    {stats.spe}
                   </div>
                 </div>
               ))}
             
           </div>
+
           <div className="flex-grow flex-shrink flex-auto max-w-[300px]">
             <div className="flex items-start p-[16px] bg-gray-100 relative self-stretch w-full flex-[0_0_auto] bg-cool-gray050">
               <div className="relative w-fit mt-[-1.00px] font-text-xs-font-semibold font-[number:var(--text-xs-font-semibold-font-weight)] text-cool-gray500 text-[length:var(--text-xs-font-semibold-font-size)] tracking-[var(--text-xs-font-semibold-letter-spacing)] leading-[var(--text-xs-font-semibold-line-height)] whitespace-nowrap [font-style:var(--text-xs-font-semibold-font-style)] border-b-2 border-gray-300">
@@ -215,7 +329,7 @@ export const StatsScreen = () => {
 
     { /* ------------------pagination---------------------  */}
     <div className="flex justify-center">
-      {currentPage !== 1 && (
+      {currentPage !== 1 && stats.length > 0 && (
         <a href="#" onClick={() => paginate(currentPage - 1)} className="mr-2 bg-green-500 rounded px-2 py-1 text-white">
           Précédent
         </a>
@@ -230,13 +344,12 @@ export const StatsScreen = () => {
           {number}
         </a>
       ))}
-      {currentPage !== totalPages && (
+      {currentPage !== totalPages && stats.length > 0 && (
         <a href="#" onClick={() => paginate(currentPage + 1)} className="ml-2 bg-green-500 rounded px-2 py-1 text-white">
           Suivant
         </a>
       )}
     </div>
-
     </main>       
     <Footer/>
     </div>

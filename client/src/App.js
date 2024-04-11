@@ -30,12 +30,14 @@ const ProtectedRoute = ({ children }) => {
 
 const App = () => {
   return (
+    
     <AuthProvider>
       <Routes>
         <Route path="/" element={<Accueil4 />} />
         <Route path="/new" element={<NewAccueil />} />
         <Route path="/login" element={<Login />} />
         <Route path="/add-avis" element={<AddAvis/>}/>
+        
         <Route
           path="/dashboard-admin"
           element={
@@ -71,6 +73,7 @@ const App = () => {
         <Route path="/statistiques" element={<Statistiques/>} />
       </Routes>
     </AuthProvider>
+    
   );
 };
 

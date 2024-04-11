@@ -14,6 +14,10 @@ const StatistiqueSchema = new Schema({
         type: String, 
         required: true 
     },
+    spe: {
+        type: String, 
+        required: true 
+    },
     date: {
         type: Date,
         default: Date.now
