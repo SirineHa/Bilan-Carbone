@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from "react";
+import Navbar from "../Navbar";
+import NavbarAdmin from "../NavbarAdmin";
+import { useAuth } from "../../context/AuthContext";
 import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import BilanRessourcesAccordiantComponent from "./bilanRessourcesAccordiantComponent";
@@ -18,6 +21,7 @@ export default function BilanResultComponent(props) {
   const [emailSent, setEmailSent] = useState(false);
   const [emailSentError, setEmailSentError] = useState(false);
   const [mailIsValid, setMailIsValid] = useState(null);
+  const { isAuthenticated } = useAuth();
 
   const options = {
     plugins: {
@@ -109,6 +113,7 @@ export default function BilanResultComponent(props) {
     <div className="flex flex-col bg-slate-100  h-lvh">
       <div className="flex flex-col max-w-full max-md:mb-10">
         {reponse === null && "Loding ....."}
+        {isAuthenticated ? <NavbarAdmin /> : <Navbar />}
         {reponse && donneesChart && (
           <div className="min-h-screen flex justify-center items-center">
             <div className="bg-white rounded-2xl shadow-xl flex overflow-hidden max-w mx-6">

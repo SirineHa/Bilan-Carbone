@@ -526,6 +526,7 @@ export default function BilanNormalView() {
         )}
 
         {showResult && (
+          
           <BilanResultComponent
             userName={userName}
             questionResponse={response}
