@@ -1,6 +1,7 @@
 import React from "react";
 import RadioButtonComponent from "./radioButtonComponent";
 import InputComponent from "./inputComponent";
+import CheckboxButtonComponent from "./checkboxButtonComponent";
 
 export default class QuestionComponent extends React.Component {
 
@@ -75,6 +76,10 @@ export default class QuestionComponent extends React.Component {
                         <form>
                             {this.state.question.type === "radio" &&
                                 <RadioButtonComponent question={this.state.question}
+                                                      value={this.state.questionResponse}
+                                                      onOptionChange={this.handleOptionChange}/>}
+                            {this.state.question.type === "checkbox" &&
+                                <CheckboxButtonComponent question={this.state.question}
                                                       value={this.state.questionResponse}
                                                       onOptionChange={this.handleOptionChange}/>}
 

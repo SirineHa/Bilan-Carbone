@@ -168,7 +168,7 @@ export default function BilanResultComponent(props) {
                   {reponse.budget?.toFixed(3).replace(".", ",")} TCO2
                 </h2>
 
-                <p className="text-orange-300 text-justify">
+                <p className="text-red-300 text-justify">
                   Pour calculer le taux d’émission du salaire, nous avons
                   considéré d’une part, le budget annuel français qui est
                   d’environ 312 000 millions d’euros en 2024 et d’autre part, le
@@ -180,15 +180,10 @@ export default function BilanResultComponent(props) {
               <div className="w-1/4 bg-blue-200 p-10 space-y-6">
                 <div className="bg-white p-6 rounded-2xl shadow space-y-4">
                   <div className="flex items-center space-x-2">
-                    <span className="block p-2 bg-blue-500 rounded-full"></span>
                     <h2 className="text-xl font-semibold text-gray-800">
-                      Achats & Support
+                    Souhaitez-vous recevoir les résultats par courrier électronique?
                     </h2>
                   </div>
-                  <p className="text-sm text-gray-600">
-                    Limitation de nos déchets, cartons 100% recyclables,
-                    optimisation de nos emballages...
-                  </p>
                 </div>
 
                 <div className="space-x-4 justify-center text-center">
