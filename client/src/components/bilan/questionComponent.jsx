@@ -99,7 +99,6 @@ export default class QuestionComponent extends React.Component {
                                                questionResponse={this.state.questionResponse}
                                                question={question}
                                                isValid={this.state.isValid} 
-                                               isSubQuestion={true}
                                                onResponseChange={this.handleOptionChange}/>
                         );
                     })
