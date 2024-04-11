@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import BilanRessourcesAccordiantComponent from "./bilanRessourcesAccordiantComponent";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -15,7 +16,8 @@ export default function BilanResultComponent(props) {
   const [donneesChart, setDonneesChart] = useState(null);
   const [email, setEmail] = useState(null);
   const [emailSent, setEmailSent] = useState(false);
-  const [mailIsValid, setMailIsValid] = useState(false);
+  const [emailSentError, setEmailSentError] = useState(false);
+  const [mailIsValid, setMailIsValid] = useState(null);
 
   const options = {
     plugins: {
@@ -34,17 +36,17 @@ export default function BilanResultComponent(props) {
     // Fonction pour effectuer l'appel au backend
     const appelerBackend = async () => {
       try {
-        const reponse = await fetch("http://localhost:4000/result/calculate", {
+        const res = await fetch("http://localhost:5000/quiz/calculate", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(questionResponse),
         });
-        if (!reponse.ok) {
+        if (!res.ok) {
           throw new Error("La requête au backend a échoué");
         }
-        const donnees = await reponse.json();
+        const donnees = await res.json();
         setReponse(donnees);
         setDonneesChart({
           labels: donnees.result?.map(item => item.label),
@@ -72,24 +74,29 @@ export default function BilanResultComponent(props) {
   }
 
   async function sendEmail() {
-    console.log('send emial',email );
+    setEmailSentError(false);
      // Check if the email matches the regex
      if (emailRegex.test(email)) {
       setMailIsValid(true);
-      const reponse = await fetch("http://localhost:4000/result/send-email", {
+      const res = await fetch("http://localhost:5000/quiz/send-email", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({email: email}),
+        body: JSON.stringify({
+          email: email,
+          resultRequest: questionResponse,
+          resultResponse: reponse
+        }),
       });
-      if (!reponse.ok) {
-        throw new Error("La requête au backend a échoué (envoie de mail)");
+      if (!res.ok) {
+        setEmailSentError(true);
+        return;
+        // throw new Error("La requête au backend a échoué (envoie de mail)");
       }
-      const resultatEmail = await reponse.json();
+      const resultatEmail = await res.json();
       setEmailSent(resultatEmail.success);
       document.getElementById('email-adr').value = '';
-      console.log("resultat envoie email", resultatEmail);
     } else {
       setMailIsValid(false);
     }
@@ -99,104 +106,127 @@ export default function BilanResultComponent(props) {
 
 
   return (
-    <div className="flex flex-col bg-slate-100">
-      <div className="flex flex-col my-7 max-w-full max-md:mb-10">
+    <div className="flex flex-col bg-slate-100  h-lvh">
+      <div className="flex flex-col max-w-full max-md:mb-10">
         {reponse === null && "Loding ....."}
         {reponse && donneesChart && (
-          <div>
-            <div className="min-h-screen flex justify-center items-center">
-              <div className="bg-white rounded-2xl shadow-xl flex overflow-hidden max-w-6xl mx-auto">
-                <div className="w-1/2 p-10 space-y-6 text-center">
-                  <h1 className="text-3xl font-bold text-gray-800">
-                    Bilan carbone
-                  </h1>
-                  <div className="relative">
-                    <div className="text-center">
-                      <span className="text-6xl font-semibold">
-                        {reponse?.result
-                          ?.map((item) => item.value)
-                          .reduce((accumulator, currentValue) => {
-                            return accumulator + currentValue;
-                          }, 0)}
-                      </span>
-                      <p className="text-gray-500">TCO2e/an</p>
-                    </div>
-                    <div className="mx-auto mt-3 w-1/2">
-                      <Doughnut data={donneesChart} options={options} />
-                    </div>
-                    <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+          <div className="min-h-screen flex justify-center items-center">
+            <div className="bg-white rounded-2xl shadow-xl flex overflow-hidden max-w mx-6">
+              <div className="w-2/4 p-10 space-y-6 text-center">
+                <h1 className="text-3xl font-bold text-gray-800">
+                  Bilan carbone
+                </h1>
+                <div className="relative">
+                  <div className="text-center">
+                    <span className="text-6xl font-semibold">
+                      {reponse?.result
+                        ?.map((item) => item.value)
+                        .reduce((accumulator, currentValue) => {
+                          return accumulator + currentValue;
+                        }, 0)}
+                    </span>
+                    <p className="text-gray-500">TCO2e/an</p>
                   </div>
-                  <div className="space-y-2 w-1/2 mx-auto">
-                    {reponse?.result?.map((result, index) => {
-                      return (
-                        <div
-                          className="flex items-center"
-                          key={"result-" + index}
-                        >
-                          <span
-                            className="block w-3 h-3 rounded-full mr-2"
-                            style={{ backgroundColor: result.color }}
-                          ></span>
-                          <span className="text-sm text-gray-600">
-                            {result.label} - {result.value} TCO2e/an
-                          </span>
-                        </div>
-                      );
-                    })}
+                  <div className="mx-auto mt-3 w-1/2">
+                    <Doughnut data={donneesChart} options={options} />
+                  </div>
+                  <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+                </div>
+                <div className="space-y-2 w-1/2 mx-auto">
+                  {reponse?.result?.map((result, index) => {
+                    return (
+                      <div
+                        className="flex items-center"
+                        key={"result-" + index}
+                      >
+                        <span
+                          className="block w-3 h-3 rounded-full mr-2"
+                          style={{ backgroundColor: result.color }}
+                        ></span>
+                        <span className="text-sm text-gray-600">
+                          {result.label} - {result.value} TCO2e/an
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="w-1/4 bg-gray-100 p-10 space-y-6 flex justify-between flex-col">
+                <h1 className="text-3xl font-bold text-gray-800 text-center">
+                  Taux d’émission du salaire
+                </h1>
+
+                <div className="text-center">
+                  Avec un budget de <b>{questionResponse["budget"]} euros</b>{" "}
+                  par an,
+                  <br />
+                  votre émission est équivalente à
+                </div>
+
+                <h2 className="text-3xl font-bold text-gray-700 text-center">
+                  {reponse.budget?.toFixed(3).replace(".", ",")} TCO2
+                </h2>
+
+                <p className="text-red-300 text-justify">
+                  Pour calculer le taux d’émission du salaire, nous avons
+                  considéré d’une part, le budget annuel français qui est
+                  d’environ 312 000 millions d’euros en 2024 et d’autre part, le
+                  taux de CO2 émis par toute la France est de 604 millions de
+                  tonne de CO2.
+                </p>
+              </div>
+
+              <div className="w-1/4 bg-blue-200 p-10 space-y-6">
+                <div className="bg-white p-6 rounded-2xl shadow space-y-4">
+                  <div className="flex items-center space-x-2">
+                    <h2 className="text-xl font-semibold text-gray-800">
+                    Souhaitez-vous recevoir les résultats par courrier électronique?
+                    </h2>
                   </div>
                 </div>
 
-                <div className="w-1/2 bg-blue-200 p-10 space-y-6">
-                  <div className="bg-white p-6 rounded-2xl shadow space-y-4">
-                    <div className="flex items-center space-x-2">
-                      <span className="block p-2 bg-blue-500 rounded-full"></span>
-                      <h2 className="text-xl font-semibold text-gray-800">
-                        Achats & Support
-                      </h2>
-                    </div>
-                    <p className="text-sm text-gray-600">
-                      Limitation de nos déchets, cartons 100% recyclables,
-                      optimisation de nos emballages...
-                    </p>
-                  </div>
-
-                  <div className="space-x-4 justify-center text-center">
-                    <input
-                      type="email"
-                      id="email-adr"
-                      className="my-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                      placeholder="Votre addresse E-mail"
-                      onChange={handleMailChange}
-                    />
-                    <button
-                      onClick={sendEmail}
-                      className="px-6 py-2 rounded bg-blue-500 text-white font-semibold"
-                    >
-                      Envoyer résultat par E-mail
-                    </button>
-                  </div>
-                  {mailIsValid === false && (
-                    <div className="my-2 text-center text-red-700">
-                     Votre adresse email <b>{email}</b>.<br /> est invalide, 
-                     <br/>
-                     Merci de verifier votre adresse.
-                    </div>
-                  )}
-                  {emailSent !== false && (
-                    <div className="my-2 text-center text-green-700">
-                      Le résultat a été transmis par e-mail avec succès sur
-                      l'adresse <b>{email}</b>.<br /> Merci de vérifier votre
-                      e-mail!
-                    </div>
-                  )}
+                <div className="space-x-4 justify-center text-center">
+                  <input
+                    type="email"
+                    id="email-adr"
+                    className="my-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Votre addresse E-mail"
+                    onChange={handleMailChange}
+                  />
+                  <button
+                    onClick={sendEmail}
+                    className="px-6 py-2 rounded bg-blue-500 text-white font-semibold"
+                  >
+                    Envoyer résultat par E-mail
+                  </button>
                 </div>
+                {mailIsValid === false && (
+                  <div className="my-2 text-center text-red-700">
+                    Votre adresse email <b>{email}</b>.<br /> est invalide,
+                    <br />
+                    Merci de verifier votre adresse.
+                  </div>
+                )}
+                {emailSent !== false && (
+                  <div className="my-2 text-center text-green-700">
+                    Le résultat a été transmis par e-mail avec succès sur
+                    l'adresse <b>{email}</b>.<br /> Merci de vérifier votre
+                    e-mail!
+                  </div>
+                )}
+                {emailSentError !== false && (
+                  <div className="my-2 text-center text-red-700">
+                    Une erreur s'est produite lors de l'envoi d'email. Veuillez
+                    contacter un administrateur ou essayer à nouveau.
+                  </div>
+                )}
+
+                <BilanRessourcesAccordiantComponent />
               </div>
             </div>
           </div>
         )}
-      </div>
-      <div className="justify-center px-8 py-12 mt-3 text-base leading-6 text-gray-500 bg-white rounded-2xl max-md:px-5 max-md:max-w-full">
-        © 2021 Themesberg, LLC. All rights reserved.
       </div>
     </div>
   );

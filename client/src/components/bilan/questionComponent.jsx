@@ -1,6 +1,7 @@
 import React from "react";
 import RadioButtonComponent from "./radioButtonComponent";
 import InputComponent from "./inputComponent";
+import CheckboxButtonComponent from "./checkboxButtonComponent";
 
 export default class QuestionComponent extends React.Component {
 
@@ -10,13 +11,18 @@ export default class QuestionComponent extends React.Component {
             questionResponse: {...props.questionResponse},
             question: props.question || {option: []},
             onResponseChange: props.onResponseChange,
-            isValid: props.isValid
+            isValid: props.isValid,
+            isSubQuestion: props.isSubQuestion,
         };
 
         this.handleOptionChange = this.handleOptionChange.bind(this);
         this.hasSubQuestion = this.hasSubQuestion.bind(this);
         this.getSubQuestion = this.getSubQuestion.bind(this);
         this.checkIfAllResponseIsValid = this.checkIfAllResponseIsValid.bind(this);
+
+        if (this.state.isValid) {
+            this.state.isValid(this.checkIfAllResponseIsValid());
+        }
     }
 
 
@@ -30,7 +36,8 @@ export default class QuestionComponent extends React.Component {
                 if (this.state.onResponseChange) {
                     this.state.onResponseChange(this.state.questionResponse);
                 }
-                if (this.state.isValid) {
+            
+                if (this.state.isValid && !this.state.isSubQuestion) {
                     this.state.isValid(this.checkIfAllResponseIsValid());
                 }
             });
@@ -42,7 +49,7 @@ export default class QuestionComponent extends React.Component {
     };
 
     getSubQuestion() {
-        return this.state.question.option?.find(opt => opt.value === this.state.questionResponse[this.state.question.id])?.subQuestion || {};
+        return this.state.question.option?.find(opt => opt.value === this.state.questionResponse[this.state.question.id])?.subQuestion;
     }
 
     checkIfAllResponseIsValid() {
@@ -71,6 +78,10 @@ export default class QuestionComponent extends React.Component {
                                 <RadioButtonComponent question={this.state.question}
                                                       value={this.state.questionResponse}
                                                       onOptionChange={this.handleOptionChange}/>}
+                            {this.state.question.type === "checkbox" &&
+                                <CheckboxButtonComponent question={this.state.question}
+                                                      value={this.state.questionResponse}
+                                                      onOptionChange={this.handleOptionChange}/>}
 
                             {["text", "number", "date"].includes(this.state.question.type)  &&
                                 <InputComponent question={this.state.question}
@@ -87,6 +98,7 @@ export default class QuestionComponent extends React.Component {
                             <QuestionComponent key={question.id + index}
                                                questionResponse={this.state.questionResponse}
                                                question={question}
+                                               isValid={this.state.isValid} 
                                                onResponseChange={this.handleOptionChange}/>
                         );
                     })
