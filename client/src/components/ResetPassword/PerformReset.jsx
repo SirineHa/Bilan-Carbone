@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { KeyboardComponent } from "../KeyboardComponent/KeyboardComponent"; 
 import "./PerformReset.css";
 
 export const PerformReset = () => {
+  const [keyboardOpen, setKeyboardOpen] = useState(false);
+  const [inputName, setInputName] = useState("");
   const { token } = useParams();
   const navigate = useNavigate();
   const [password, setPassword] = useState("");
@@ -72,6 +75,11 @@ export const PerformReset = () => {
     }
   };
 
+  const handleInputChange = (value) => {
+    if (inputName === "password") setPassword(value);
+    else if (inputName === "confirmPassword") setConfirmPassword(value);
+  };
+
   return (
     <div className="reset-password-container">
       <h1>Réinitialiser le mot de passe</h1>
@@ -81,7 +89,10 @@ export const PerformReset = () => {
           type={showPassword ? "text" : "password"}
           placeholder="Entrez votre nouveau mot de passe"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onFocus={() => {
+            setInputName("password");
+            setKeyboardOpen(true);
+          }}
         />
         <button
           onClick={() => setShowPassword(!showPassword)}
@@ -109,7 +120,10 @@ export const PerformReset = () => {
           type="password"
           placeholder="Confirmez votre nouveau mot de passe"
           value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
+          onFocus={() => {
+            setInputName("confirmPassword");
+            setKeyboardOpen(true);
+          }}
         />
       </div>
       <button
@@ -122,6 +136,13 @@ export const PerformReset = () => {
           : "Réinitialiser le mot de passe"}
       </button>
       <p>{message}</p>
+      {keyboardOpen && (
+        <KeyboardComponent
+          inputActive={inputName}
+          onInput={handleInputChange}
+          onClose={() => setKeyboardOpen(false)}
+        />
+      )}
     </div>
   );
 };

@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { Email } from "../../components/Email/Email";
 import "./Login.css";
 import { KeyboardComponent } from "../KeyboardComponent/KeyboardComponent";
+import { Footer } from "../Footer/Footer";
+import { Link } from 'react-router-dom';
 
 import man from "../../img/man-working.png";
 import logo from "../../img/logo.png";
@@ -69,7 +71,7 @@ export const Login = () => {
     navigate("/");
   };
 
-  const [inputActive, setInputActive] = useState('');
+  const [inputActive, setInputActive] = useState("");
 
   const handleInputFocus = (inputName) => {
     setInputActive(inputName);
@@ -77,6 +79,7 @@ export const Login = () => {
   };
 
   const handleInputChange = (value) => {
+    setErrorMessage(""); // Réinitialise le message d'erreur
     if (inputActive === "email") setEmail(value);
     else if (inputActive === "password") setPassword(value);
   };
@@ -139,12 +142,12 @@ export const Login = () => {
                     </div>
                   </div>
                   {keyboardOpen && (
-        <KeyboardComponent
-          inputActive={inputActive}
-          onInput={handleInputChange}
-          onClose={() => setKeyboardOpen(false)}
-        />
-      )}
+                    <KeyboardComponent
+                      inputActive={inputActive}
+                      onInput={handleInputChange}
+                      onClose={() => setKeyboardOpen(false)}
+                    />
+                  )}
                 </div>
                 <div className="admin-login">
                   <div className="admin-login-text">Connexion Admin</div>
@@ -154,7 +157,9 @@ export const Login = () => {
             <img className="ellipse-image" alt="Ellipse" src={ellipse} />
             <img className="working-man-image" alt="Man working" src={man} />
           </div>
-          <img className="logo-image" alt="Logo" src={logo} />
+          <Link to="/">
+            <img className="logo-image" alt="Logo" src={logo} />
+          </Link>
         </div>
       </div>
     </div>
