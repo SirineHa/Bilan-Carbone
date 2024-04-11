@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { KeyboardComponent } from "../KeyboardComponent/KeyboardComponent"; // Importez le composant du clavier
 import "./RequestReset.css";
 
 export const RequestReset = () => {
@@ -7,6 +8,11 @@ export const RequestReset = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [keyboardOpen, setKeyboardOpen] = useState(false); // Ajoutez cet état pour gérer le clavier virtuel
+
+  const handleInputChange = (value) => {
+    setEmail(value);
+  };
 
   const handleResetPassword = async () => {
     if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
@@ -47,7 +53,7 @@ export const RequestReset = () => {
         type="email"
         placeholder="Adresse e-mail"
         value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        onFocus={() => setKeyboardOpen(true)}
       />
       <button
         className="submit-button"
@@ -61,6 +67,13 @@ export const RequestReset = () => {
         <button className="go-back-button" onClick={() => navigate("/login")}>
           Retour à la connexion
         </button>
+
+      )}
+      {keyboardOpen && (
+        <KeyboardComponent
+          onInput={handleInputChange}
+          onClose={() => setKeyboardOpen(false)}
+        />
       )}
     </div>
   );
