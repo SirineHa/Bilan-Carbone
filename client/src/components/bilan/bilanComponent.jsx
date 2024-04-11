@@ -61,10 +61,10 @@ export default function BilanComponent(props) {
     }
 
     return (
-        <div className="flex flex-col bg-slate-100">
+        <div className="flex flex-col bg-slate-100 h-lvh justify-center">
             <div
-                className="flex justify-center items-center self-center px-16 py-12 mt-20 w-full bg-white shadow-2xl max-w-[1218px] rounded-[80px] max-md:px-5 max-md:mt-10 max-md:max-w-full">
-                <div className="flex flex-col my-7 max-w-full max-md:mb-10">
+                className="flex justify-center items-center self-center px-16 py-12 w-full bg-white shadow-2xl max-w-[1218px] rounded-[80px] max-md:px-5 max-md:mt-10 max-md:max-w-full">
+                <div className="flex flex-col my-7 w-full max-md:mb-10">
                     {/* afficher stepper when the review is started */}
                     {currentQuestionIndex != null && (
                         <StepperComponent
@@ -142,10 +142,6 @@ export default function BilanComponent(props) {
                         </div>
                     </div>
                 </div>
-            </div>
-            <div
-                className="justify-center px-8 py-12 mt-3 text-base leading-6 text-gray-500 bg-white rounded-2xl max-md:px-5 max-md:max-w-full">
-                © 2021 Themesberg, LLC. All rights reserved.
             </div>
         </div>
     );

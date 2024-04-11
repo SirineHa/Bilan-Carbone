@@ -230,6 +230,13 @@ export default function BilanNormalView() {
                     value: "non"
                 }
             ]
+        },
+        {
+            id: "budget",
+            title: "Budget",
+            type: "number",
+            description: "",
+            image: "https://static.vecteezy.com/system/resources/previews/012/805/836/original/big-pile-of-euro-notes-a-lot-of-money-over-transparent-background-3d-rendering-of-bundles-of-cash-png.png",
         }
     ];
 
@@ -264,8 +271,8 @@ export default function BilanNormalView() {
           />
         )}
 
-        <hr />
-        {JSON.stringify(response, null, 2)}
+        {/* <hr />
+        {JSON.stringify(response, null, 2)} */}
       </div>
     );
 }

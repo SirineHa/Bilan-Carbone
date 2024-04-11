@@ -35,9 +35,9 @@ app.use(localPassport.session());
 const routes = require('./routes');
 app.use(routes);
 
-mongoose.connect(dbUri)
-  .then(() => console.log('MongoDB connected...'))
-  .catch(err => console.error(err));
+// mongoose.connect(dbUri)
+//   .then(() => console.log('MongoDB connected...'))
+//   .catch(err => console.error(err));
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
