@@ -502,28 +502,36 @@ export default function BilanNormalView() {
             list: [
                 {
                     id: "nom",
-                    title: "Votre Nom",
+                    title: "Quelle est votre Nom ?",
                     type: "text",
                     description: "",
                     optional: true
                 },
                 {
                     id: "specialite",
-                    title: "Votre specialité",
+                    title: " Quelle est votre specialité ?",
                     type: "radio",
                     description: "",
                     option: [
                         {
-                            title: "Specialite 1",
-                            value: "Specialite 1",
+                            title: "ING INFO",
+                            value: "ING INFO",
                         },
                         {
-                            title: "Specialite 2",
-                            value: "Specialite 2",
+                            title: "ING ENER",
+                            value: "ING ENER",
                         },
                         {
-                            title: "Specialite 3",
-                            value: "Specialite 3",
+                            title: "ING INSTRU",
+                            value: "ING INSTRU",
+                        },
+                        {
+                            title: "ING MACS",
+                            value: "ING MACS",
+                        },
+                        {
+                            title: "ING TELECOM",
+                            value: "ING TELECOM",
                         },
                     ]
                 },

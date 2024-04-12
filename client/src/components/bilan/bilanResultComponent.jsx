@@ -37,7 +37,7 @@ export default function BilanResultComponent(props) {
     }
   };
 
-  const addStat = async (nom, score, specialite, mode = 'express') => {
+  const addStat = async (nom, score, specialite, mode = 'Express') => {
     try {
       const res = await fetch("http://localhost:5000/stats/AddStats", {
         method: "POST",
