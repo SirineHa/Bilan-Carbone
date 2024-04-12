@@ -31,7 +31,7 @@ export default class InputComponent extends React.Component {
     render() {
         return (
             <div className="mt-4">
-                {["text", "number", "date"].includes(this.state.question.type) &&
+                {["text", "number", "date", "email"].includes(this.state.question.type) &&
                     <input type={this.state.inputType}
                            id={this.state.question.id}
                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -43,7 +43,7 @@ export default class InputComponent extends React.Component {
                 }
                 {this.state.keyboardOpen && (
                     <KeyboardComponent
-                        numpadOnly // Ajoutez cette prop pour afficher uniquement le numpad
+                        numpadOnly={this.state.question.type === "number"} // Ajoutez cette prop pour afficher uniquement le numpad
                         onInput={(value) => this.handleValueChange({target: {value}})}
                         onClose={() => this.setState({keyboardOpen: false})}
                     />

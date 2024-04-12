@@ -25,6 +25,13 @@ export default class QuestionComponent extends React.Component {
         }
     }
 
+    componentDidUpdate(prevProps) {
+        // Check if the questionResponse prop has changed
+        if (this.props.questionResponse !== prevProps.questionResponse) {
+            // Update the state with the new props
+            this.setState({ questionResponse: { ...this.props.questionResponse } });
+        }
+    }
 
     handleOptionChange(eventValue) {
         this.setState(
@@ -56,10 +63,10 @@ export default class QuestionComponent extends React.Component {
         let response = !!this.state.questionResponse[this.state.question.id];
         if (this.hasSubQuestion()) {
             this.getSubQuestion().forEach((question) => {
-                response = response && !!this.state.questionResponse[question.id]
+                response = (response && !!this.state.questionResponse[question.id]) || question.optional
             });
         }
-        return response && Object.values(this.state.questionResponse).every(value => value !== null && value !== undefined && value !== '');
+        return response && Object.values(this.state.questionResponse).every(value => value !== null && value !== undefined && value !== '') || this.state.question.optional;
     }
 
     render() {

@@ -5,6 +5,7 @@ import { useAuth } from "../../context/AuthContext";
 import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import BilanRessourcesAccordiantComponent from "./bilanRessourcesAccordiantComponent";
+import InputComponent from "./inputComponent";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -36,6 +37,29 @@ export default function BilanResultComponent(props) {
     }
   };
 
+  const addStat = async (nom, score, specialite, mode = 'express') => {
+    try {
+      const res = await fetch("http://localhost:5000/stats/AddStats", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: nom,
+          mode: mode,
+          score: score,
+          spe: specialite
+        }),
+      });
+      if (!res.ok) {
+        throw new Error("La requête au backend ajout statistique a échoué");
+      }
+    } catch (erreur) {
+      console.error("Erreur lors de l’appel au backend - stat :", erreur);
+    }
+  };
+
+
   useEffect(() => {
     // Fonction pour effectuer l'appel au backend
     const appelerBackend = async () => {
@@ -62,6 +86,10 @@ export default function BilanResultComponent(props) {
             },
           ],
         });
+        const score= donnees?.result?.map((item) => item.value).reduce((accumulator, currentValue) => {
+          return accumulator + currentValue;
+        }, 0);
+        await addStat(questionResponse['nom'], score, questionResponse['specialite']);
       } catch (erreur) {
         console.error("Erreur lors de l’appel au backend:", erreur);
       }
@@ -73,7 +101,7 @@ export default function BilanResultComponent(props) {
 
   function handleMailChange(changeEvent) {
     setEmailSent(false);
-    setEmail(changeEvent.target.value);
+    setEmail(changeEvent.email);
     setMailIsValid(null);
   }
 
@@ -192,13 +220,14 @@ export default function BilanResultComponent(props) {
                 </div>
 
                 <div className="space-x-4 justify-center text-center">
-                  <input
-                    type="email"
-                    id="email-adr"
-                    className="my-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="Votre addresse E-mail"
-                    onChange={handleMailChange}
-                  />
+                  <div className="my-2 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                  <InputComponent question={{id:'email', type:'email', title:"Votre addresse E-mail"}}
+                                                inputType="email"
+                                                value={{email:''}}
+                                                onValueChange={handleMailChange}/>
+                  </div>
+                
+
                   <button
                     onClick={sendEmail}
                     className="px-6 py-2 rounded bg-blue-500 text-white font-semibold"

@@ -155,8 +155,7 @@ export default function BilanNormalView() {
                     value: "non"
                 }
             ]
-        },
-        
+        },   
         {
             id: "grand_deplacement_train ",
             title: "Pour les grand déplacement voyagez-vous en TGV ?",
@@ -491,13 +490,44 @@ export default function BilanNormalView() {
                 },
             ],
         },
-
         {
             id: "budget",
             title: "Quelle estr votre budget mensuel ?",
             type: "number",
             description: "",
             image: "https://www.coindusalarie.fr/assets/static/12235-no6ahn.ad76ebb.f378cd6f0536cce77b3c4a3ba6377ed2.jpg",
+        },
+        {
+            image: "https://www.coindusalarie.fr/assets/static/12235-no6ahn.ad76ebb.f378cd6f0536cce77b3c4a3ba6377ed2.jpg",
+            list: [
+                {
+                    id: "nom",
+                    title: "Votre Nom",
+                    type: "text",
+                    description: "",
+                    optional: true
+                },
+                {
+                    id: "specialite",
+                    title: "Votre specialité",
+                    type: "radio",
+                    description: "",
+                    option: [
+                        {
+                            title: "Specialite 1",
+                            value: "Specialite 1",
+                        },
+                        {
+                            title: "Specialite 2",
+                            value: "Specialite 2",
+                        },
+                        {
+                            title: "Specialite 3",
+                            value: "Specialite 3",
+                        },
+                    ]
+                },
+            ]
         }
     ];
 
