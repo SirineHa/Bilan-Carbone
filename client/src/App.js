@@ -17,6 +17,7 @@ import {AvisScreen} from "./views/AvisScreen";
 
 import "./App.css";
 import { AddAvis } from "./views/AddAvis";
+import { Calculateur } from "./views/Calculateur";
 
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, isLoading } = useAuth();
@@ -71,6 +72,8 @@ const App = () => {
         <Route path="*" element={<Navigate to="/" />} />
 
         <Route path="/statistiques" element={<Statistiques/>} />
+        <Route path="/calcul" element={<Calculateur/>} />
+
       </Routes>
     </AuthProvider>
     

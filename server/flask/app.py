@@ -2,42 +2,46 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-def calcul_emission_transport(distance_km, facteur_emission_voiture):
-    emission_transport = distance_km * 1
-    return emission_transport
-
-def calcul_emission_energie(conso_kwh, facteur_emission_electricite):
-    emission_energie = conso_kwh * 2
-    return emission_energie
-
-def calcul_emission_alimentation(conso_viande_kg, conso_vegetaux_kg, facteur_emission_viande, facteur_emission_vegetaux):
-    emission_alimentation = (conso_viande_kg * 1) + (conso_vegetaux_kg * 2)
-    return emission_alimentation
 
 @app.route('/api/calcul_emission', methods=['POST'])
-def calcul_emission_route():
+def calcul_emission_route():    
+    # Initialisation des résultats par secteur
+    transport_total = 0
+    alimentation_total = 0
+    logement_total = 0
+    divers_total = 0
+
     data = request.get_json()
-    distance_km = data['distance_km']
-    facteur_emission_voiture = data['facteur_emission_voiture']
-    conso_kwh = data['conso_kwh']
-    facteur_emission_electricite = data['facteur_emission_electricite']
-    conso_viande_kg = data['conso_viande_kg']
-    conso_vegetaux_kg = data['conso_vegetaux_kg']
-    facteur_emission_viande = data['facteur_emission_viande']
-    facteur_emission_vegetaux = data['facteur_emission_vegetaux']
-    
-    emission_transport = calcul_emission_transport(distance_km, facteur_emission_voiture)
-    emission_energie = calcul_emission_energie(conso_kwh, facteur_emission_electricite)
-    emission_alimentation = calcul_emission_alimentation(conso_viande_kg, conso_vegetaux_kg, facteur_emission_viande, facteur_emission_vegetaux)
-    
-    total_emission = emission_transport + emission_energie + emission_alimentation
-    
-    return jsonify({
-        "emission_transport": emission_transport,
-        "emission_energie": emission_energie,
-        "emission_alimentation": emission_alimentation,
-        "total_emission": total_emission
-    })
+    print(data)
+    print(type(data))
+
+    for t in data.items():
+        print(t)
+        if t[0] == 'transport':
+            if t[1] == 'velo/pied':
+                transport_total += 750
+            elif t[1] == 'voiture':
+                transport_total += int(data['voiture_km'])*100
+            elif t[1] == 'transports_commun':
+                transport_total += int(data['transport_commun_aller_retour'])*10
+        elif t[0] == 'transport_weekend':
+            if t[1] == 'velo/pied':
+                transport_total += 750
+            elif t[1] == 'voiture':
+                transport_total += int(data['voiture_weekend_km'])*100
+            elif t[1] == 'transports_weekend_commun':
+                transport_total += int(data['transport_weekend_commun_aller_retour'])*10
+
+
+    # Construction du résultat final
+    result = {
+        "Transport": transport_total/100,
+        "Alimentation": alimentation_total/100,
+        "Logement": logement_total/100,
+        "Divers": divers_total/100
+    }
+
+    return jsonify(result)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5001)

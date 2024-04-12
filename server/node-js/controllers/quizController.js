@@ -1,3 +1,5 @@
+const cors = require('cors');
+const axios = require('axios');
 
 const { sendQuizResultEmail } = require("../services/emailService");
 
@@ -21,6 +23,12 @@ exports.sendResultEMail = async function(req, res) {
  exports.calculateresult = async (req, res) => {
   try {
     console.log(req.body);
+    try {
+      const data = req.body;
+      // Appel à l'endpoint Flask pour calculer l'empreinte carbone
+      const flaskResponse = await axios.post('http://localhost:5001/api/calcul_emission', data);
+      
+    
     let emissionBudget = 0;
     if (req.body.budget) {
       emissionBudget = (req.body.budget / 1000) * 1.9;
@@ -31,7 +39,7 @@ exports.sendResultEMail = async function(req, res) {
       result: [
         {
           label: "Transport",
-          value: 200,
+          value: flaskResponse.data.Transport,
           color: "rgb(255, 99, 132)",
         },
         {
@@ -41,21 +49,24 @@ exports.sendResultEMail = async function(req, res) {
         },
         {
           label: "Logement",
-          value: 500,
+          value: 100,
           color: "red",
         },
         {
-          label: "divers",
-          value: 300,
+          label: "Divers",
+          value: 50,
           color: "green",
         },
       ],
       budget: emissionBudget,
     });
+    
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send('Internal Server Error');
+}
   } catch (err) {
     //console.log(err);
     res.status(500).json({ message: err.message }); // Renvoyer un code d'erreur 500 en cas d'erreur
   }
 }
-
-

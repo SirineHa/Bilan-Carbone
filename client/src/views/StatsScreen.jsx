@@ -48,20 +48,20 @@ export const StatsScreen = () => {
       }
 
       // Filtrer les statistiques par specialite
-      if (filterSpe === 'Info') {
-        data = data.filter(stats => stats.spe === 'Info');
+      if (filterSpe === 'ING INFO') {
+        data = data.filter(stats => stats.spe === 'ING INFO');
       }
-      if (filterSpe === 'Ener') {
-        data = data.filter(stats => stats.spe === 'Ener');
+      if (filterSpe === 'ING ENER') {
+        data = data.filter(stats => stats.spe === 'ING ENER');
       }
-      if (filterSpe === 'Macs') {
-        data = data.filter(stats => stats.spe === 'Macs');
+      if (filterSpe === 'ING MACS') {
+        data = data.filter(stats => stats.spe === 'ING MACS');
       }
-      if (filterSpe === 'Telec') {
-        data = data.filter(stats => stats.spe === 'Telec');
+      if (filterSpe === 'ING TELECOM') {
+        data = data.filter(stats => stats.spe === 'ING TELECOM');
       }
-      if (filterSpe === 'Instru') {
-        data = data.filter(stats => stats.spe === 'Instru');
+      if (filterSpe === 'ING INSTRU') {
+        data = data.filter(stats => stats.spe === 'ING INSTRU');
       }
       if (filterSpe === 'Autres') {
         data = data.filter(stats => stats.spe === 'Autres');
@@ -206,12 +206,12 @@ export const StatsScreen = () => {
               onChange={(e) => setFilterSpe(e.target.value)}
               className="border rounded p-2 shadow"
             >
-              <option value="all">Tous les Spé</option>
-              <option value="Info">Info</option>
-              <option value="Ener">Ener</option>
-              <option value="Macs">Macs</option>
-              <option value="Telec">Telec</option>
-              <option value="Instru">Instru</option>
+              <option value="ALL">Tous les Spé</option>
+              <option value="ING INFO">ING INFO</option>
+              <option value="ING ENER">ING ENER</option>
+              <option value="ING MACS">ING MACS</option>
+              <option value="ING TELECOM">ING TELECOM</option>
+              <option value="ING INSTRU">ING INSTRU</option>
               <option value="Autres">Autres</option>
             </select>
           </div>

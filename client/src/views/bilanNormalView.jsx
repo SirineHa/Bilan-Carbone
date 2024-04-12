@@ -155,8 +155,7 @@ export default function BilanNormalView() {
                     value: "non"
                 }
             ]
-        },
-        
+        },   
         {
             id: "grand_deplacement_train ",
             title: "Pour les grand déplacement voyagez-vous en TGV ?",
@@ -491,13 +490,56 @@ export default function BilanNormalView() {
                 },
             ],
         },
-
         {
             id: "budget",
             title: "Quelle estr votre budget mensuel ?",
             type: "number",
             description: "",
             image: "https://www.coindusalarie.fr/assets/static/12235-no6ahn.ad76ebb.f378cd6f0536cce77b3c4a3ba6377ed2.jpg",
+        },
+        {
+            image: "https://www.coindusalarie.fr/assets/static/12235-no6ahn.ad76ebb.f378cd6f0536cce77b3c4a3ba6377ed2.jpg",
+            list: [
+                {
+                    id: "nom",
+                    title: "Quelle est votre Nom ?",
+                    type: "text",
+                    description: "",
+                    optional: true
+                },
+                {
+                    id: "specialite",
+                    title: " Quelle est votre specialité ?",
+                    type: "radio",
+                    description: "",
+                    option: [
+                        {
+                            title: "ING INFO",
+                            value: "ING INFO",
+                        },
+                        {
+                            title: "ING ENER",
+                            value: "ING ENER",
+                        },
+                        {
+                            title: "ING INSTRU",
+                            value: "ING INSTRU",
+                        },
+                        {
+                            title: "ING MACS",
+                            value: "ING MACS",
+                        },
+                        {
+                            title: "ING TELECOM",
+                            value: "ING TELECOM",
+                        },
+                        {
+                            title: "Autres",
+                            value: "Autres",
+                        },
+                    ]
+                },
+            ]
         }
     ];
 

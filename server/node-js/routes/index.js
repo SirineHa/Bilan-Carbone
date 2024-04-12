@@ -5,6 +5,7 @@ const avisRoutes = require('./avis');
 const statRoutes = require('./stats');
 const authRoutes = require('./auth');
 const quizRoutes = require('./quizRoutes');
+const flaskRoutes = require('./flask');
 
 router.use('/avis', avisRoutes);
 router.use('/stats', statRoutes);
