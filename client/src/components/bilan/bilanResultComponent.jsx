@@ -107,10 +107,10 @@ export default function BilanResultComponent(props) {
           questionResponse["nom"],
           score,
           questionResponse["specialite"],
-          donnees.result.find((item) => item.id === "transport"),
-          donnees.result.find((item) => item.id === "alimentation"),
-          donnees.result.find((item) => item.id === "logement"),
-          donnees.result.find((item) => item.id === "divers")
+          donnees.result.find((item) => item.id === "transport").value.toString(),
+          donnees.result.find((item) => item.id === "alimentation").value.toString(),
+          donnees.result.find((item) => item.id === "logement").value.toString(),
+          donnees.result.find((item) => item.id === "divers").value.toString()
         );
       } catch (erreur) {
         console.error("Erreur lors de l’appel au backend:", erreur);
