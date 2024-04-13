@@ -34,27 +34,31 @@ exports.sendResultEMail = async function(req, res) {
       emissionBudget = (req.body.budget / 1000) * 1.9;
     }
 
-    //pour envoiyee les donnes au flask et calculer ainsi renvoie les resultat au format {result:[]}
+    //pour  esult:[]}
     res.send({
       result: [
         {
           label: "Transport",
+          id: "transport",
           value: flaskResponse.data.Transport,
           color: "rgb(255, 99, 132)",
         },
         {
           label: "Alimentation",
+          id: "alimentation",
           value: 100,
           color: "rgb(54, 162, 235)",
         },
         {
           label: "Logement",
+          id: "logement",
           value: 100,
           color: "red",
         },
         {
-          label: "Divers",
-          value: 50,
+          label: "divers",
+          id: "divers",
+          value: 300,          
           color: "green",
         },
       ],

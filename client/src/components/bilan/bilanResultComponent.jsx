@@ -37,7 +37,16 @@ export default function BilanResultComponent(props) {
     }
   };
 
-  const addStat = async (nom, score, specialite, mode = 'Express') => {
+  const addStat = async (
+    nom,
+    score,
+    specialite,
+    transport,
+    alimentation,
+    logement,
+    divers,
+    mode = "Express"
+  ) => {
     try {
       const res = await fetch("http://localhost:5000/stats/AddStats", {
         method: "POST",
@@ -47,8 +56,12 @@ export default function BilanResultComponent(props) {
         body: JSON.stringify({
           name: nom,
           mode: mode,
-          score: score,
-          spe: specialite
+          spe: specialite,
+          scoreTotal: score,
+          transport: transport,
+          alimentation: alimentation,
+          logement: logement,
+          divers: divers,
         }),
       });
       if (!res.ok) {
@@ -89,7 +102,16 @@ export default function BilanResultComponent(props) {
         const score= donnees?.result?.map((item) => item.value).reduce((accumulator, currentValue) => {
           return accumulator + currentValue;
         }, 0);
-        await addStat(questionResponse['nom'], score, questionResponse['specialite']);
+
+        await addStat(
+          questionResponse["nom"],
+          score,
+          questionResponse["specialite"],
+          donnees.result.find((item) => item.id === "transport"),
+          donnees.result.find((item) => item.id === "alimentation"),
+          donnees.result.find((item) => item.id === "logement"),
+          donnees.result.find((item) => item.id === "divers")
+        );
       } catch (erreur) {
         console.error("Erreur lors de l’appel au backend:", erreur);
       }
