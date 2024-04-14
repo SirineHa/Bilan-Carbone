@@ -5,6 +5,8 @@ import { AuthProvider, useAuth } from "./context/AuthContext";
 import { RequestReset } from './components/ResetPassword/RequestReset';
 import { PerformReset } from "./components/ResetPassword/PerformReset";
 import { Login } from "./components/Login/Login";
+import Statistiques from "./components/Statis"; 
+
 import { Accueil4 } from "./views/Accueil4";
 import { NewAccueil } from "./views/NewAccueil";
 import BilanExpressView from "./views/bilanExpressView";
@@ -14,6 +16,8 @@ import {StatsScreen} from "./views/StatsScreen";
 import {AvisScreen} from "./views/AvisScreen";
 
 import "./App.css";
+import { AddAvis } from "./views/AddAvis";
+import { Calculateur } from "./views/Calculateur";
 
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, isLoading } = useAuth();
@@ -27,11 +31,14 @@ const ProtectedRoute = ({ children }) => {
 
 const App = () => {
   return (
+    
     <AuthProvider>
       <Routes>
         <Route path="/" element={<Accueil4 />} />
         <Route path="/new" element={<NewAccueil />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/add-avis" element={<AddAvis/>}/>
+        
         <Route
           path="/dashboard-admin"
           element={
@@ -40,8 +47,8 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-
-        <Route
+        
+          <Route
           path="/data-stats"
           element={
             <ProtectedRoute>
@@ -58,14 +65,18 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-
         <Route path="/resetPassword" element={<RequestReset />} />
         <Route path="/reset-password/:token" element={<PerformReset />} />
         <Route path="/bilan/normal" element={<BilanNormalView />} />
         <Route path="/bilan/express" element={<BilanExpressView />} />
         <Route path="*" element={<Navigate to="/" />} />
+
+        <Route path="/statistiques" element={<Statistiques/>} />
+        <Route path="/calcul" element={<Calculateur/>} />
+
       </Routes>
     </AuthProvider>
+    
   );
 };
 

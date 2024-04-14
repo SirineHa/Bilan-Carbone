@@ -49,14 +49,18 @@ export const AdminScreen = () => {
     fetchAvis();
   }, []);
 
- 
+  // Afficher le message complet de l'avis
+  const handleDisplayFullComment = (id) => {
+    const avisToDisplay = avis.find(a => a._id === id);
+    alert(`${avisToDisplay.comment}`);
+  };
 
 
 
   return (
     <>
 
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen overflow-auto overflow-x-hidden">
       <NavbarAdmin/>
       <main className="flex-grow">
       <div className="flex flex-col md:flex-row">
@@ -76,11 +80,11 @@ export const AdminScreen = () => {
                 <a href="/data-avis" className="px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold">Gestion Avis</a>
               </li>
               <li>
-                <a href="/data-stats" className="px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold">Gestion Stat</a>
+                <a href="/data-stats" className="px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold">Gestion Stats</a>
               </li>
-              <li>
+              {/* <li>
                 <a href="/statistique" className="px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold">Statistique</a>
-              </li>
+              </li> */}
             </ul>
           </aside>
         </nav>
@@ -139,7 +143,7 @@ export const AdminScreen = () => {
             </div>
             <div className="relative self-stretch w-full h-px bg-cool-gray200" />
             {stats.length > 0 && stats[0] && 
-              <div className="bg-cool-gray050 flex items-center p-[16px] relative self-stretch w-full flex-[0_0_auto]">
+              <div className="bg-cool-gray050 flex items-center p-[13px] relative self-stretch w-full flex-[0_0_auto]">
                 {stats[0].mode === "Express" && <Badge className="!flex-[0_0_auto]" color="green-badge" text={stats[0].mode} />}
                 {stats[0].mode === "Normal" && <Badge className="!flex-[0_0_auto]" color="red-badge" text={stats[0].mode} />}
                 {stats[0].mode === "Complet" && <Badge className="!flex-[0_0_auto]" color="blue-badge" text={stats[0].mode} />}
@@ -148,7 +152,7 @@ export const AdminScreen = () => {
 
 
             {stats.length > 1 && stats[1] &&
-              <div className="flex items-center p-[16px] relative self-stretch w-full flex-[0_0_auto]">
+              <div className="bg-cool-gray050 flex items-center p-[13px] relative self-stretch w-full flex-[0_0_auto]">
                 {stats[1].mode === "Express" && <Badge className="!flex-[0_0_auto]" color="green-badge" text={stats[1].mode} />}
                 {stats[1].mode === "Normal" && <Badge className="!flex-[0_0_auto]" color="red-badge" text={stats[1].mode} />}
                 {stats[1].mode === "Complet" && <Badge className="!flex-[0_0_auto]" color="blue-badge" text={stats[1].mode} />}
@@ -156,7 +160,7 @@ export const AdminScreen = () => {
             }
 
             {stats.length > 2 && stats[2] &&
-              <div className="bg-cool-gray050 flex items-center p-[16px] relative self-stretch w-full flex-[0_0_auto]">
+              <div className="bg-cool-gray050 flex items-center p-[13px] relative self-stretch w-full flex-[0_0_auto]">
                 {stats[2].mode === "Express" && <Badge className="!flex-[0_0_auto]" color="green-badge" text={stats[2].mode} />}
                 {stats[2].mode === "Normal" && <Badge className="!flex-[0_0_auto]" color="red-badge" text={stats[2].mode} />}
                 {stats[2].mode === "Complet" && <Badge className="!flex-[0_0_auto]" color="blue-badge" text={stats[2].mode} />}
@@ -177,7 +181,7 @@ export const AdminScreen = () => {
                 {stats.length > 0 && stats[0] && <p>{stats[0].score}</p>}
               </div>
             </div>
-            <div className="flex items-center p-[16px] relative self-stretch w-full flex-[0_0_auto]">
+            <div className="bg-cool-gray050 flex items-center p-[16px] relative self-stretch w-full flex-[0_0_auto]">
               <div className="relative w-[370px] h-[22px] mt-[-1.00px] mr-[-29.00px] [font-family:'Inter',Helvetica] font-light text-cool-gray900 text-[14px] tracking-[0] leading-[21px] whitespace-nowrap">
                 {stats.length > 1 && stats[1] && <p>{stats[1].score}</p>}
               </div>
@@ -188,6 +192,31 @@ export const AdminScreen = () => {
               </div>
             </div>
           </div>
+
+          <div className="flex-grow flex-shrink flex-auto max-w-[300px]">
+            <div className="flex items-start p-[16px] bg-gray-100 relative self-stretch w-full flex-[0_0_auto]">
+              <div className="relative w-fit mt-[-1.00px] font-text-xs-font-semibold font-[number:var(--text-xs-font-semibold-font-weight)] text-cool-gray500 text-[length:var(--text-xs-font-semibold-font-size)] tracking-[var(--text-xs-font-semibold-letter-spacing)] leading-[var(--text-xs-font-semibold-line-height)] whitespace-nowrap [font-style:var(--text-xs-font-semibold-font-style)] border-b-2 border-gray-300">
+                SPECIALITE
+              </div>
+            </div>
+            <div className="relative self-stretch w-full h-px bg-cool-gray200" />
+            <div className="bg-cool-gray050 flex items-center p-[16px] relative self-stretch w-full flex-[0_0_auto]">
+              <div className="relative w-[370px] h-[22px] mt-[-1.00px] mr-[-29.00px] [font-family:'Inter',Helvetica] font-light text-cool-gray900 text-[14px] tracking-[0] leading-[21px] whitespace-nowrap">
+                {stats.length > 0 && stats[0] && <p>{stats[0].spe}</p>}
+              </div>
+            </div>
+            <div className="bg-cool-gray050 flex items-center p-[16px] relative self-stretch w-full flex-[0_0_auto]">
+              <div className="relative w-[370px] h-[22px] mt-[-1.00px] mr-[-29.00px] [font-family:'Inter',Helvetica] font-light text-cool-gray900 text-[14px] tracking-[0] leading-[21px] whitespace-nowrap">
+                {stats.length > 1 && stats[1] && <p>{stats[1].spe}</p>}
+              </div>
+            </div>
+            <div className="bg-cool-gray050 flex items-center p-[16px] relative self-stretch w-full flex-[0_0_auto]">
+              <div className="relative w-[370px] h-[22px] mt-[-1.00px] mr-[-29.00px] [font-family:'Inter',Helvetica] font-light text-cool-gray900 text-[14px] tracking-[0] leading-[21px] whitespace-nowrap">
+                {stats.length > 2 && stats[2] && <p>{stats[2].spe}</p>}
+              </div>
+            </div>
+          </div>
+
           <div className="flex-grow flex-shrink flex-auto max-w-[300px]">
             <div className="flex items-start p-[16px] bg-gray-100 relative self-stretch w-full flex-[0_0_auto] bg-cool-gray050">
               <div className="relative w-fit mt-[-1.00px] font-text-xs-font-semibold font-[number:var(--text-xs-font-semibold-font-weight)] text-cool-gray500 text-[length:var(--text-xs-font-semibold-font-size)] tracking-[var(--text-xs-font-semibold-letter-spacing)] leading-[var(--text-xs-font-semibold-line-height)] whitespace-nowrap [font-style:var(--text-xs-font-semibold-font-style)] border-b-2 border-gray-300">
@@ -200,7 +229,7 @@ export const AdminScreen = () => {
                 {stats.length > 0 && stats[0] && <p>{new Date(stats[0].date).toLocaleDateString()}</p>}
               </div>
             </div>
-            <div className="flex items-center p-[16px] relative self-stretch w-full flex-[0_0_auto]">
+            <div className="bg-cool-gray050 flex items-center p-[16px] relative self-stretch w-full flex-[0_0_auto]">
               <div className="relative flex-1 h-[22px] mt-[-1.00px] font-text-sm-font-normal font-[number:var(--text-sm-font-normal-font-weight)] text-cool-gray500 text-[length:var(--text-sm-font-normal-font-size)] tracking-[var(--text-sm-font-normal-letter-spacing)] leading-[var(--text-sm-font-normal-line-height)] whitespace-nowrap [font-style:var(--text-sm-font-normal-font-style)]">
                 {stats.length > 1 && stats[1] && <p>{new Date(stats[1].date).toLocaleDateString()}</p>}
               </div>
@@ -254,7 +283,7 @@ export const AdminScreen = () => {
             <div className="relative self-stretch w-full h-px bg-cool-gray200" />
 
             {avis.length > 0 && avis[0] && 
-              <div className="bg-cool-gray050 flex items-center p-[16px] relative self-stretch w-full flex-[0_0_auto]">
+              <div className="bg-cool-gray050 flex items-center p-[13px] relative self-stretch w-full flex-[0_0_auto]">
                 {avis[0].type === "Jeu" && <Badge className="!flex-[0_0_auto]" color="green-badge" text={avis[0].type} />}
                 {avis[0].type === "Calculateur" && <Badge className="!flex-[0_0_auto]" color="red-badge" text={avis[0].type} />}
                 {avis[0].type === "Autres" && <Badge className="!flex-[0_0_auto]" color="blue-badge" text={avis[0].type} />}
@@ -263,14 +292,14 @@ export const AdminScreen = () => {
 
             
             {avis.length > 1 && avis[1] && 
-              <div className="flex items-center p-[16px] relative self-stretch w-full flex-[0_0_auto]">
+              <div className="bg-cool-gray050  flex items-center p-[13px] relative self-stretch w-full flex-[0_0_auto]">
                 {avis[1].type === "Jeu" && <Badge className="!flex-[0_0_auto]" color="green-badge" text={avis[1].type} />}
                 {avis[1].type === "Calculateur" && <Badge className="!flex-[0_0_auto]" color="red-badge" text={avis[1].type} />}
                 {avis[1].type === "Autres" && <Badge className="!flex-[0_0_auto]" color="blue-badge" text={avis[1].type} />}
               </div>
             }
             {avis.length > 2 && avis[2] && 
-              <div className="bg-cool-gray050 flex items-center p-[16px] relative self-stretch w-full flex-[0_0_auto]">
+              <div className="bg-cool-gray050 flex items-center p-[13px] relative self-stretch w-full flex-[0_0_auto]">
                 {avis[2].type === "Jeu" && <Badge className="!flex-[0_0_auto]" color="green-badge" text={avis[2].type} />}
                 {avis[2].type === "Calculateur" && <Badge className="!flex-[0_0_auto]" color="red-badge" text={avis[2].type} />}
                 {avis[2].type === "Autres" && <Badge className="!flex-[0_0_auto]" color="blue-badge" text={avis[2].type} />}
@@ -288,16 +317,34 @@ export const AdminScreen = () => {
             <div className="bg-cool-gray050 flex items-center p-[16px] relative self-stretch w-full flex-[0_0_auto]">
               <div className="relative w-[370px] h-[22px] mt-[-1.00px] mr-[-29.00px] [font-family:'Inter',Helvetica] font-light text-cool-gray900 text-[14px] tracking-[0] leading-[21px] whitespace-nowrap">
               {avis.length > 0 && avis[0] && <p>{avis[0].comment.substring(0, 30)}</p>}
+              {avis.length > 0 && avis[0] && avis[0].comment.length > 30 && (
+                      <a href="#" className="relative flex-1 h-[22px] mt-[-1.00px] font-text-sm-font-normal text-xs uppercase font-bold text-cool-gray500 text-[length:var(--text-sm-font-normal-font-size)] tracking-[var(--text-sm-font-normal-letter-spacing)] leading-[var(--text-sm-font-normal-line-height)] whitespace-nowrap [font-style:var(--text-sm-font-normal-font-style)]"
+                        onClick={() => handleDisplayFullComment(avis[0]._id)}>
+                        <span className="bg-green-500 text-white rounded px-2 py-1">...</span>
+                      </a>
+                    )}
               </div>
             </div>
-            <div className="flex items-center p-[16px] relative self-stretch w-full flex-[0_0_auto]">
+            <div className="bg-cool-gray050 flex items-center p-[16px] relative self-stretch w-full flex-[0_0_auto]">
               <div className="relative w-[370px] h-[22px] mt-[-1.00px] mr-[-29.00px] [font-family:'Inter',Helvetica] font-light text-cool-gray900 text-[14px] tracking-[0] leading-[21px] whitespace-nowrap">
               {avis.length > 1 && avis[1] && <p>{avis[1].comment.substring(0, 30)}</p>}
+              {avis.length > 1 && avis[1] && avis[1].comment.length > 30 && (
+                      <a href="#" className="relative flex-1 h-[22px] mt-[-1.00px] font-text-sm-font-normal text-xs uppercase font-bold text-cool-gray500 text-[length:var(--text-sm-font-normal-font-size)] tracking-[var(--text-sm-font-normal-letter-spacing)] leading-[var(--text-sm-font-normal-line-height)] whitespace-nowrap [font-style:var(--text-sm-font-normal-font-style)]"
+                        onClick={() => handleDisplayFullComment(avis[1]._id)}>
+                        <span className="bg-green-500 text-white rounded px-2 py-1">...</span>
+                      </a>
+                    )}
               </div>
             </div>
             <div className="bg-cool-gray050 flex items-center p-[16px] relative self-stretch w-full flex-[0_0_auto]">
               <div className="relative w-[370px] h-[22px] mt-[-1.00px] mr-[-29.00px] [font-family:'Inter',Helvetica] font-light text-cool-gray900 text-[14px] tracking-[0] leading-[21px] whitespace-nowrap">
               {avis.length > 2 && avis[2] && <p>{avis[2].comment.substring(0, 30)}</p>}
+              {avis.length > 2 && avis[2] &&  avis[2].comment.length > 30 && (
+                      <a href="#" className="relative flex-1 h-[22px] mt-[-1.00px] font-text-sm-font-normal text-xs uppercase font-bold text-cool-gray500 text-[length:var(--text-sm-font-normal-font-size)] tracking-[var(--text-sm-font-normal-letter-spacing)] leading-[var(--text-sm-font-normal-line-height)] whitespace-nowrap [font-style:var(--text-sm-font-normal-font-style)]"
+                        onClick={() => handleDisplayFullComment(avis[2]._id)}>
+                        <span className="bg-green-500 text-white rounded px-2 py-1">...</span>
+                      </a>
+                    )}
               </div>
             </div>
           </div>
@@ -313,7 +360,7 @@ export const AdminScreen = () => {
                 {avis.length > 0 && avis[0] && <p>{new Date(avis[0].date).toLocaleDateString()}</p>}
               </div>
             </div>
-            <div className="flex items-center p-[16px] relative self-stretch w-full flex-[0_0_auto]">
+            <div className="bg-cool-gray050 flex items-center p-[16px] relative self-stretch w-full flex-[0_0_auto]">
               <div className="relative flex-1 h-[22px] mt-[-1.00px] font-text-sm-font-normal font-[number:var(--text-sm-font-normal-font-weight)] text-cool-gray500 text-[length:var(--text-sm-font-normal-font-size)] tracking-[var(--text-sm-font-normal-letter-spacing)] leading-[var(--text-sm-font-normal-line-height)] whitespace-nowrap [font-style:var(--text-sm-font-normal-font-style)]">
                 {avis.length > 1 && avis[1] && <p>{new Date(avis[1].date).toLocaleDateString()}</p>}
               </div>

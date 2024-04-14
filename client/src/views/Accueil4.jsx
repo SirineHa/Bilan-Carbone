@@ -49,7 +49,6 @@ export const Accueil4 = () => {
                         </div>
                         <h6 className="text-xl font-semibold">Express</h6>
                         <p className="mt-2 mb-4 text-gray-600">
-                          Divide details about your product or agency work into parts. A paragraph describing a feature will be enough.
                         </p>
                       </div>
                     </div>
@@ -69,7 +68,6 @@ export const Accueil4 = () => {
                           Normal
                         </h6>
                         <p className="mt-2 mb-4 text-gray-600">
-                          Keep you user engaged by providing meaningful information. Remember that by this time, the user is curious.
                         </p>
                       </div>
                     </div>
@@ -89,7 +87,6 @@ export const Accueil4 = () => {
                           Long
                         </h6>
                         <p className="mt-2 mb-4 text-gray-600">
-                          Write a few lines about each one. A paragraph describing a feature will be enough. Keep you user engaged!
                         </p>
                       </div>
                     </div>

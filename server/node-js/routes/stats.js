@@ -32,6 +32,7 @@ router.post('/AddStats', async (req, res) => {
       name: req.body.name,
       mode: req.body.mode,
       score: req.body.score,
+      spe: req.body.spe,
       date: Date.now(),
   });
 

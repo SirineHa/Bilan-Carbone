@@ -58,9 +58,8 @@ router.delete('/DeleteAvis/:id', async (req, res) => {
     }
 
     res.json({ message: 'Avis deleted successfully' });
-  } catch (error) {
-    console.error('Erreur lors de la connexion :', error);
-    setErrorMessage('Une erreur est survenue lors de la connexion. Veuillez réessayer.');
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 });
 

@@ -53,7 +53,10 @@ export const RequestReset = () => {
         type="email"
         placeholder="Adresse e-mail"
         value={email}
-        onFocus={() => setKeyboardOpen(true)}
+        onFocus={() => {
+          setEmail("");
+          setKeyboardOpen(true);
+        }}
       />
       <button
         className="submit-button"

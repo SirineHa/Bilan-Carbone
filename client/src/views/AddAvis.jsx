@@ -2,24 +2,44 @@ import React, { useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from '../components/Navbar';
+import NavbarAdmin from "../components/NavbarAdmin";
 import Footer from '../components/Footer';
+import { useAuth } from "../context/AuthContext";
 
 export const AddAvis = () => {
   const [name, setName] = useState('');
   const [type, setType] = useState('');
   const [comment, setComment] = useState('');
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
+
+  // Récupérer le numéro de nom de localStorage, ou utiliser 1 par défaut
+  const [nameNumber, setNameNumber] = useState(() => Number(localStorage.getItem('nameNumber')) || 1);
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    // Si le nom est vide, utiliser le numéro de nom
+    if (name === '') {
+      setName(`# ${nameNumber}`);
+    }
+
     try {
       const response = await axios.post('http://localhost:5000/avis/AddAvis', { name, type, comment });
       console.log(response.data); // Le nouvel avis retourné par l'API
+      setNameNumber(nameNumber + 1); // Incrémenter le numéro de nom
+      localStorage.setItem('nameNumber', nameNumber + 1); // Stocker le numéro de nom dans localStorage
       setFormSubmitted(true); // Mettre à jour l'état pour afficher un message de confirmation
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  const handleNameClick = () => {
+    if (name === `# ${nameNumber}`) {
+      setName('');
     }
   };
 
@@ -35,7 +55,7 @@ export const AddAvis = () => {
   return (
     <>
     <div className="flex flex-col min-h-screen">
-      <Navbar/>
+    {isAuthenticated ? <NavbarAdmin /> : <Navbar />}
       <main className="flex-grow">
       {formSubmitted ? (
         <div className="flex flex-col items-center justify-center mt-20 mb-20">
@@ -47,7 +67,15 @@ export const AddAvis = () => {
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
                 Name:
               </label>
-              <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" type="text" value={name} onChange={(e) => setName(e.target.value)} required />
+              <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="name"
+                type="text"
+                value={name}
+                placeholder={name === '' ? `# ${nameNumber}` : ''}
+                onClick={handleNameClick}
+                onChange={e => setName(e.target.value)}
+              />
             </div>
             <div className="relative">
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="type">
