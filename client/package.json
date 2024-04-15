@@ -2,7 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "proxy":"https://bilan-carbone.onrender.com/",
+  "proxy":"https://gali-carbo-front.onrender.com/",
   "dependencies": {
     "@redux-devtools/extension": "^3.3.0",
     "@testing-library/jest-dom": "^5.17.0",
