@@ -5,10 +5,13 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const localPassport = require('./config/passport');
+const path = require("path");
 
 const app = express();
 const PORT = process.env.PORT || 5000; // Utilisation d'une variable d'environnement pour le port
 const dbUri = process.env.MONGODB_URI;
+
+app.use(express.static(path.join(__dirname, "build"))); // put this line of code in app.js
 
 app.use(cors({
   origin: ["http://localhost:3000"], // Assurez-vous de configurer les bons domaines ici
