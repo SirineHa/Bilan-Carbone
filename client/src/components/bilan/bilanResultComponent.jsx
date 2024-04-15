@@ -5,6 +5,7 @@ import { useAuth } from "../../context/AuthContext";
 import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import BilanRessourcesAccordiantComponent from "./bilanRessourcesAccordiantComponent";
+import KeyboardComponent from "../KeyboardComponent/KeyboardComponent";
 import InputComponent from "./inputComponent";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -23,6 +24,8 @@ export default function BilanResultComponent(props) {
   const [emailSentError, setEmailSentError] = useState(false);
   const [mailIsValid, setMailIsValid] = useState(null);
   const { isAuthenticated } = useAuth();
+  const [keyboardOpen, setKeyboardOpen] = useState(false); // Ajoutez un état pour gérer l'ouverture et la fermeture du clavier
+  const [inputActive, setInputActive] = useState(null); // Ajoutez un état pour gérer le champ d'entrée actif
 
   const options = {
     plugins: {
@@ -37,7 +40,16 @@ export default function BilanResultComponent(props) {
     }
   };
 
-  const addStat = async (nom, score, specialite, mode = 'Express') => {
+  const addStat = async (
+    nom,
+    score,
+    specialite,
+    transport,
+    alimentation,
+    logement,
+    divers,
+    mode = "Express"
+  ) => {
     try {
       const res = await fetch("http://localhost:5000/stats/AddStats", {
         method: "POST",
@@ -47,8 +59,12 @@ export default function BilanResultComponent(props) {
         body: JSON.stringify({
           name: nom,
           mode: mode,
-          score: score,
-          spe: specialite
+          spe: specialite,
+          scoreTotal: score,
+          transport: transport,
+          alimentation: alimentation,
+          logement: logement,
+          divers: divers,
         }),
       });
       if (!res.ok) {
@@ -89,7 +105,16 @@ export default function BilanResultComponent(props) {
         const score= donnees?.result?.map((item) => item.value).reduce((accumulator, currentValue) => {
           return accumulator + currentValue;
         }, 0);
-        await addStat(questionResponse['nom'], score, questionResponse['specialite']);
+
+        await addStat(
+          questionResponse["nom"],
+          score,
+          questionResponse["specialite"],
+          donnees.result.find((item) => item.id === "transport").value.toString(),
+          donnees.result.find((item) => item.id === "alimentation").value.toString(),
+          donnees.result.find((item) => item.id === "logement").value.toString(),
+          donnees.result.find((item) => item.id === "divers").value.toString()
+        );
       } catch (erreur) {
         console.error("Erreur lors de l’appel au backend:", erreur);
       }
@@ -99,9 +124,9 @@ export default function BilanResultComponent(props) {
     appelerBackend();
   }, [questionResponse]); 
 
-  function handleMailChange(changeEvent) {
+  function handleMailChange(newValue) {
     setEmailSent(false);
-    setEmail(changeEvent.email);
+    setEmail(newValue);
     setMailIsValid(null);
   }
 
@@ -224,6 +249,11 @@ export default function BilanResultComponent(props) {
                   <InputComponent question={{id:'email', type:'email', title:"Votre addresse E-mail"}}
                                                 inputType="email"
                                                 value={{email:''}}
+                                                onFocus={() => {
+                                                  setEmail("");
+                                                  setKeyboardOpen(true);
+                                                  setInputActive("email");
+                                                }}
                                                 onValueChange={handleMailChange}/>
                   </div>
                 
@@ -235,6 +265,13 @@ export default function BilanResultComponent(props) {
                     Envoyer résultat par E-mail
                   </button>
                 </div>
+                {keyboardOpen && (
+                  <KeyboardComponent
+                    inputActive={inputActive}
+                    onInput={handleMailChange}
+                    onClose={() => setKeyboardOpen(false)}
+                  />
+                )}
                 {mailIsValid === false && (
                   <div className="my-2 text-center text-red-700">
                     Votre adresse email <b>{email}</b>.<br /> est invalide,

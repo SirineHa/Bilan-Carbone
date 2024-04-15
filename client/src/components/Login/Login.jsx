@@ -74,15 +74,22 @@ export const Login = () => {
   const [inputActive, setInputActive] = useState("");
 
   const handleInputFocus = (inputName) => {
-    setInputActive(inputName);
-    setKeyboardOpen(true);
-  };
+    console.log("Fermeture du clavier existant et réinitialisation des valeurs.");
+    setKeyboardOpen(false); // Ferme le clavier précédent
+    if (inputName === "email") setEmail(''); // Réinitialise la valeur de l'email si le focus est sur l'email
+    else if (inputName === "password") setPassword(''); // Réinitialise la valeur du mot de passe si le focus est sur le mot de passe
+    setInputActive(inputName); // Définit le nouveau champ actif
+    setTimeout(() => {
+        setKeyboardOpen(true); // Ouvre le nouveau clavier après une légère attente
+    }, 100); // Retarder légèrement l'ouverture pour assurer la réinitialisation
+};
 
-  const handleInputChange = (value) => {
-    setErrorMessage(""); // Réinitialise le message d'erreur
-    if (inputActive === "email") setEmail(value);
-    else if (inputActive === "password") setPassword(value);
-  };
+
+const handleInputChange = (newValue) => {
+  setErrorMessage(""); // Réinitialise le message d'erreur
+  if (inputActive === "email") setEmail(newValue);
+  else if (inputActive === "password") setPassword(newValue);
+};
 
   return (
     <div className="login-container">
@@ -143,10 +150,10 @@ export const Login = () => {
                   </div>
                   {keyboardOpen && (
                     <KeyboardComponent
-                      inputActive={inputActive}
-                      onInput={handleInputChange}
-                      onClose={() => setKeyboardOpen(false)}
-                    />
+                    inputActive={inputActive}
+                    onInput={handleInputChange}
+                    onClose={() => setKeyboardOpen(false)}
+                />
                   )}
                 </div>
                 <div className="admin-login">

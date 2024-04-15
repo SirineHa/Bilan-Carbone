@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
 import Draggable from "react-draggable";
@@ -7,6 +7,7 @@ import "./KeyboardComponent.css";
 export const KeyboardComponent = ({ onInput, onClose, numpadOnly }) => {
   const [layoutName, setLayoutName] = useState("default");
   const [input, setInput] = useState("");
+  const keyboardRef = useRef(null);
 
   const handleChange = input => {
     setInput(input);
@@ -16,6 +17,19 @@ export const KeyboardComponent = ({ onInput, onClose, numpadOnly }) => {
   const handleShiftClick = () => {
     setLayoutName(prevLayoutName => (prevLayoutName === "default" ? "shift" : "default"));
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (keyboardRef.current && !keyboardRef.current.contains(event.target)) {
+        onClose();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [onClose]);
 
   const frenchLayout = numpadOnly ? {
     default: ["1 2 3", "4 5 6", "7 8 9", "{bksp} 0 {enter}"],
@@ -48,7 +62,7 @@ export const KeyboardComponent = ({ onInput, onClose, numpadOnly }) => {
 
   return (
     <Draggable handle=".handle">
-      <div className="keyboard-container">
+       <div className="keyboard-container" ref={keyboardRef}>
         <div className="handle">Déplacer</div>
         <Keyboard
           layoutName={layoutName}

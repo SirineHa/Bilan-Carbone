@@ -37,6 +37,7 @@ export default function BilanComponent(props) {
                 //     onResponseChange(response);
                 // }
                 if (onTerminateClicked) {
+                    console.log(response)
                     onTerminateClicked(response);
                 }
             }

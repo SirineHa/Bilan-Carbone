@@ -1,56 +1,96 @@
-import React from 'react';
-import { Chart, DoughnutController, ArcElement, Tooltip, Legend } from 'chart.js';
+import React, { useEffect, useState } from 'react';
+import { Doughnut } from 'react-chartjs-2';
+import axios from 'axios';
 
-// Register the components outside of the CustomChart component. No need to export this.
-Chart.register(DoughnutController, ArcElement, Tooltip, Legend);
+const CustomChart = () => {
+  const [chartData, setChartData] = useState({
+    labels: ['Transport', 'Alimentation', 'Logement', 'Divers'],
+    datasets: [{
+      data: [],
+      backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'],
+      hoverOffset: 4
+    }]
+  });
+  const options = {
+    plugins: {
+      legend: {
+        display: false, 
+        onHover: function(e) {
+          e.native.target.style.cursor = 'pointer';
+        }// Cela enlève la légende par défaut
+      }
+    }
+  };
 
-function CustomChart({ data }) {
-    const chartRef = React.useRef(null);
-  
-    React.useEffect(() => {
-      const chartContext = chartRef.current.getContext('2d');
-      const doughnutChart = new Chart(chartContext, {
-        type: 'doughnut', 
-        data: data,
-        options: {
-          plugins: {
-            legend: {
-              position: 'bottom',
-              align: 'start', // Alignement de la légende.
-              labels: {
-                // Génération des labels avec les valeurs de pourcentage.
-                generateLabels: function (chart) {
-                  const data = chart.data;
-                  if (data.labels.length && data.datasets.length) {
-                    return data.labels.map((label, i) => {
-                      const meta = chart.getDatasetMeta(0);
-                      const total = meta.total;
-                      const value = data.datasets[0].data[i];
-                      const percentage = ((value / total) * 100).toFixed(2) + '%';
-      
-                      return {
-                        text: `${label}: ${value} (${percentage})`,
-                        fillStyle: data.datasets[0].backgroundColor[i],
-                      };
-                    });
-                  } else {
-                    return [];
-                  }
-                }
-              }
-            }
-          }
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/stats/GetStats');
+        if (response.data && response.data.length) {
+          const totals = response.data.reduce((acc, curr) => {
+            acc.transport += parseInt(curr.transport, 10);
+            acc.alimentation += parseInt(curr.alimentation, 10);
+            acc.logement += parseInt(curr.logement, 10);
+            acc.divers += parseInt(curr.divers, 10);
+            return acc;
+          }, { transport: 0, alimentation: 0, logement: 0, divers: 0 });
+
+          const totalValues = [
+            totals.transport, 
+            totals.alimentation, 
+            totals.logement, 
+            totals.divers
+          ];
+
+          setChartData({
+            labels: ['Transport', 'Alimentation', 'Logement', 'Divers'],
+            datasets: [{
+              data: totalValues,
+              backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'],
+              hoverOffset: 4
+            }]
+          });
         }
-      });
+      } catch (error) {
+        console.error('Erreur lors de la récupération des données pour le graphique Doughnut', error);
+      }
+    };
 
-      // Proper cleanup: destroy chart instance when the component unmounts
-      return () => {
-        doughnutChart.destroy();
-      };
-    }, [data]);
-  
-    return <canvas ref={chartRef} />;
-}
+    fetchStats();
+  }, []);
 
-// Export CustomChart as the default export
+  if (chartData.datasets[0].data.length === 0) {
+    return <div>Loading...</div>;
+  }
+
+  const total = chartData.datasets[0].data.reduce((sum, value) => sum + value, 0);
+
+  return (
+    <div>
+      <Doughnut data={chartData}  options={options} />
+      <div className="legend space-y-2 w-full mx-auto">
+        {chartData.labels.map((label, index) => {
+          const value = chartData.datasets[0].data[index];
+          const color = chartData.datasets[0].backgroundColor[index];
+          const percentage = ((value / total) * 100).toFixed(2);
+          return (
+            <div key={index} className="flex items-center">
+              <span className="inline-block w-3 h-3 mr-2 rounded-full" style={{ backgroundColor: color }} />
+              <span className="text-sm">{`${label}: ${value} tCO2e (${percentage}%)`}</span>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
 export default CustomChart;
+
+
+
+
+
+
+

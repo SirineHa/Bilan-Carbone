@@ -10,7 +10,23 @@ const StatistiqueSchema = new Schema({
         type: String,
         required: true
     },
-    score: {
+    scoreTotal: {
+        type: String, 
+        required: true 
+    },
+    transport: {
+        type: String, 
+        required: true 
+    },
+    alimentation: {
+        type: String, 
+        required: true 
+    },
+    logement: {
+        type: String, 
+        required: true 
+    },
+    divers: {
         type: String, 
         required: true 
     },

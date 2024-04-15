@@ -90,6 +90,7 @@ export const PerformReset = () => {
           placeholder="Entrez votre nouveau mot de passe"
           value={password}
           onFocus={() => {
+            setPassword("");
             setInputName("password");
             setKeyboardOpen(true);
           }}
@@ -121,6 +122,7 @@ export const PerformReset = () => {
           placeholder="Confirmez votre nouveau mot de passe"
           value={confirmPassword}
           onFocus={() => {
+            setConfirmPassword("");
             setInputName("confirmPassword");
             setKeyboardOpen(true);
           }}

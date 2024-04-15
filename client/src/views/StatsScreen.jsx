@@ -115,7 +115,7 @@ export const StatsScreen = () => {
 
   const handleDelete = async (id) => {
     const statsToDelete = stats.find(a => a._id === id);
-    const confirmation = window.confirm(`Voulez-vous vraiment supprimer l'stats suivant ?\n\nNom d'utilisateur: ${statsToDelete.name}\nMode: ${statsToDelete.mode}\nMessage: ${statsToDelete.score}\nSpécialité: ${statsToDelete.spe}\nDate: ${statsToDelete.date}`);
+    const confirmation = window.confirm(`Voulez-vous vraiment supprimer l'stats suivant ?\n\nNom d'utilisateur: ${statsToDelete.name}\nMode: ${statsToDelete.mode}\nMessage: ${statsToDelete.scoreTotal}\nSpécialité: ${statsToDelete.spe}\nDate: ${statsToDelete.date}`);
     
     if (confirmation) {
       try {
@@ -262,14 +262,14 @@ export const StatsScreen = () => {
           <div className="flex-grow flex-shrink flex-auto max-w-[300px]">
             <div className="flex items-start p-[16px] bg-gray-100 relative self-stretch w-full flex-[0_0_auto] bg-cool-gray050">
               <div className="relative w-fit mt-[-1.00px] font-text-xs-font-semibold font-[number:var(--text-xs-font-semibold-font-weight)] text-cool-gray500 text-[length:var(--text-xs-font-semibold-font-size)] tracking-[var(--text-xs-font-semibold-letter-spacing)] leading-[var(--text-xs-font-semibold-line-height)] whitespace-nowrap [font-style:var(--text-xs-font-semibold-font-style)] border-b-2 border-gray-300">
-                SCORE [TONNES]
+                SCORE TOTAL [TONNES]
               </div>
             </div>
             <div className="relative self-stretch w-full h-px bg-cool-gray200" />
               {currentStats.map((stats, index) => (
               <div className="flex items-start p-[16px] relative self-stretch w-full flex-[0_0_auto] bg-cool-gray050 rounded-[12px_0px_0px_12px]">
                 <div className="relative flex-1 h-[22px] mt-[-1.00px] font-text-sm-font-semibold font-[number:var(--text-sm-font-semibold-font-weight)] text-cool-gray900 text-[length:var(--text-sm-font-semibold-font-size)] tracking-[var(--text-sm-font-semibold-letter-spacing)] leading-[var(--text-sm-font-semibold-line-height)] whitespace-nowrap [font-style:var(--text-sm-font-semibold-font-style)]">
-                  {stats.score}
+                  {stats.scoreTotal}
                   </div>
                 </div>
               ))}     

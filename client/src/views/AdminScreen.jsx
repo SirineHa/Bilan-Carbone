@@ -178,17 +178,17 @@ export const AdminScreen = () => {
             <div className="relative self-stretch w-full h-px bg-cool-gray200" />
             <div className="bg-cool-gray050 flex items-center p-[16px] relative self-stretch w-full flex-[0_0_auto]">
               <div className="relative w-[370px] h-[22px] mt-[-1.00px] mr-[-29.00px] [font-family:'Inter',Helvetica] font-light text-cool-gray900 text-[14px] tracking-[0] leading-[21px] whitespace-nowrap">
-                {stats.length > 0 && stats[0] && <p>{stats[0].score}</p>}
+                {stats.length > 0 && stats[0] && <p>{stats[0].scoreTotal}</p>}
               </div>
             </div>
             <div className="bg-cool-gray050 flex items-center p-[16px] relative self-stretch w-full flex-[0_0_auto]">
               <div className="relative w-[370px] h-[22px] mt-[-1.00px] mr-[-29.00px] [font-family:'Inter',Helvetica] font-light text-cool-gray900 text-[14px] tracking-[0] leading-[21px] whitespace-nowrap">
-                {stats.length > 1 && stats[1] && <p>{stats[1].score}</p>}
+                {stats.length > 1 && stats[1] && <p>{stats[1].scoreTotal}</p>}
               </div>
             </div>
             <div className="bg-cool-gray050 flex items-center p-[16px] relative self-stretch w-full flex-[0_0_auto]">
               <div className="relative w-[370px] h-[22px] mt-[-1.00px] mr-[-29.00px] [font-family:'Inter',Helvetica] font-light text-cool-gray900 text-[14px] tracking-[0] leading-[21px] whitespace-nowrap">
-                {stats.length > 2 && stats[2] && <p>{stats[2].score}</p>}
+                {stats.length > 2 && stats[2] && <p>{stats[2].scoreTotal}</p>}
               </div>
             </div>
           </div>

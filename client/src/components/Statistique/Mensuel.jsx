@@ -1,156 +1,71 @@
-
-
-import React, { useState, useEffect, useRef } from 'react';
-import { Chart, LineController, LineElement, PointElement, LinearScale, Title, CategoryScale } from 'chart.js';
-
-Chart.register(LineController, LineElement, PointElement, LinearScale, Title, CategoryScale);
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Line } from 'react-chartjs-2';
+import 'chart.js/auto';
 
 const CustomLineChart = ({ specialite }) => {
-  const [chartData, setChartData] = useState({});
-  const chartRef = useRef(null);
+  const [chartData, setChartData] = useState({
+    labels: [],
+    datasets: [{
+      label: '',
+      data: [],
+      borderColor: 'rgb(75, 192, 192)',
+      tension: 0.1
+    }]
+  });
 
-  const testStatistics = [
-    {
-      name: 'Test Statistique 1',
-      mode: 'Normal',
-      score: '75',
-      date: new Date('2024-01-15'),
-      promo: 'ING INFO'
-    },
-    {
-      name: 'Test Statistique 2',
-      mode: 'Normal',
-      score: '85',
-      date: new Date('2024-02-15'),
-      promo: 'ING ENER'
-    },
-    {
-      name: 'Test Statistique 2',
-      mode: 'Normal',
-      score: '95',
-      date: new Date('2024-03-15'),
-      promo: 'ING INFO'
-    },
-    {
-      name: 'Test Statistique 2',
-      mode: 'Normal',
-      score: '85',
-      date: new Date('2024-04-15'),
-      promo: 'ING TELECOM'
-    },
-    {
-      name: 'Test Statistique 2',
-      mode: 'Normal',
-      score: '85',
-      date: new Date('2024-05-15'),
-      promo: 'ING INSTRU'
-    },
-    {
-      name: 'Test Statistique 2',
-      mode: 'Normal',
-      score: '85',
-      date: new Date('2024-06-15'),
-      promo: 'ING MACS'
-    },{
-      name: 'Test Statistique 2',
-      mode: 'Normal',
-      score: '85',
-      date: new Date('2024-07-15'),
-      promo: 'ING INFO'
-    },{
-      name: 'Test Statistique 2',
-      mode: 'Normal',
-      score: '85',
-      date: new Date('2024-08-15'),
-      promo: 'ING ENER'
-    },{
-      name: 'Test Statistique 2',
-      mode: 'Normal',
-      score: '85',
-      date: new Date('2024-09-15'),
-      promo: 'ING INSTRU'
-    },{
-      name: 'Test Statistique 2',
-      mode: 'Normal',
-      score: '85',
-      date: new Date('2024-10-15'),
-      promo: 'ING TELECOM'
-    },{
-      name: 'Test Statistique 2',
-      mode: 'Normal',
-      score: '85',
-      date: new Date('2024-11-15'),
-      promo: 'ING MACS'
-    },{
-      name: 'Test Statistique 2',
-      mode: 'Normal',
-      score: '85',
-      date: new Date('2024-12-15'),
-      promo: 'ING ENER'
-    },{
-      name: 'Test Statistique 2',
-      mode: 'Normal',
-      score: '85',
-      date: new Date('2024-02-15'),
-      promo: 'ING INFO'
-    }
-  ];
+  // Noms des mois en français
+  const monthNames = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", 
+                      "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
 
-  const groupByMonth = (stats) => {
-    const groupedData = {};
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/stats/GetStats');
+        // Filtre les données pour l'année 2024 et par spécialité si non 'default'
+        const filteredData = response.data.filter(d => 
+          new Date(d.date).getFullYear() === 2024 && 
+          (specialite === 'default' || d.spe === specialite)
+        );
 
-    stats.forEach(stat => {
-      const month = `${stat.date.getFullYear()}-${stat.date.getMonth() + 1}`;
-      if (!groupedData[month]) {
-        groupedData[month] = { totalScore: 0, count: 0 };
+        const groupedData = filteredData.reduce((acc, item) => {
+          const month = new Date(item.date).getMonth(); // Get month as an index
+          acc[month] = acc[month] || [];
+          acc[month].push(parseFloat(item.scoreTotal)); // Parse the scoreTotal to number
+          return acc;
+        }, {});
+
+        // Prepare labels and data for the chart
+        const labels = Object.keys(groupedData).sort().map(m => monthNames[m]);
+        const scores = Object.keys(groupedData).sort().map(m => 
+          (groupedData[m].reduce((sum, current) => sum + current, 0) / groupedData[m].length).toFixed(2)
+        );
+
+        setChartData({
+          labels,
+          datasets: [{
+            label: `Score Moyen Mensuel pour ${specialite === "default" ? "toutes spécialités" : specialite}`,
+            data: scores,
+            borderColor: 'rgb(75, 192, 192)',
+            tension: 0.1
+          }]
+        });
+      } catch (error) {
+        console.error("Erreur lors de la récupération des statistiques mensuelles", error);
       }
-      groupedData[month].totalScore += Number(stat.score);
-      groupedData[month].count += 1;
-    });
+    };
 
-    return Object.entries(groupedData).map(([month, data]) => {
-      return {
-        month,
-        averageScore: data.totalScore / data.count
-      };
-    });
-  };
+    fetchStats();
+  }, [specialite]);  // Re-run when specialite changes
 
-  useEffect(() => {
-    const filteredData = specialite === "default"
-      ? testStatistics // Si "default", utilisez toutes les données
-      : testStatistics.filter(stat => stat.promo === specialite);
-
-    const monthlyData = groupByMonth(filteredData);
-
-    setChartData({
-      labels: monthlyData.map(data => data.month),
-      datasets: [{
-        label: 'Score mensuel moyen',
-        data: monthlyData.map(data => data.averageScore),
-        fill: false,
-        borderColor: 'rgb(75, 192, 192)',
-        tension: 0.1
-      }]
-    });
-  }, [specialite]);
-
-  useEffect(() => {
-    if (chartRef.current && chartData.datasets?.length > 0) {
-      const chartContext = chartRef.current.getContext('2d');
-      const lineChart = new Chart(chartContext, {
-        type: 'line',
-        data: chartData,
-      });
-  
-      return () => lineChart.destroy();
-    }
-  }, [chartData]);
-
-  return <canvas ref={chartRef} />;
+  return <Line data={chartData} />;
 };
 
 export default CustomLineChart;
+
+
+
+
 
   
  
