@@ -97,20 +97,6 @@ export const StatsScreen = () => {
   useEffect(() => {
     setCurrentPage(1);
   }, [filterMode, filterSpe]);
-  //-------------------------------------------------------------------
-    //-------------------------------------------------------------------
-
-
-  /*const handleDelete = async (id) => {
-    try {
-      await axios.delete(`http://localhost:5000/stats/DeleteStats/${id}`);
-      // Recharger les statistiques après la suppression
-      fetchStats();
-    } catch (err) {
-      console.error(err);
-    }
-  };*/
-
   
 
   const handleDelete = async (id) => {

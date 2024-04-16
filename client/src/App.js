@@ -8,7 +8,6 @@ import { Login } from "./components/Login/Login";
 import Statistiques from "./components/Statis"; 
 
 import { Accueil4 } from "./views/Accueil4";
-import { NewAccueil } from "./views/NewAccueil";
 import BilanExpressView from "./views/bilanExpressView";
 import BilanNormalView from "./views/bilanNormalView";
 import { AdminScreen } from "./views/AdminScreen";
@@ -17,7 +16,6 @@ import {AvisScreen} from "./views/AvisScreen";
 
 import "./App.css";
 import { AddAvis } from "./views/AddAvis";
-import { Calculateur } from "./views/Calculateur";
 
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, isLoading } = useAuth();
@@ -35,7 +33,6 @@ const App = () => {
     <AuthProvider>
       <Routes>
         <Route path="/" element={<Accueil4 />} />
-        <Route path="/new" element={<NewAccueil />} />
         <Route path="/login" element={<Login />} />
         <Route path="/add-avis" element={<AddAvis/>}/>
         
@@ -72,8 +69,6 @@ const App = () => {
         <Route path="*" element={<Navigate to="/" />} />
 
         <Route path="/statistiques" element={<Statistiques/>} />
-        <Route path="/calcul" element={<Calculateur/>} />
-
       </Routes>
     </AuthProvider>
     

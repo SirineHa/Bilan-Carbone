@@ -149,7 +149,7 @@ export default function BilanResultComponent(props) {
       if (!res.ok) {
         setEmailSentError(true);
         return;
-        // throw new Error("La requête au backend a échoué (envoie de mail)");
+        //throw new Error("La requête au backend a échoué (envoie de mail)");
       }
       const resultatEmail = await res.json();
       setEmailSent(resultatEmail.success);

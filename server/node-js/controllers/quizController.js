@@ -4,6 +4,7 @@ const axios = require('axios');
 const { sendQuizResultEmail } = require("../services/emailService");
 
 exports.sendResultEMail = async function(req, res) {
+  console.log(req);
   try {
     await sendQuizResultEmail(req.body.email, req.body.resultResponse, req.body.resultRequest);
     res.send({

@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkAuthentication = async () => {
       try {
-        const response = await fetch("http://localhost:5000/dashboard-admin", {
+        const response = await fetch("http://localhost:3000/dashboard-admin", {
           method: "GET",
           credentials: "include",
         });
