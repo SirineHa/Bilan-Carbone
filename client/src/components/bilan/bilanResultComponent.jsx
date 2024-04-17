@@ -135,7 +135,7 @@ export default function BilanResultComponent(props) {
      if (emailRegex.test(email)) {
       setMailIsValid(true);
       setEmailReset(false);
-      const res = await fetch(`${apiUrl}quiz/send-email`, {
+      const res = await fetch(`${apiUrl}/quiz/send-email`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
