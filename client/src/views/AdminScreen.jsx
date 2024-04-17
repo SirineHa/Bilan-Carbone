@@ -6,6 +6,7 @@ import axios from 'axios';
 
 
 export const AdminScreen = () => {
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   // pour le menu toggle 
   const [isMenuOpen, setMenuOpen] = useState(false);
@@ -21,7 +22,7 @@ export const AdminScreen = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/stats/Get3Stats');
+        const response = await axios.get(`${apiUrl}/stats/Get3Stats`);
         setStats(response.data);
       } catch (error) {
         console.error(error);
@@ -39,7 +40,7 @@ export const AdminScreen = () => {
   useEffect(() => {
     const fetchAvis = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/avis/Get3Avis');
+        const response = await axios.get(`${apiUrl}/avis/Get3Avis`);
         setAvis(response.data);
       } catch (error) {
         console.error(error);

@@ -4,6 +4,7 @@ import { Line } from 'react-chartjs-2';
 import 'chart.js/auto';
 
 const CustomLineYearChart = ({ specialite }) => {
+  const apiUrl = process.env.REACT_APP_API_URL;
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: [{
@@ -17,7 +18,7 @@ const CustomLineYearChart = ({ specialite }) => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/stats/GetStats');
+        const response = await axios.get(`${apiUrl}/stats/GetStats`);
         const data = response.data.filter(d => specialite === "default" || d.spe === specialite);
         const groupedData = data.reduce((acc, item) => {
           const year = new Date(item.date).getFullYear(); // Get year from the date

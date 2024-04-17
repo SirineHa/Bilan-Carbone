@@ -48,6 +48,7 @@ function FormSelect({ name, options, onChange }) {
 }
 
 function Statistiques() {
+  const apiUrl = process.env.REACT_APP_API_URL;
   const today = new Date();
   const formattedDate = today.toLocaleDateString('fr-FR', {
     day: 'numeric',
@@ -59,7 +60,7 @@ function Statistiques() {
   const [totalEmissions, setTotalEmissions] = useState('');
 
   useEffect(() => {
-    axios.get('http://localhost:5000/stats/api/statistiques/totalScore')
+    axios.get(`${apiUrl}/stats/api/statistiques/totalScore`)
       .then(response => {
         setTotalEmissions(response.data.total);
       })
@@ -70,7 +71,7 @@ function Statistiques() {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/stats/api/statistiques/count')
+    axios.get(`${apiUrl}/stats/api/statistiques/count`)
       .then(response => {
         if (response.data && response.data.count) {
           setCount(response.data.count);

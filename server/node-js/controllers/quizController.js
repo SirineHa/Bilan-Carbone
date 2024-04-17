@@ -22,12 +22,13 @@ exports.sendResultEMail = async function(req, res) {
 
 
  exports.calculateresult = async (req, res) => {
+  const flaskServer = process.env.FLASK_SERVER;
   try {
     console.log(req.body);
     try {
       const data = req.body;
       // Appel à l'endpoint Flask pour calculer l'empreinte carbone
-      const flaskResponse = await axios.post('http://localhost:5001/api/calcul_emission', data);
+      const flaskResponse = await axios.post(`${flaskServer}/api/calcul_emission`, data);
       
     
     let emissionBudget = 0;

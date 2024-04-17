@@ -5,6 +5,7 @@ import axios from 'axios';
 
 
 export const StatsScreen = () => {
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   // pour le menu toggle 
   const [isMenuOpen, setMenuOpen] = useState(false);
@@ -27,7 +28,7 @@ export const StatsScreen = () => {
 
   const fetchStats = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/stats/GetStats');
+      const response = await axios.get(`${apiUrl}/stats/GetStats`);
       let data = response.data;
 
       if (sortOrder === 'desc') {
@@ -105,7 +106,7 @@ export const StatsScreen = () => {
     
     if (confirmation) {
       try {
-        await axios.delete(`http://localhost:5000/stats/DeleteStats/${id}`);
+        await axios.delete(`${apiUrl}/stats/DeleteStats/${id}`);
         fetchStats();
       } catch (err) {
         console.error(err);

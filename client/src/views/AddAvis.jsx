@@ -7,6 +7,7 @@ import Footer from '../components/Footer';
 import { useAuth } from "../context/AuthContext";
 
 export const AddAvis = () => {
+  const apiUrl = process.env.REACT_APP_API_URL;
   const [name, setName] = useState('');
   const [type, setType] = useState('');
   const [comment, setComment] = useState('');
@@ -27,7 +28,7 @@ export const AddAvis = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/avis/AddAvis', { name, type, comment });
+      const response = await axios.post(`${apiUrl}/avis/AddAvis`, { name, type, comment });
       console.log(response.data); // Le nouvel avis retourné par l'API
       setNameNumber(nameNumber + 1); // Incrémenter le numéro de nom
       localStorage.setItem('nameNumber', nameNumber + 1); // Stocker le numéro de nom dans localStorage

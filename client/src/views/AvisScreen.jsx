@@ -5,6 +5,7 @@ import axios from 'axios';
 
 
 export const AvisScreen = () => {
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   // pour le menu toggle 
   const [isMenuOpen, setMenuOpen] = useState(false);
@@ -25,7 +26,7 @@ export const AvisScreen = () => {
 
   const fetchAvis = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/avis/GetAvis');
+      const response = await axios.get(`${apiUrl}/avis/GetAvis`);
       let data = response.data;
 
       if (sortOrder === 'desc') {
@@ -94,7 +95,7 @@ export const AvisScreen = () => {
     
     if (confirmation) {
       try {
-        await axios.delete(`http://localhost:5000/avis/DeleteAvis/${id}`);
+        await axios.delete(`${apiUrl}/avis/DeleteAvis/${id}`);
         fetchAvis();
       } catch (err) {
         console.error(err);

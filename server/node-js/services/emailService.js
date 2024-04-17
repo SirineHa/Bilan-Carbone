@@ -3,7 +3,7 @@ const sgMail = require("@sendgrid/mail");
 async function sendResetPasswordEmail(admin, token) {
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-  const resetURL = `http://localhost:3000/reset-password/${token}`;
+  const resetURL = `${process.env.FRONT_URL}/reset-password/${token}`;
 
   const msg = {
     to: admin.email,

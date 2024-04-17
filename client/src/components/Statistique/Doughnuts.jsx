@@ -3,6 +3,7 @@ import { Doughnut } from 'react-chartjs-2';
 import axios from 'axios';
 
 const CustomChart = () => {
+  const apiUrl = process.env.REACT_APP_API_URL;
   const [chartData, setChartData] = useState({
     labels: ['Transport', 'Alimentation', 'Logement', 'Divers'],
     datasets: [{
@@ -26,7 +27,7 @@ const CustomChart = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/stats/GetStats');
+        const response = await axios.get(`${apiUrl}/stats/GetStats`);
         if (response.data && response.data.length) {
           const totals = response.data.reduce((acc, curr) => {
             acc.transport += parseInt(curr.transport, 10);

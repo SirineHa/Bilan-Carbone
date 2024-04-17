@@ -5,13 +5,13 @@ import { useAuth } from "../../context/AuthContext";
 import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import BilanRessourcesAccordiantComponent from "./bilanRessourcesAccordiantComponent";
-import KeyboardComponent from "../KeyboardComponent/KeyboardComponent";
 import InputComponent from "./inputComponent";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 
 export default function BilanResultComponent(props) {
+  const apiUrl = process.env.REACT_APP_API_URL;
   const userName = props.userName || "";
   const questionResponse = props.questionResponse || {};
 
@@ -19,13 +19,12 @@ export default function BilanResultComponent(props) {
 
   const [reponse, setReponse] = useState(null);
   const [donneesChart, setDonneesChart] = useState(null);
-  const [email, setEmail] = useState(null);
+  const [email, setEmail] = useState('');
   const [emailSent, setEmailSent] = useState(false);
   const [emailSentError, setEmailSentError] = useState(false);
+  const [emailReset, setEmailReset] = useState(true);
   const [mailIsValid, setMailIsValid] = useState(null);
   const { isAuthenticated } = useAuth();
-  const [keyboardOpen, setKeyboardOpen] = useState(false); // Ajoutez un état pour gérer l'ouverture et la fermeture du clavier
-  const [inputActive, setInputActive] = useState(null); // Ajoutez un état pour gérer le champ d'entrée actif
 
   const options = {
     plugins: {
@@ -51,7 +50,7 @@ export default function BilanResultComponent(props) {
     mode = "Express"
   ) => {
     try {
-      const res = await fetch("http://localhost:5000/stats/AddStats", {
+      const res = await fetch(`${apiUrl}/stats/AddStats`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -80,7 +79,7 @@ export default function BilanResultComponent(props) {
     // Fonction pour effectuer l'appel au backend
     const appelerBackend = async () => {
       try {
-        const res = await fetch("http://localhost:5000/quiz/calculate", {
+        const res = await fetch(`${apiUrl}/quiz/calculate`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -126,7 +125,7 @@ export default function BilanResultComponent(props) {
 
   function handleMailChange(newValue) {
     setEmailSent(false);
-    setEmail(newValue);
+    setEmail(newValue.email);
     setMailIsValid(null);
   }
 
@@ -135,7 +134,8 @@ export default function BilanResultComponent(props) {
      // Check if the email matches the regex
      if (emailRegex.test(email)) {
       setMailIsValid(true);
-      const res = await fetch("http://localhost:5000/quiz/send-email", {
+      setEmailReset(false);
+      const res = await fetch(`${apiUrl}quiz/send-email`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -148,12 +148,14 @@ export default function BilanResultComponent(props) {
       });
       if (!res.ok) {
         setEmailSentError(true);
+        setEmailReset(true);
         return;
         //throw new Error("La requête au backend a échoué (envoie de mail)");
       }
       const resultatEmail = await res.json();
       setEmailSent(resultatEmail.success);
-      document.getElementById('email-adr').value = '';
+      setEmail('');
+      setEmailReset(true);
     } else {
       setMailIsValid(false);
     }
@@ -239,24 +241,27 @@ export default function BilanResultComponent(props) {
                 <div className="bg-white p-6 rounded-2xl shadow space-y-4">
                   <div className="flex items-center space-x-2">
                     <h2 className="text-xl font-semibold text-gray-800">
-                    Souhaitez-vous recevoir les résultats par courrier électronique?
+                      Souhaitez-vous recevoir les résultats par courrier
+                      électronique?
                     </h2>
                   </div>
                 </div>
 
                 <div className="space-x-4 justify-center text-center">
                   <div className="my-2 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                  <InputComponent question={{id:'email', type:'email', title:"Votre addresse E-mail"}}
-                                                inputType="email"
-                                                value={{email:''}}
-                                                onFocus={() => {
-                                                  setEmail("");
-                                                  setKeyboardOpen(true);
-                                                  setInputActive("email");
-                                                }}
-                                                onValueChange={handleMailChange}/>
+                    {emailReset && (
+                      <InputComponent
+                        question={{
+                          id: "email",
+                          type: "email",
+                          title: "Votre addresse E-mail",
+                        }}
+                        inputType="email"
+                        value={{ email: email }}
+                        onValueChange={handleMailChange}
+                      />
+                    )}
                   </div>
-                
 
                   <button
                     onClick={sendEmail}
@@ -265,13 +270,6 @@ export default function BilanResultComponent(props) {
                     Envoyer résultat par E-mail
                   </button>
                 </div>
-                {keyboardOpen && (
-                  <KeyboardComponent
-                    inputActive={inputActive}
-                    onInput={handleMailChange}
-                    onClose={() => setKeyboardOpen(false)}
-                  />
-                )}
                 {mailIsValid === false && (
                   <div className="my-2 text-center text-red-700">
                     Votre adresse email <b>{email}</b>.<br /> est invalide,
