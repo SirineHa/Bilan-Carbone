@@ -4,6 +4,7 @@ import { KeyboardComponent } from "../KeyboardComponent/KeyboardComponent";
 import "./PerformReset.css";
 
 export const PerformReset = () => {
+  const apiUrl = process.env.REACT_APP_API_URL;
   const [keyboardOpen, setKeyboardOpen] = useState(false);
   const [inputName, setInputName] = useState("");
   const { token } = useParams();
@@ -50,7 +51,7 @@ export const PerformReset = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/reset-password/${token}`,
+        `${apiUrl}/reset-password/${token}`,
         {
           method: "POST",
           headers: {

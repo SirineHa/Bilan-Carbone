@@ -4,6 +4,7 @@ import { Line } from 'react-chartjs-2';
 import 'chart.js/auto';
 
 const CustomLineChart = ({ specialite }) => {
+  const apiUrl = process.env.REACT_APP_API_URL;
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: [{
@@ -21,7 +22,7 @@ const CustomLineChart = ({ specialite }) => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/stats/GetStats');
+        const response = await axios.get(`${apiUrl}/stats/GetStats`);
         // Filtre les données pour l'année 2024 et par spécialité si non 'default'
         const filteredData = response.data.filter(d => 
           new Date(d.date).getFullYear() === 2024 && 

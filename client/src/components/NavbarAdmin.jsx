@@ -5,12 +5,14 @@ import { useAuth } from '../context/AuthContext' // Remplacez './path/to/AuthCon
 
 
 export default function NavbarAdmin(props) {
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   const [navbarOpen, setNavbarOpen] = React.useState(false);
   const navigate = useNavigate();
   const { logout } = useAuth(); // Ajoutez cette ligne
 
   const handleLogout = async () => {
-  await fetch('http://localhost:5000/logout', { // Remplacez 'http://localhost:5000' par l'URL de votre serveur
+  await fetch(`${apiUrl}/logout`, { // Remplacez 'http://localhost:5000' par l'URL de votre serveur
     method: 'GET',
     credentials: 'include',
   });

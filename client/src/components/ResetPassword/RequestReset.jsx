@@ -4,6 +4,7 @@ import { KeyboardComponent } from "../KeyboardComponent/KeyboardComponent"; // I
 import "./RequestReset.css";
 
 export const RequestReset = () => {
+  const apiUrl = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -23,7 +24,7 @@ export const RequestReset = () => {
     setIsLoading(true);
     setMessage("");
     try {
-      const response = await fetch("http://localhost:5000/forgot-password", {
+      const response = await fetch(`${apiUrl}/forgot-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),

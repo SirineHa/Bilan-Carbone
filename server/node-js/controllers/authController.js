@@ -84,7 +84,7 @@ exports.getResetPassword = async (req, res) => {
   }
 
   // Redirection vers la page de réinitialisation du mot de passe (optionnel)
-  res.redirect(`http://localhost:3000/new-password/${token}`);
+  res.redirect(`${process.env.FRONT_URL}/new-password/${token}`);
 };
 
 exports.postResetPassword = async (req, res) => {

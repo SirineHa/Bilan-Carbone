@@ -27,12 +27,13 @@ export const Login = () => {
   const { login } = useAuth(); // Ajoutez cette ligne
 
   const handleLoginClick = async (event) => {
+    const apiUrl = process.env.REACT_APP_API_URL;
     event.preventDefault();
     console.log(
       `Tentative de connexion avec l'email : ${email} et le mot de passe : ${password}`
     );
     try {
-      const response = await fetch("http://localhost:5000/login", {
+      const response = await fetch(`${apiUrl}/login`, {
         method: "POST",
         credentials: "include",
         headers: {

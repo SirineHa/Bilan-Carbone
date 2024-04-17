@@ -11,6 +11,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 
 export default function BilanResultComponent(props) {
+  const apiUrl = process.env.REACT_APP_API_URL;
   const userName = props.userName || "";
   const questionResponse = props.questionResponse || {};
 
@@ -49,7 +50,7 @@ export default function BilanResultComponent(props) {
     mode = "Express"
   ) => {
     try {
-      const res = await fetch("http://localhost:5000/stats/AddStats", {
+      const res = await fetch(`${apiUrl}/stats/AddStats`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -78,7 +79,7 @@ export default function BilanResultComponent(props) {
     // Fonction pour effectuer l'appel au backend
     const appelerBackend = async () => {
       try {
-        const res = await fetch("http://localhost:5000/quiz/calculate", {
+        const res = await fetch(`${apiUrl}/quiz/calculate`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -134,7 +135,7 @@ export default function BilanResultComponent(props) {
      if (emailRegex.test(email)) {
       setMailIsValid(true);
       setEmailReset(false);
-      const res = await fetch("http://localhost:5000/quiz/send-email", {
+      const res = await fetch(`${apiUrl}quiz/send-email`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
