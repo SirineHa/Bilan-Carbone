@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 5000; // Utilisation d'une variable d'environne
 const dbUri = process.env.MONGODB_URI;
 
 app.use(cors({
-  origin: '*', // Assurez-vous de configurer les bons domaines ici
+  origin: ["http://localhost:3000","https://bilan-carbone-flask-server.onrender.com/","https://bilan-carbone-6859.onrender.com/","https://bilan-carbone-node-js.onrender.com/"], // Assurez-vous de configurer les bons domaines ici
   credentials: true, // Permet les credentials cross-origin
 }));
 app.use(bodyParser.json());

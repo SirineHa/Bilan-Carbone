@@ -6,7 +6,9 @@ import CustomLineYearChart from "./Statistique/Annuel";
 import { Chart, ArcElement, Tooltip, Legend } from 'chart.js';
 import CustomChart from "./Statistique/Doughnuts";
 import axios from 'axios';
-import NavbarAdmin from "././NavbarAdmin";
+import Navbar from "../components/Navbar";
+import NavbarAdmin from "../components/NavbarAdmin";
+import { useAuth } from "../context/AuthContext";
 
 Chart.register(ArcElement, Tooltip, Legend);
 function StatCard({ title, value, percentage, isNegative }) {
@@ -55,6 +57,7 @@ function Statistiques() {
     month: 'long',
     year: 'numeric'
   });
+  const { isAuthenticated } = useAuth();
   const [selectedSpecialty, setSelectedSpecialty] = useState("default");
   const [selectedType, setSelectedType] = useState("default_stat");
   const [totalEmissions, setTotalEmissions] = useState('');
@@ -93,18 +96,19 @@ function Statistiques() {
   const renderChart = () => {
     switch (selectedType) {
       case "option 1":
-        return <CustomLineYearChart specialite={selectedSpecialty} />;
+        return <CustomLineYearChart specialite={selectedSpecialty} key={selectedSpecialty} />;
       case "option 2":
-        return <CustomLineChart specialite={selectedSpecialty} />;
+        return <CustomLineChart specialite={selectedSpecialty} key={selectedSpecialty} />;
       default:
-        return <CustomLineChart specialite={selectedSpecialty} />;
+        return <CustomLineChart specialite={selectedSpecialty} key={selectedSpecialty} />;
     }
   };
+  
 
   return (
     
     <div className="flex flex-col pt-3 bg-slate-100 rounded-[30px]">
-      <NavbarAdmin/>
+          {isAuthenticated ? <NavbarAdmin /> : <Navbar />}
       <div className="self-center mt-12 mb-3 w-full max-w-[1213px] max-md:mt-10 max-md:max-w-full">
         <div className="flex gap-5 max-md:flex-col max-md:gap-0">
           <div className="flex flex-col w-[65%] max-md:ml-0 max-md:w-full">
@@ -149,7 +153,7 @@ function Statistiques() {
                 <FormSelect
                               name="Spécialités"
                               options={[
-                                { value: "default_stat", name: "ING" },
+                                { value: "default", name: "ING" },
                                 { value: "ING INFO", name: "ING INFO" },
                                 { value: "ING ENER", name: "ING ENER" },
                                 { value: "ING INSTRU", name: "ING INSTRU" },

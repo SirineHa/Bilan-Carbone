@@ -29,6 +29,7 @@ export const Login = () => {
   const handleLoginClick = async (event) => {
     const apiUrl = process.env.REACT_APP_API_URL;
     event.preventDefault();
+    console.log(apiUrl);
     console.log(
       `Tentative de connexion avec l'email : ${email} et le mot de passe : ${password}`
     );
