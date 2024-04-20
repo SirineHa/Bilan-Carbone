@@ -31,9 +31,7 @@ export const Accueil4 = () => {
                     Bilan Carbone
                   </h1>
                   <p className="mt-4 text-lg [font-family:'Open_Sans',Helvetica] font-normal text-black tracking-[0] leading-[40px]">
-                    This is a simple example of a Landing Page you can build
-                    using Tailwind Starter Kit. It features multiple CSS
-                    components based on the Tailwindcss design system.
+                    Découvrez notre interface web révolutionnaire pour calculer votre Bilan Carbone, fruit d'un travail collectif et d'une synergie entre notre équipe et des étudiants en énergétique.
                   </p>
                 </div>
                 <div className="flex flex-wrap mt-5">

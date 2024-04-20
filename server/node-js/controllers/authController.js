@@ -31,7 +31,7 @@ exports.forgotPassword = async (req, res) => {
   const { email } = req.body;
   try {
     const admin = await Admin.findOne({ email: email });
-    console.log("Admin found:", admin);
+    //console.log("Admin found:", admin);
     if (!admin) {
       return res
         .status(200)
@@ -40,23 +40,23 @@ exports.forgotPassword = async (req, res) => {
 
     // Générer un token de réinitialisation
     const resetToken = crypto.randomBytes(20).toString("hex");
-    console.log("Reset token:", resetToken); // Log the reset token
+    //console.log("Reset token:", resetToken); // Log the reset token
 
     // Stocker le token hashé (pour des raisons de sécurité) dans la base de données
     const hashedToken = crypto
       .createHash("sha256")
       .update(resetToken)
       .digest("hex");
-    console.log("Hashed token:", hashedToken); // Log the hashed token
+    //console.log("Hashed token:", hashedToken); // Log the hashed token
 
     admin.resetPasswordToken = hashedToken;
     admin.resetPasswordExpires = Date.now() + 3600000; // 1 heure
     await admin.save();
-    console.log("Admin saved:", admin);
+    //console.log("Admin saved:", admin);
 
     // Envoyer l'email
     await sendResetPasswordEmail(admin, resetToken); // Notez l'utilisation du token non hashé ici
-    console.log("Email sent");
+    //console.log("Email sent");
 
     res
       .status(200)
@@ -69,10 +69,10 @@ exports.forgotPassword = async (req, res) => {
 
 exports.getResetPassword = async (req, res) => {
   const { token } = req.params;
-  console.log("Token:", token); // Log the token
+  //console.log("Token:", token); // Log the token
 
   const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
-  console.log("Hashed token:", hashedToken); // Log the hashed token
+  //console.log("Hashed token:", hashedToken); // Log the hashed token
 
   const admin = await Admin.findOne({
     resetPasswordToken: hashedToken,

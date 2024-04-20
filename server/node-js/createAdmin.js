@@ -5,12 +5,12 @@ const dbUri = process.env.MONGODB_URI;
 
 mongoose.connect(dbUri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(async () => {
-    console.log('MongoDB connected...');
+    //console.log('MongoDB connected...');
 
     // Vérifie si un administrateur avec cet email existe déjà
     const existingAdmin = await Admin.findOne({ email: process.env.ADMIN_EMAIL });
     if (existingAdmin) {
-      console.log('Admin user already exists');
+      //console.log('Admin user already exists');
       return;
     }
 

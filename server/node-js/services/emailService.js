@@ -24,8 +24,8 @@ async function sendResetPasswordEmail(admin, token) {
 }
 
 async function sendQuizResultEmail(emailAdress, resultResponse, resultRequest) {
-  console.log('----- SEND EMAIL QUIZ RESULT ----');
-  console.log('------ TOKEN : ', process.env.SENDGRID_API_KEY)
+  //console.log('----- SEND EMAIL QUIZ RESULT ----');
+  //console.log('------ TOKEN : ', process.env.SENDGRID_API_KEY)
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
   let htmlResultItemsLi = '';

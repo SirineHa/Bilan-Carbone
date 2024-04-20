@@ -29,9 +29,9 @@ export const Login = () => {
   const handleLoginClick = async (event) => {
     const apiUrl = process.env.REACT_APP_API_URL;
     event.preventDefault();
-    console.log(
+    /*console.log(
       `Tentative de connexion avec l'email : ${email} et le mot de passe : ${password}`
-    );
+    );*/
     try {
       const response = await fetch(`${apiUrl}/login`, {
         method: "POST",
@@ -47,13 +47,13 @@ export const Login = () => {
       }
 
       const result = await response.json();
-      console.log("Réponse de l'API :", result);
+      //console.log("Réponse de l'API :", result);
       if (result.success) {
-        console.log("Connexion réussie. Redirection vers le tableau de bord.");
+        //console.log("Connexion réussie. Redirection vers le tableau de bord.");
         login(); // Ajoutez cette ligne
         navigate("/dashboard-admin");
       } else {
-        console.log("Échec de la connexion. Identifiants invalides.");
+        //console.log("Échec de la connexion. Identifiants invalides.");
         setErrorMessage("Le mot de passe ou l'e-mail est incorrect");
       }
     } catch (error) {

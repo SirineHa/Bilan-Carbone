@@ -28,7 +28,7 @@ router.get('/Get3Stats', async (req, res) => {
 
 // Route pour créer un nouvel statistique
 router.post('/AddStats', async (req, res) => {
-  console.log(req)
+  //console.log(req)
   const statistique = new Statistique({
       // Assurez-vous que ces champs correspondent à ceux de votre modèle Statistique
       name: req.body.name,
@@ -41,7 +41,7 @@ router.post('/AddStats', async (req, res) => {
       spe: req.body.spe,
       date: Date.now(),
   });
-  console.log(statistique);
+  //console.log(statistique);
   try {
       const newStatistique = await statistique.save();
       res.status(201).json(newStatistique);
