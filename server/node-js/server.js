@@ -10,8 +10,19 @@ const app = express();
 const PORT = process.env.PORT || 5000; // Utilisation d'une variable d'environnement pour le port
 const dbUri = process.env.MONGODB_URI;
 
+// app.use(cors({
+//   origin: ["http://localhost:3000","https://bilan-carbone-flask-server.onrender.com/","https://bilan-carbone-6859.onrender.com/","https://bilan-carbone-node-js.onrender.com/"], // Assurez-vous de configurer les bons domaines ici
+//   credentials: true, // Permet les credentials cross-origin
+// }));
 app.use(cors({
-  origin: ["http://localhost:3000","https://bilan-carbone-flask-server.onrender.com/","https://bilan-carbone-6859.onrender.com/","https://bilan-carbone-node-js.onrender.com/"], // Assurez-vous de configurer les bons domaines ici
+  origin: function (origin, callback) {
+    // Vérifiez si l'origine est une sous-domaine de onrender.com ou une des URL spécifiques
+    if (!origin || /(\.|\b)onrender\.com$/.test(origin) || origin === 'http://localhost:3000') {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true, // Permet les credentials cross-origin
 }));
 app.use(bodyParser.json());
