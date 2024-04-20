@@ -7,6 +7,7 @@ export function useAuth() {
 }
 
 export const AuthProvider = ({ children }) => {
+  const apiUrl = process.env.REACT_APP_API_URL;
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -21,7 +22,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkAuthentication = async () => {
       try {
-        const response = await fetch("http://localhost:3000/dashboard-admin", {
+        const response = await fetch(`${apiUrl}/dashboard-admin`, {
           method: "GET",
           credentials: "include",
         });
