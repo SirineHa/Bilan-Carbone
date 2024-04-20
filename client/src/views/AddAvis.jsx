@@ -29,7 +29,7 @@ export const AddAvis = () => {
 
     try {
       const response = await axios.post(`${apiUrl}/avis/AddAvis`, { name, type, comment });
-      console.log(response.data); // Le nouvel avis retourné par l'API
+      //console.log(response.data); // Le nouvel avis retourné par l'API
       setNameNumber(nameNumber + 1); // Incrémenter le numéro de nom
       localStorage.setItem('nameNumber', nameNumber + 1); // Stocker le numéro de nom dans localStorage
       setFormSubmitted(true); // Mettre à jour l'état pour afficher un message de confirmation

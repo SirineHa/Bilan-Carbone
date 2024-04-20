@@ -15,7 +15,7 @@ export default class RadioComponent extends React.Component {
     const response = this.state.questionResponse;
     response[this.state.question.id] = changeEvent.target.value;
     this.setState({...this.state, questionResponse: response});
-    console.log("event", changeEvent, this.state);
+    //console.log("event", changeEvent, this.state);
   }
 
   render() {

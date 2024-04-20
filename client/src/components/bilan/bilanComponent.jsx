@@ -32,12 +32,12 @@ export default function BilanComponent(props) {
             if (currentQuestionIndex + 1 < questionsList.length) {
                 setCurrentQuestionIndex(currentQuestionIndex + 1);
             } else {
-                console.log("Terminer",)
+                //console.log("Terminer",)
                 // if (onResponseChange) {
                 //     onResponseChange(response);
                 // }
                 if (onTerminateClicked) {
-                    console.log(response)
+                    //console.log(response)
                     onTerminateClicked(response);
                 }
             }

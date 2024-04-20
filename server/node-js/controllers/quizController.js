@@ -4,7 +4,7 @@ const axios = require('axios');
 const { sendQuizResultEmail } = require("../services/emailService");
 
 exports.sendResultEMail = async function(req, res) {
-  console.log(req);
+  //console.log(req);
   try {
     await sendQuizResultEmail(req.body.email, req.body.resultResponse, req.body.resultRequest);
     res.send({
@@ -24,7 +24,7 @@ exports.sendResultEMail = async function(req, res) {
  exports.calculateresult = async (req, res) => {
   const flaskServer = process.env.FLASK_SERVER;
   try {
-    console.log(req.body);
+    //console.log(req.body);
     try {
       const data = req.body;
       // Appel à l'endpoint Flask pour calculer l'empreinte carbone

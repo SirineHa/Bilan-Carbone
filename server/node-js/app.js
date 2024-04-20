@@ -10,5 +10,5 @@ app.use(express.static(path.join(__dirname, "build"))); // put this line of code
 app.use('/', routes);
 
 app.listen(3000, () => {
-  console.log('Server is running on port 3000');
+  //console.log('Server is running on port 3000');
 });
