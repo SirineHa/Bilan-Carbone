@@ -2,6 +2,7 @@ import React, { useState, useEffect  } from "react";
 import NavbarAdmin from "../components/NavbarAdmin";
 import Footer from "../components/Footer";
 import axios from 'axios';
+import { Link } from "react-router-dom";
 
 
 export const AvisScreen = () => {
@@ -130,16 +131,16 @@ export const AvisScreen = () => {
           <aside className={`${isMenuOpen ? 'block' : 'hidden'} md:block mt-4 space-y-2 bg-white p-4 rounded shadow-lg overflow-auto`}>
             <ul>
               <li>
-                <a href="/data-avis" className="px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold">Gestion Avis</a>
+                <Link to="/data-avis" className="px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold">Gestion Avis</Link>
               </li>
               <li>
-                <a href="/data-stats" className="px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold">Gestion Stats</a>
+                <Link to="/data-stats" className="px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold">Gestion Stats</Link>
               </li>
               {/* <li>
                 <a href="/statistique" className="px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold">Statistique</a>
               </li> */}
               <li>
-              <a href="/dashboard-admin" className="px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold bg-red-500 text-white rounded mt-10">Dashboard Admin</a>
+              <Link to="/dashboard-admin" className="px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold bg-red-500 text-white rounded mt-10">Dashboard Admin</Link>
               </li>
             </ul>
           </aside>
