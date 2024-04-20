@@ -3,6 +3,7 @@ import { Badge } from "../components/Badge";
 import NavbarAdmin from "../components/NavbarAdmin";
 import Footer from "../components/Footer";
 import axios from 'axios';
+import { Link } from "react-router-dom";
 
 
 export const AdminScreen = () => {
@@ -78,10 +79,11 @@ export const AdminScreen = () => {
           <aside className={`${isMenuOpen ? 'block' : 'hidden'} md:block mt-4 space-y-2 bg-white p-4 rounded shadow-lg overflow-auto`}>
             <ul>
               <li>
-                <a href="/data-avis" className="px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold">Gestion Avis</a>
+                <Link to="/data-avis" className="px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold">Gestion Avis</Link>
+                
               </li>
               <li>
-                <a href="/data-stats" className="px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold">Gestion Stats</a>
+                <Link to="/data-stats" className="px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold">Gestion Stats</Link>
               </li>
               {/* <li>
                 <a href="/statistique" className="px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold">Statistique</a>
