@@ -137,7 +137,7 @@ function Statistiques() {
                 <div className="flex gap-5 max-md:flex-col max-md:gap-0">
                   <StatCard
                     title="Totale Des Emissions"
-                    value={totalEmissions}
+                    value={${totalEmissions} tCO2e}
                     imageSrc={stat2}
                   />
                   <StatCard
