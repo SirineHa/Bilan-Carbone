@@ -108,7 +108,6 @@ export const AddAvis = () => {
           </form></>
         )}
         </main>
-        <Footer />
       </div>
     </>
     
