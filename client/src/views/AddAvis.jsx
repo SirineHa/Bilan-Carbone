@@ -5,6 +5,7 @@ import Navbar from '../components/Navbar';
 import NavbarAdmin from "../components/NavbarAdmin";
 import Footer from '../components/Footer';
 import { useAuth } from "../context/AuthContext";
+import { KeyboardComponent } from "../components/KeyboardComponent/KeyboardComponent";
 
 export const AddAvis = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
@@ -18,6 +19,8 @@ export const AddAvis = () => {
   // Récupérer le numéro de nom de localStorage, ou utiliser 1 par défaut
   const [nameNumber, setNameNumber] = useState(() => Number(localStorage.getItem('nameNumber')) || 1);
 
+  const [keyboardOpen, setKeyboardOpen] = useState(false); // Add this state
+  const [inputName, setInputName] = useState(""); // Add this state
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -42,6 +45,11 @@ export const AddAvis = () => {
     if (name === `# ${nameNumber}`) {
       setName('');
     }
+  };
+
+  const handleInputChange = (value) => { // Add this function
+    if (inputName === "name") setName(value);
+    else if (inputName === "comment") setComment(value);
   };
 
   // Rediriger l'utilisateur vers la page d'accueil après 1 secondes
@@ -76,6 +84,10 @@ export const AddAvis = () => {
                 placeholder={name === '' ? `# ${nameNumber}` : ''}
                 onClick={handleNameClick}
                 onChange={e => setName(e.target.value)}
+                onFocus={() => {
+                  setInputName("name");
+                  setKeyboardOpen(true);
+                }}
               />
             </div>
             <div className="relative">
@@ -98,7 +110,14 @@ export const AddAvis = () => {
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="comment">
                 Comment:
               </label>
-              <textarea className="shadow appearance-none border rounded w-full h-64 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="comment" value={comment} onChange={(e) => setComment(e.target.value)} required />
+              <textarea className="shadow appearance-none border rounded w-full h-64 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="comment" 
+              value={comment} 
+              onChange={(e) => setComment(e.target.value)} required 
+              onFocus={() => {
+                setInputName("comment");
+                setKeyboardOpen(true);
+              }}
+              />
             </div>
             <div>
               <button className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
@@ -109,6 +128,13 @@ export const AddAvis = () => {
         )}
         </main>
       </div>
+      {keyboardOpen && (
+        <KeyboardComponent
+          inputActive={inputName}
+          onInput={handleInputChange}
+          onClose={() => setKeyboardOpen(false)}
+        />
+      )}
     </>
     
   );
