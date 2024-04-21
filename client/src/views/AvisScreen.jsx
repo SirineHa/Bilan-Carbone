@@ -307,7 +307,6 @@ export const AvisScreen = () => {
     </div>
               
     </main>       
-    <Footer/>
     </div>
   </>
   );
