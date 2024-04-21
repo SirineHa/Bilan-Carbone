@@ -378,7 +378,6 @@ export const AdminScreen = () => {
       </main>
     </div>
     </main>       
-    <Footer/>
     </div>
   </>
   );
