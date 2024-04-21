@@ -134,7 +134,7 @@ export default function BilanNormalView() {
         },
         {
             id: "grand_deplacement_avion",
-            title: "Pour les grand déplacement prenez-vous l'avion",
+            title: "Pour les grand déplacement prenez-vous l'avion ?",
             type: "radio",
             description: "",
             image: "https://media.istockphoto.com/id/155439315/fr/photo/avion-de-passagers-voler-au-dessus-des-nuages-au-coucher-du-soleil.jpg?s=612x612&w=0&k=20&c=LRxXZHvGfbWnAM_ELCPbFHI9gdqJXDRqIy3xOM7m5tg=",
