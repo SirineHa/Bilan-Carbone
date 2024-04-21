@@ -122,11 +122,6 @@ export const Accueil4 = () => {
                   <h4 className="text-xl font-bold text-black">
                     Actualités
                   </h4>
-                  <p className="text-md  mt-2 text-black">
-                    The Arctic Ocean freezes every winter and much of the
-                    sea-ice then thaws every summer, and that process will
-                    continue whatever happens.
-                  </p>
                 </blockquote>
               </div>
             </div>
