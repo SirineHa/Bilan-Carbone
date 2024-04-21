@@ -498,7 +498,7 @@ export default function BilanNormalView() {
             image: "https://www.coindusalarie.fr/assets/static/12235-no6ahn.ad76ebb.f378cd6f0536cce77b3c4a3ba6377ed2.jpg",
         },
         {
-            image: "https://www.coindusalarie.fr/assets/static/12235-no6ahn.ad76ebb.f378cd6f0536cce77b3c4a3ba6377ed2.jpg",
+            image: "https://static.wixstatic.com/media/c430c5_9a036bca709341be933e0fe08be29ac2~mv2.jpg/v1/fill/w_640,h_640,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/c430c5_9a036bca709341be933e0fe08be29ac2~mv2.jpg",
             list: [
                 {
                     id: "nom",
