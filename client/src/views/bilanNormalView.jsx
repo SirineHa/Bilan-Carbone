@@ -413,7 +413,7 @@ export default function BilanNormalView() {
         {
             id: "Alimentation_eau",
             type: "radio",
-            title: "Quel type d'eau buvez-vous généralement ?",
+            title: "Buvez-vous en général l’eau du robinet ou de l’eau en bouteille ?",
             description: "",
             image: "https://www.harmonie-sante.fr/sites/default/files/styles/big_picture/public/2021/03/eau-photo-principale.jpg?h=da777856&itok=UB1mwtLQ",
             option: [
@@ -430,7 +430,7 @@ export default function BilanNormalView() {
         {
             id: "Alimentation_Boissons",
             type: "checkbox",
-            title: "Quel type d'eau buvez-vous généralement ?",
+            title: "Quelles sont les boissons chaudes que vous consommez ? ",
             description: "",
             image: "https://cdn-icons-png.flaticon.com/512/325/325623.png",
             option: [
