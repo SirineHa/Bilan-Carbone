@@ -244,7 +244,9 @@ export default function BilanResultComponent(props) {
                       Souhaitez-vous recevoir les résultats par courrier
                       électronique?
                     </h2>
-                    <h3 className="text-sm font-semibold text-gray-700">
+                  </div>
+                  <div className="flex items-center space-x-2">
+                  <h3 className="text-sm font-semibold text-gray-700">
                       Si l'on zoom sur l'empreinte carbone de l'email moyen, voilà ce que cela donne : 0,3 grammes pour un email de spam. 4 grammes pour un mail sans pièce jointe. 11 grammes pour un email avec une pièce jointe de 1 MB
                     </h3>
                   </div>

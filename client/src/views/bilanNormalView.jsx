@@ -145,7 +145,7 @@ export default function BilanNormalView() {
                     subQuestion: [
                         {
                             id: "grand_deplacement_avion_km",
-                            title: "Combien de km parcourez-vous en moyenne par an (aller / retour) en avion? （PS）Paris-Lyon:5 834 km km ",
+                            title: "Combien de km parcourez-vous en moyenne par an (aller / retour) en avion? （PS）Paris-Lyon:5 834 km ",
                             type: "number"
                         }
                     ]
