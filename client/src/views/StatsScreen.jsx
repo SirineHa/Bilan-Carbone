@@ -339,7 +339,6 @@ export const StatsScreen = () => {
       )}
     </div>
     </main>       
-    <Footer/>
     </div>
   </>
   );
